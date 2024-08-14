@@ -10,7 +10,17 @@ $ pip install pyedgarai
 
 ## Usage
 
-- TODO
+- Retrieve Apple's 10-K filings from the SEC
+
+```python
+from pyedgarai import get_company_facts
+
+cik = 320193
+
+get_company_facts(cik)
+```
+
+
 
 ## Contributing
 
