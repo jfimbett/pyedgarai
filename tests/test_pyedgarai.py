@@ -1,30 +1,12 @@
-from pyedgarai import pyedgarai
+#%%
+from pyedgarai.pyedgarai import get_submission_history
+from pyedgarai.objects import df_from_dict_singletons
 import time
-# test get_submission_history for AAPl
-def test_get_submission_history():
-    cik = 320193
-    response = pyedgarai.get_submission_history(cik)
-    assert len(response) > 0
 
-def test_get_company_facts():
-    cik = 320193
-    response = pyedgarai.get_company_facts(cik)
-    assert len(response) > 0
+# test get_submission_history for AAPL
+cik = 320193
 
-def test_get_company_concept():
-    cik = 320193
-    taxonomy = "us-gaap"
-    tag = "Revenues"
-    time.sleep(1)
-    response = pyedgarai.get_company_concept(cik, taxonomy, tag)
-    assert len(response) > 0
+dict_ = get_submission_history(cik)
+df = df_from_dict_singletons(dict_)
 
-def test_get_xbrl_frames():
-    taxonomy = "us-gaap"
-    tag = "AccountsPayableCurrent"
-    unit = "USD"
-    period = "CY2019Q1I"
-    response = pyedgarai.get_xbrl_frames(taxonomy, tag, unit, period)
-    assert len(response) > 0
-
-
+# %%
