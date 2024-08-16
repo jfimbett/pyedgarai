@@ -8,10 +8,16 @@ from openai import OpenAI
 import pandas as pd
 from tqdm import tqdm
 import time
+from sec_cik_mapper import StockMapper
 # import HTTPError 
 from requests.exceptions import HTTPError
 
+#%%
+
 HEADERS = {"User-Agent": "PyEdgarAI a library for fetching data from the SEC"}
+CIKS = list(StockMapper().cik_to_tickers.keys())
+# remove 0s at the beginning and tunr to int 
+CIKS = [int(str(cik).lstrip('0')) for cik in CIKS]
 
 class Options():
     pass
@@ -220,10 +226,16 @@ def df_filing_history(dict_ : dict):
 
 
 def df_company_facts(dict_ : dict):
-    facts = dict_['facts']
-    facts_dei = facts['dei']
-    facts_us_gaap = facts['us-gaap']
 
+    if 'facts' not in dict_:
+        return pd.DataFrame()
+    
+    facts = dict_['facts']
+    if 'dei' not in facts:
+        facts_dei = {}
+    else:
+        facts_dei = facts['dei']
+    
     keys_dei = list(facts_dei.keys())
 
     df = pd.DataFrame()
@@ -242,6 +254,12 @@ def df_company_facts(dict_ : dict):
         df_['taxonomy'] = 'dei'
 
         df = pd.concat([df, df_])
+
+
+    if 'us-gaap' not in facts:
+        facts_us_gaap = {}
+    else: 
+        facts_us_gaap = facts['us-gaap']
 
     keys_us_gaap = list(facts_us_gaap.keys())
 
@@ -312,34 +330,61 @@ def identify_cross_variables_from_facts(df_facts, subset=['account', 'taxonomy',
     return df
 
 def load_variable_names():
-    cik = 320193
-    dict_ = get_company_facts(cik)
-    df_facts = df_company_facts(dict_)
-    descriptions = df_facts[['account', 'description', 'taxonomy', 'units', 'frame']]
-    descriptions = descriptions.drop_duplicates()
+    df = pd.DataFrame()
+    pbar = tqdm(CIKS)
+    problematic = []
+    for cik in pbar:
+        pbar.set_description(f"{len(problematic)} problematic -  cik {cik}.")
+        pbar.refresh()
+        try:
+            dict_ = get_company_facts(cik)
+        
+            df_facts = df_company_facts(dict_)
+            # check that vars are in df
+            vars = ['account', 'description', 'taxonomy', 'units', 'frame']
+            problem = False
+            for var in vars:
+                if var not in df_facts.columns:
+                    problematic.append(cik)
+                    problem = True
+                    continue
 
-    # by account we want to know if the variable frame contains at least one string with the letter I inside
-    df_instant = descriptions.groupby('account').apply(lambda x: x['frame'].str.contains('I').any())
-    df_instant = df_instant.reset_index()
-    # rename 0 to instant
-    df_instant = df_instant.rename(columns={0: 'instant'})
-    # create dictionary 
-    load = {k : v for k, v in zip(descriptions['account'], descriptions['description'])}
-    load_taxonomy = {k : v for k, v in zip(descriptions['account'], descriptions['taxonomy'])}
-    load_units = {k : v for k, v in zip(descriptions['account'], descriptions['units'])}
-    load_instant = {k : v for k, v in zip(df_instant['account'], df_instant["instant"])}
-    accounts = df_facts['account'].value_counts()
-    # to dataframe 
-    accounts = pd.DataFrame(accounts)
-    # add column with the descripiton 
-    accounts['description'] = accounts.index.map(load)
-    accounts['taxonomy'] = accounts.index.map(load_taxonomy)
-    accounts['units'] = accounts.index.map(load_units)
-    accounts['instant'] = accounts.index.map(load_instant)
-    # instant to 1 if True, 0 if False
-    accounts['instant'] = accounts['instant'].astype(int)
+            if problem:
+                continue
+
+            descriptions = df_facts[vars]
+            descriptions = descriptions.drop_duplicates()
+
+            # by account we want to know if the variable frame contains at least one string with the letter I inside
+            df_instant = descriptions.groupby('account')['frame'].apply(lambda x: x.str.contains('I').any())
+            df_instant = df_instant.reset_index()
+            # rename 0 to instant
+            df_instant = df_instant.rename(columns={'frame': 'instant'})
+            # create dictionary 
+            load = {k : v for k, v in zip(descriptions['account'], descriptions['description'])}
+            load_taxonomy = {k : v for k, v in zip(descriptions['account'], descriptions['taxonomy'])}
+            load_units = {k : v for k, v in zip(descriptions['account'], descriptions['units'])}
+            load_instant = {k : v for k, v in zip(df_instant['account'], df_instant["instant"])}
+            accounts = df_facts['account'].value_counts()
+            # to dataframe 
+            accounts = pd.DataFrame(accounts)
+            # add column with the descripiton 
+            accounts['description'] = accounts.index.map(load)
+            accounts['taxonomy'] = accounts.index.map(load_taxonomy)
+            accounts['units'] = accounts.index.map(load_units)
+            accounts['instant'] = accounts.index.map(load_instant)
+            # instant to 1 if True, 0 if False
+            accounts['instant'] = accounts['instant'].astype(int)
+
+            df = pd.concat([df, accounts])
+        except:
+            problematic.append(cik)
+            continue
+
+    # drop duplicates 
+    df = df.drop_duplicates()
     # to excel 
-    accounts.to_excel('accounts.xlsx')
+    df.to_excel('accounts.xlsx')
 
 
 # test the frames 
@@ -365,8 +410,6 @@ def accounts_available():
     found = []
     pbar = tqdm(range(df.shape[0]))
     for i in pbar:
-        # for debugging 
-
         time.sleep(0.1)
         row = df.iloc[i]
         pbar.set_description(f"{len(not_found)} not found - {dep} deprecated -> Processing {row['account']}.")
@@ -408,3 +451,5 @@ def accounts_available():
 
 
 # %%
+if __name__ == '__main__':
+    load_variable_names()
