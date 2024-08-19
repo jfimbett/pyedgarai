@@ -2,49 +2,53 @@
 import requests
 from tqdm import tqdm
 from bs4 import BeautifulSoup as bs
-import json 
+import json
 from dataclasses import dataclass
 from openai import OpenAI
 import pandas as pd
-from tqdm import tqdm
 import time
 from sec_cik_mapper import StockMapper
-# import HTTPError 
 from requests.exceptions import HTTPError
 
 #%%
 
+# Set up HTTP headers for requests to the SEC API
 HEADERS = {"User-Agent": "PyEdgarAI a library for fetching data from the SEC"}
+# Get a list of CIKs from the StockMapper, remove leading zeros, and convert to integers
 CIKS = list(StockMapper().cik_to_tickers.keys())
-# remove 0s at the beginning and tunr to int 
 CIKS = [int(str(cik).lstrip('0')) for cik in CIKS]
 
 class Options():
+    """Placeholder class for potential future configurations."""
     pass
 
 @dataclass
 class OpenAIWrapper():
-    model : str
-    api_key : str
+    """A wrapper class to interact with OpenAI's API for standardizing SEC filing descriptions."""
+    model: str
+    api_key: str
 
     def create_client(self):
-        return OpenAI(api_key = self.api_key)
+        """Creates and returns an OpenAI client using the provided API key."""
+        return OpenAI(api_key=self.api_key)
     
     def standardize_filing_description(self, description, client, model):
+        """
+        Standardizes the description of an SEC filing using OpenAI's API.
+
+        Args:
+            description (str): The original description of the SEC filing.
+            client (OpenAI): The OpenAI client instance.
+            model (str): The OpenAI model to be used for the request.
+
+        Returns:
+            str: A JSON object containing the original description and the standardized description.
+        """
         client = self.create_client()
 
-        relevant_sec_filings = ["Form S-1",
-                                "Form 10-K",
-                                "Form 10-Q",
-                                "Form 8-K",
-                                "DEF 14A",
-                                "Form 3",
-                                "Form 4",
-                                "Form 5",
-                                "Schedule 13D",
-                                "Form 144",
-                                "Foreign Investment Disclosures"
-                                ]
+        relevant_sec_filings = ["Form S-1", "Form 10-K", "Form 10-Q", "Form 8-K", 
+                                "DEF 14A", "Form 3", "Form 4", "Form 5", "Schedule 13D", 
+                                "Form 144", "Foreign Investment Disclosures"]
     
         prompt = f"Standardize the description of the following SEC filing: {description}"
 
@@ -52,8 +56,10 @@ class OpenAIWrapper():
             model=model,
             messages=[
                 {"role": "user", "content": prompt},
-                {"role": "system", "content": f""" 
-                Standardize the description of the SEC filing to one of the following: {relevant_sec_filings}. Return a JSON object with the standardized description, the keys should be the original description and the standardized description the values. 
+                {"role": "system", "content": f"""
+                Standardize the description of the SEC filing to one of the following: {relevant_sec_filings}.
+                Return a JSON object with the standardized description, the keys should be the original 
+                description and the standardized description the values.
                 """}
             ],
             temperature=0.0
@@ -65,16 +71,16 @@ class OpenAIWrapper():
 
 def get_submission_history(cik: int):
     """
-    Fetches the submission history of a company from the SEC (Securities and Exchange Commission) given its Central Index Key (CIK).
+    Fetches the submission history of a company from the SEC given its CIK.
 
     Args:
         cik (int): The Central Index Key (CIK) of the company.
 
     Returns:
-        dict: A dictionary containing the submission history of the company if the request is successful.
+        dict: A dictionary containing the submission history if the request is successful.
 
     Raises:
-        HTTPError: An error is raised if the request fails (i.e., if the response status code is not 200).
+        HTTPError: If the request fails (i.e., if the response status code is not 200).
     """
     url = f"https://data.sec.gov/submissions/CIK{cik:010d}.json"
     response = requests.get(url, headers=HEADERS)
@@ -94,7 +100,7 @@ def get_company_facts(cik: int):
         dict: A dictionary containing the company facts if the request is successful.
 
     Raises:
-        HTTPError: An error is raised if the request fails (i.e., if the response status code is not 200).
+        HTTPError: If the request fails (i.e., if the response status code is not 200).
     """
     url = f"https://data.sec.gov/api/xbrl/companyfacts/CIK{cik:010d}.json"
     response = requests.get(url, headers=HEADERS)
@@ -116,7 +122,7 @@ def get_company_concept(cik: int, taxonomy: str, tag: str):
         dict: A dictionary containing the company concept data if the request is successful.
 
     Raises:
-        HTTPError: An error is raised if the request fails (i.e., if the response status code is not 200).
+        HTTPError: If the request fails (i.e., if the response status code is not 200).
     """
     url = f"https://data.sec.gov/api/xbrl/companyconcept/CIK{cik:010d}/{taxonomy}/{tag}.json"
     response = requests.get(url, headers=HEADERS)
@@ -139,7 +145,7 @@ def get_xbrl_frames(taxonomy: str, tag: str, unit: str, period: str):
         dict: A dictionary containing the XBRL frame data if the request is successful.
 
     Raises:
-        HTTPError: An error is raised if the request fails (i.e., if the response status code is not 200).
+        HTTPError: If the request fails (i.e., if the response status code is not 200).
     """
     url = f"https://data.sec.gov/api/xbrl/frames/{taxonomy}/{tag}/{unit}/{period}.json"
     response = requests.get(url, headers=HEADERS)
@@ -180,30 +186,62 @@ def parse_filing_text(text: str) -> str:
     soup = bs(text, 'html.parser')
     return soup.get_text().replace('\n', ' ').replace('\t', ' ').replace('\xa0', ' ').strip()
 
-def df_formerNames(dict_ : dict):
-    # return df of formerNames 
+def df_formerNames(dict_: dict) -> pd.DataFrame:
+    """
+    Converts the 'formerNames' section of a company's submission data into a DataFrame.
+
+    Args:
+        dict_ (dict): The dictionary containing company data.
+
+    Returns:
+        pd.DataFrame: A DataFrame containing the former names and associated CIK of the company.
+    """
     former_names = dict_['formerNames']
     df_former_names = pd.DataFrame(former_names)
     df_former_names['cik'] = dict_['cik']
     return df_former_names
 
-def df_mailing_addresses(dict_ : dict):
-    # addresses 
-    df_mailing_address =  pd.DataFrame(dict_['addresses']['mailing'], index=[0])
+def df_mailing_addresses(dict_: dict) -> pd.DataFrame:
+    """
+    Converts the 'mailing addresses' section of a company's submission data into a DataFrame.
+
+    Args:
+        dict_ (dict): The dictionary containing company data.
+
+    Returns:
+        pd.DataFrame: A DataFrame containing the mailing addresses and associated CIK of the company.
+    """
+    df_mailing_address = pd.DataFrame(dict_['addresses']['mailing'], index=[0])
     df_mailing_address['cik'] = dict_['cik']
     return df_mailing_address
 
-def df_business_addresses(dict_ : dict):
+def df_business_addresses(dict_: dict) -> pd.DataFrame:
+    """
+    Converts the 'business addresses' section of a company's submission data into a DataFrame.
+
+    Args:
+        dict_ (dict): The dictionary containing company data.
+
+    Returns:
+        pd.DataFrame: A DataFrame containing the business addresses and associated CIK of the company.
+    """
     df_business_address = pd.DataFrame(dict_['addresses']['business'], index=[0])
     df_business_address['cik'] = dict_['cik']
     return df_business_address
 
-def df_filing_history(dict_ : dict):
-    # now for filings (last 1000)
+def df_filing_history(dict_: dict) -> pd.DataFrame:
+    """
+    Converts the filing history of a company into a DataFrame.
+
+    Args:
+        dict_ (dict): The dictionary containing company data.
+
+    Returns:
+        pd.DataFrame: A DataFrame containing the recent and old filings along with the associated CIK.
+    """
     df_recent_filings = pd.DataFrame(dict_['filings']['recent'])
     df_recent_filings['cik'] = dict_['cik']
 
-    # extra files live in dict_['filings']['files']
     df_old_filings = pd.DataFrame()
     for i, element in enumerate(dict_['filings']['files']):
         df_ = pd.DataFrame(element, index=[i])
@@ -213,20 +251,25 @@ def df_filing_history(dict_ : dict):
     for i, name in enumerate(df_old_filings['name']):
         response = requests.get(f"https://data.sec.gov/submissions/{name}", headers=HEADERS)
         if response.status_code != 200:
-            continue 
+            continue
 
         dict_ = response.json()
-
         df_ = pd.DataFrame(dict_)
         df_['cik'] = df_old_filings['cik'][i]
-
         df_recent_filings = pd.concat([df_recent_filings, df_])
 
     return df_recent_filings
 
+def df_company_facts(dict_: dict) -> pd.DataFrame:
+    """
+    Converts the 'facts' section of a company's submission data into a DataFrame.
 
-def df_company_facts(dict_ : dict):
+    Args:
+        dict_ (dict): The dictionary containing company data.
 
+    Returns:
+        pd.DataFrame: A DataFrame containing the company facts with additional information like account, description, and taxonomy.
+    """
     if 'facts' not in dict_:
         return pd.DataFrame()
     
@@ -237,14 +280,14 @@ def df_company_facts(dict_ : dict):
         facts_dei = facts['dei']
     
     keys_dei = list(facts_dei.keys())
-
     df = pd.DataFrame()
+
     for i, k in enumerate(keys_dei):
-        label_       = facts_dei[k]['label']
+        label_ = facts_dei[k]['label']
         description_ = facts_dei[k]['description']
-        units_       = facts_dei[k]['units']
-        label_unit   = list(units_.keys())[0]
-        elements     = units_[label_unit]
+        units_ = facts_dei[k]['units']
+        label_unit = list(units_.keys())[0]
+        elements = units_[label_unit]
 
         df_ = pd.DataFrame(elements)
         df_['account'] = label_
@@ -255,7 +298,6 @@ def df_company_facts(dict_ : dict):
 
         df = pd.concat([df, df_])
 
-
     if 'us-gaap' not in facts:
         facts_us_gaap = {}
     else: 
@@ -264,11 +306,11 @@ def df_company_facts(dict_ : dict):
     keys_us_gaap = list(facts_us_gaap.keys())
 
     for i, k in enumerate(keys_us_gaap):
-        label_       = facts_us_gaap[k]['label']
+        label_ = facts_us_gaap[k]['label']
         description_ = facts_us_gaap[k]['description']
-        units_       = facts_us_gaap[k]['units']
-        label_unit   = list(units_.keys())[0]
-        elements     = units_[label_unit]
+        units_ = facts_us_gaap[k]['units']
+        label_unit = list(units_.keys())[0]
+        elements = units_[label_unit]
 
         df_ = pd.DataFrame(elements)
         df_['account'] = label_
@@ -281,33 +323,36 @@ def df_company_facts(dict_ : dict):
 
     return df
 
+def identify_cross_variables_from_facts(df_facts: pd.DataFrame, subset=['account', 'taxonomy', 'units', 'frame']) -> pd.DataFrame:
+    """
+    Identifies and processes cross-variable relationships within company facts.
 
+    Args:
+        df_facts (pd.DataFrame): The DataFrame containing company facts.
+        subset (list, optional): A list of columns to consider for cross-variable identification. Defaults to ['account', 'taxonomy', 'units', 'frame'].
 
-def identify_cross_variables_from_facts(df_facts, subset=['account', 'taxonomy', 'units', 'frame']):
+    Returns:
+        pd.DataFrame: A DataFrame containing the identified cross-variable relationships.
+    """
     df_facts = df_facts[subset]
-    # unique, account, taxonomy, units, and frame 
     df_facts = df_facts.drop_duplicates()
-    # drop if account is None 
     df_facts = df_facts.dropna(subset=['account'])
     
-    # loop row by row 
-    n_rows = df_facts.shape[0]
     df = pd.DataFrame()
-    pbar = tqdm(range(n_rows))
+    pbar = tqdm(range(df_facts.shape[0]))
     n_not = 0
+
     for i in pbar:
         pbar.set_description(f"{n_not} not found")
         pbar.refresh()
         time.sleep(0.05)
+
         row = df_facts.iloc[i]
-        account = row['account']
+        account = row['account'].replace(',', '').replace(' ', '')
         taxonomy = row['taxonomy']
         units = row['units']
-
-        # in accounts drop commas and spaces 
-        account = account.replace(',', '').replace(' ', '')
         frame = row['frame']
-        # get xbrl frames
+
         try:
             dict_ = get_xbrl_frames(taxonomy, account, units, frame)
         except HTTPError as e:
@@ -318,7 +363,6 @@ def identify_cross_variables_from_facts(df_facts, subset=['account', 'taxonomy',
                 raise e
 
         df_frames = pd.DataFrame()
-        # if there are frames, add the account, taxonomy, and units to the frame
         df_frames['account'] = account
         df_frames['taxonomy'] = taxonomy
         df_frames['units'] = units
@@ -330,107 +374,123 @@ def identify_cross_variables_from_facts(df_facts, subset=['account', 'taxonomy',
     return df
 
 def load_variable_names():
+    """
+    Loads variable names from SEC data and saves them to an Excel file.
+
+    The function fetches company facts, processes them, and identifies variables, 
+    then saves the results to an 'accounts.xlsx' file.
+    """
     df = pd.DataFrame()
     pbar = tqdm(CIKS)
     problematic = []
+
     for cik in pbar:
-        pbar.set_description(f"{len(problematic)} problematic -  cik {cik}.")
+        pbar.set_description(f"{len(problematic)} problematic - cik {cik}.")
         pbar.refresh()
+
         try:
             dict_ = get_company_facts(cik)
-        
             df_facts = df_company_facts(dict_)
-            # check that vars are in df
             vars = ['account', 'description', 'taxonomy', 'units', 'frame']
-            problem = False
-            for var in vars:
-                if var not in df_facts.columns:
-                    problematic.append(cik)
-                    problem = True
-                    continue
 
-            if problem:
+            if any(var not in df_facts.columns for var in vars):
+                problematic.append(cik)
                 continue
 
-            descriptions = df_facts[vars]
-            descriptions = descriptions.drop_duplicates()
-
-            # by account we want to know if the variable frame contains at least one string with the letter I inside
-            df_instant = descriptions.groupby('account')['frame'].apply(lambda x: x.str.contains('I').any())
-            df_instant = df_instant.reset_index()
-            # rename 0 to instant
+            descriptions = df_facts[vars].drop_duplicates()
+            df_instant = descriptions.groupby('account')['frame'].apply(lambda x: x.str.contains('I').any()).reset_index()
             df_instant = df_instant.rename(columns={'frame': 'instant'})
-            # create dictionary 
-            load = {k : v for k, v in zip(descriptions['account'], descriptions['description'])}
-            load_taxonomy = {k : v for k, v in zip(descriptions['account'], descriptions['taxonomy'])}
-            load_units = {k : v for k, v in zip(descriptions['account'], descriptions['units'])}
-            load_instant = {k : v for k, v in zip(df_instant['account'], df_instant["instant"])}
-            accounts = df_facts['account'].value_counts()
-            # to dataframe 
-            accounts = pd.DataFrame(accounts)
-            # add column with the descripiton 
+
+            load = {k: v for k, v in zip(descriptions['account'], descriptions['description'])}
+            load_taxonomy = {k: v for k, v in zip(descriptions['account'], descriptions['taxonomy'])}
+            load_units = {k: v for k, v in zip(descriptions['account'], descriptions['units'])}
+            load_instant = {k: v for k, v in zip(df_instant['account'], df_instant["instant"])}
+
+            accounts = pd.DataFrame(df_facts['account'].value_counts())
             accounts['description'] = accounts.index.map(load)
             accounts['taxonomy'] = accounts.index.map(load_taxonomy)
             accounts['units'] = accounts.index.map(load_units)
-            accounts['instant'] = accounts.index.map(load_instant)
-            # instant to 1 if True, 0 if False
-            accounts['instant'] = accounts['instant'].astype(int)
+            accounts['instant'] = accounts.index.map(load_instant).astype(int)
 
             df = pd.concat([df, accounts])
         except:
             problematic.append(cik)
             continue
 
-    # drop duplicates 
     df = df.drop_duplicates()
-    # to excel 
     df.to_excel('accounts.xlsx')
 
+def modify_name_if_needed(name: str) -> str:
+    """
+    Modifies certain account names if they match specific criteria.
 
-# test the frames 
-def modify_name_if_needed(name):
+    Args:
+        name (str): The original name of the account.
+
+    Returns:
+        str: The modified name of the account if it matches specific criteria; otherwise, the original name.
+    """
     if name == "Longterm Debt Excluding Current Maturities":
         return "Long Term Debt Noncurrent"
-    
     return name
-def process(element):
-    # drop spaces before and after 
-    element = element.strip()
-    # split by spaces 
-    s= element.split(' ')
-    # capitalize the first letter of each word if it is not already 
-    s = [word.capitalize() if word[0].islower() else word for word in s]
 
+def process(element: str) -> str:
+    """
+    Processes a string by capitalizing the first letter of each word and removing extra spaces.
+
+    Args:
+        element (str): The string to be processed.
+
+    Returns:
+        str: The processed string.
+    """
+    element = element.strip()
+    s = element.split(' ')
+    s = [word.capitalize() if word[0].islower() else word for word in s]
     return ' '.join(s)
 
-def clean_account_name(account):
+def clean_account_name(account: str) -> str:
+    """
+    Cleans an account name by removing special characters and capitalizing words.
+
+    Args:
+        account (str): The original account name.
+
+    Returns:
+        str: The cleaned account name.
+    """
     account = (account
-                .replace(',', '')
-                .replace('(', '')
-                .replace(')', '')
-                .replace("'", '')
-                .replace("Attributable to Parent",'')
-                .replace('-', '')
-        )
-    # capitalize the first letter of each word
+               .replace(',', '')
+               .replace('(', '')
+               .replace(')', '')
+               .replace("'", '')
+               .replace("Attributable to Parent", '')
+               .replace('-', ''))
     account = process(account)
     account = modify_name_if_needed(account)
     account = account.replace(' ', '')
-
     return account
 
 def accounts_available():
+    """
+    Checks the availability of accounts based on predefined criteria and saves the results in a JSON file.
+    
+    The function processes a maximum of 1,000 accounts from 'accounts.xlsx' and verifies 
+    their existence using the SEC API, then saves the found accounts in 'found_accounts.json'.
+    """
     df = pd.read_excel('accounts.xlsx')
     dep = 0
     not_found = []
     found = {}
     max_ = min(1000, df.shape[0])
     pbar = tqdm(range(max_))
+
     for i in pbar:
         time.sleep(0.1)
         row = df.iloc[i]
         pbar.set_description(f"{len(not_found)} not found - {dep} deprecated -> Processing {row['account']}.")
         pbar.refresh()
+
         instant = row['instant']
         account = row['account']
 
@@ -443,28 +503,28 @@ def accounts_available():
         units = row["units"].replace('/', '-per-')
         ending = 'I' if instant else ''
         frame = f"CY2024Q1{ending}"
+
         try:
             dict_ = get_xbrl_frames(taxonomy, account, units, frame)
-            found.append({ 'name'        : row['account'],
-                             'clean_name'   : account,
-                            'taxonomy'      : row['taxonomy'],
-                            'units'         : row['units'],
-                            'frame'         : frame,
-                            'instant'       : instant,
-                            'ending'        : ending,
-                            'description'   : row['description']})
+            found.append({ 'name': row['account'],
+                           'clean_name': account,
+                           'taxonomy': row['taxonomy'],
+                           'units': row['units'],
+                           'frame': frame,
+                           'instant': instant,
+                           'ending': ending,
+                           'description': row['description']})
         except:
             not_found.append(account)
             continue
     
-    # save found in json 
-    dit_={'accounts': found}
+    # Save found accounts to a JSON file
+    dit_ = {'accounts': found}
     with open('found_accounts.json', 'w') as f:
         json.dump(dit_, f)
 
-
-
 # %%
 if __name__ == '__main__':
-    #load_variable_names()
+    # Uncomment to load variable names from the SEC API
+    # load_variable_names()
     accounts_available()
