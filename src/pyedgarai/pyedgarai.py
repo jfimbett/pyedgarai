@@ -403,12 +403,29 @@ def process(element):
 
     return ' '.join(s)
 
+def clean_account_name(account):
+    account = (account
+                .replace(',', '')
+                .replace('(', '')
+                .replace(')', '')
+                .replace("'", '')
+                .replace("Attributable to Parent",'')
+                .replace('-', '')
+        )
+    # capitalize the first letter of each word
+    account = process(account)
+    account = modify_name_if_needed(account)
+    account = account.replace(' ', '')
+
+    return account
+
 def accounts_available():
     df = pd.read_excel('accounts.xlsx')
     dep = 0
     not_found = []
-    found = []
-    pbar = tqdm(range(df.shape[0]))
+    found = {}
+    max_ = min(1000, df.shape[0])
+    pbar = tqdm(range(max_))
     for i in pbar:
         time.sleep(0.1)
         row = df.iloc[i]
@@ -421,35 +438,33 @@ def accounts_available():
             dep += 1
             continue
 
-        account = (account
-                .replace(',', '')
-                .replace('(', '')
-                .replace(')', '')
-                .replace("'", '')
-                .replace("Attributable to Parent",'')
-                .replace('-', '')
-        )
-        # capitalize the first letter of each word
-        account = process(account)
-        account = modify_name_if_needed(account)
-        account = account.replace(' ', '')
+        account = clean_account_name(account)
         taxonomy = row["taxonomy"]
         units = row["units"].replace('/', '-per-')
         ending = 'I' if instant else ''
         frame = f"CY2024Q1{ending}"
         try:
             dict_ = get_xbrl_frames(taxonomy, account, units, frame)
-            found.append(row['account'])
+            found.append({ 'name'        : row['account'],
+                             'clean_name'   : account,
+                            'taxonomy'      : row['taxonomy'],
+                            'units'         : row['units'],
+                            'frame'         : frame,
+                            'instant'       : instant,
+                            'ending'        : ending,
+                            'description'   : row['description']})
         except:
             not_found.append(account)
             continue
     
-    # save found in a file
-    with open('found.txt', 'w') as f:
-        for item in found:
-            f.write("%s\n" % item)
+    # save found in json 
+    dit_={'accounts': found}
+    with open('found_accounts.json', 'w') as f:
+        json.dump(dit_, f)
+
 
 
 # %%
 if __name__ == '__main__':
-    load_variable_names()
+    #load_variable_names()
+    accounts_available()
