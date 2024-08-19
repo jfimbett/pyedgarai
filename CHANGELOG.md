@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.0.3 (2024-08-19)
+
+### Fix
+
+* fix: work on the api, add also documentation ([`70ff7e5`](https://github.com/jfimbett/pyedgarai/commit/70ff7e5e2bdb87ae6b444b179f3ac1d6ba616ce8))
+
 ## v0.0.2 (2024-08-19)
 
 ### Fix
