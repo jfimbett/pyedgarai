@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.0.2 (2024-08-19)
+
+### Fix
+
+* fix: added documentation to pyedgarai.py ([`3c42ddd`](https://github.com/jfimbett/pyedgarai/commit/3c42dddc97eee39e050d5b36152a291aaf1c0482))
+
 ## v0.0.1 (2024-08-19)
 
 ### Build
