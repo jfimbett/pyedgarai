@@ -18,6 +18,44 @@ HEADERS = {"User-Agent": "PyEdgarAI a library for fetching data from the SEC"}
 CIKS = list(StockMapper().cik_to_tickers.keys())
 CIKS = [int(str(cik).lstrip('0')) for cik in CIKS]
 
+# function that returns a dictionary of cik to company names, store it in a csv file 
+# use company facts function
+def get_cik_company_names():
+    dict_ = {}
+    for cik in tqdm(CIKS):
+        try:
+            dict_[cik] = get_company_facts(cik)['entityName']
+        except:
+            continue
+    # save as json 
+    with open('cik_company_names.json', 'w') as f:
+        json.dump(dict_, f)
+
+def return_company_names():
+    with open('cik_company_names.json', 'r') as f:
+        dict_ = json.load(f)
+    return dict_
+
+def return_accounts():
+    df = pd.read_excel('data/subset_accounts.xlsx')
+    names = df['account'].tolist()
+    clean_names = df['account'].apply(clean_account_name).tolist()
+    description = df['description'].tolist()
+    units = df['units'].tolist()
+    taxonomy = df['taxonomy'].tolist()
+    instant = df['instant'].tolist()
+
+    dict_ = {clean_names[i] : {'name': names[i], 'description': description[i], 'units': units[i], 'taxonomy': taxonomy[i], 'instant': instant[i]} for i in range(len(names))}
+    return dict_
+
+# get the cik_to_ticker dictionary
+def get_cik_tickers():
+    dict_ = StockMapper().cik_to_tickers
+    # values are sets so convert to list
+    for k, v in dict_.items():
+        dict_[k] = list(v)  
+    return dict_
+
 class Options():
     """Placeholder class for potential future configurations."""
     pass
@@ -525,6 +563,4 @@ def accounts_available():
 
 # %%
 if __name__ == '__main__':
-    # Uncomment to load variable names from the SEC API
-    # load_variable_names()
-    accounts_available()
+    get_cik_company_names()

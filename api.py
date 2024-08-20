@@ -3,10 +3,13 @@ from pydantic import BaseModel, Field
 from typing import Dict, List, Any
 from flask_openapi3 import Info, Tag
 from flask_openapi3 import OpenAPI
-
+from pydantic import BaseModel, Field
+from typing import Dict, List, Any
 info = Info(title="Comparable companies API", version="0.0.1")
 
 from pyedgarai.pyedgarai import clean_account_name, get_xbrl_frames, get_company_concept
+from pyedgarai.pyedgarai import get_cik_tickers, return_company_names, get_company_facts
+from pyedgarai.pyedgarai import return_accounts
 from pyedgarai.options_api import rapipdf_html_string
 
 app = OpenAPI(__name__, info=info)
@@ -30,6 +33,60 @@ clean_names = [clean_account_name(name) for name in accounts]
 account_tag = Tag(name="account",
                   description="Accounting account data for all companies")
 company_tag = Tag(name="company", description="Company data")
+
+class CleanName(BaseModel):
+    name: str = Field(None, description="Name of the account", example="Gross Profit")
+    
+class CleanNameResponse(BaseModel):
+    clean_name: str = Field(None, description="Cleaned name of the account", example="GrossProfit")
+
+class CIKTickers(BaseModel):
+    pass
+
+class CIKNames(BaseModel):
+    pass
+
+class CIKAccounts(BaseModel):
+    pass
+
+class CIKAccountsResponse(BaseModel):
+    pass
+
+class CIKNamesResponse(BaseModel):
+    cik_names: Dict[str, List[str]] = Field(
+        None,
+        description=
+        "Dictionary where the keys are CIKs and the values are the corresponding company names",
+        example = {
+                "0000001750": [
+                    "AAR CORP"
+                ],
+                "0000001800": [
+                    "ABBOTT LABORATORIES"
+                ],
+                "0000001961": [
+                    "WORLDS INC"
+                ]
+                        }
+                    )
+
+class CIKTickersResponse(BaseModel):
+    cik_tickers: Dict[str, List[str]] = Field(
+        None,
+        description=
+        "Dictionary where the keys are CIKs and the values are the corresponding tickers",
+        example = {
+                "0000001750": [
+                    "AIR"
+                ],
+                "0000001800": [
+                    "ABT"
+                ],
+                "0000001961": [
+                    "WDDD"
+                ]
+                        }
+                    )
 
 
 class AccountRequest(BaseModel):
@@ -57,9 +114,39 @@ class CompanyRequest(BaseModel):
                           description="Taxonomy of the account",
                           example="us-gaap")
 
+class CompanyFacts(BaseModel):
+    cik : int = Field(None, description="CIK of the company", example=320193)
 
-from pydantic import BaseModel, Field
-from typing import Dict, List, Any
+class CompanyFactsResponse(BaseModel):
+    cik : int = Field(None, description="CIK of the company", example=320193)
+    entityName: str = Field(None, description="Name of the company", example="Apple Inc.")
+    facts : Dict[str, Dict[str, Any]] = Field(None, description="Facts of the company",
+                                                         example = {
+                                                               "dei": {
+      "EntityCommonStockSharesOutstanding": {
+        "description": "Indicate number of shares or other units outstanding of each of registrant's classes of capital or common stock or other ownership interests, if and as stated on cover of related periodic report. Where multiple classes or units exist define each class/interest by adding class of stock items such as Common Class A [Member], Common Class B [Member] or Partnership Interest [Member] onto the Instrument [Domain] of the Entity Listings, Instrument.",
+        "label": "Entity Common Stock, Shares Outstanding",
+        "units": {
+          "shares": [
+            {
+              "accn": "0001193125-09-153165",
+              "end": "2009-06-27",
+              "filed": "2009-07-22",
+              "form": "10-Q",
+              "fp": "Q3",
+              "frame": "CY2009Q2I",
+              "fy": 2009,
+              "val": 895816758
+            },
+            {
+              "accn": "0001193125-09-214859",
+              "end": "2009-10-16",
+              "filed": "2009-10-27",
+              "form": "10-K",
+              "fp": "FY",
+              "fy": 2009,
+              "val": 900678473
+            }]}}}})
 
 
 class CompanyResponse(BaseModel):
@@ -196,7 +283,7 @@ def account(query: AccountRequest):
     return frames
 
 
-@app.get("/company",
+@app.get("/company_concept",
          summary="Get Company",
          tags=[company_tag],
          responses={
@@ -204,7 +291,7 @@ def account(query: AccountRequest):
              204: None,
              422: None
          })
-def company(query: CompanyRequest):
+def company_concept(query: CompanyRequest):
     """company
 
     Gets the history of a specific account for a company
@@ -221,12 +308,119 @@ def company(query: CompanyRequest):
     tag = clean_account_name(tag)
     return get_company_concept(cik, taxonomy, tag)
 
+companies_tag = Tag(name="companies", description="Companies data")
+@app.get("/cik_tickers", 
+         summary="Get CIK tickers", 
+         tags=[companies_tag],
+          responses = {
+                        200: CIKTickersResponse,
+                        204: None,
+                        422: None
+                    })
+def cik_tickers(query: CIKTickers):
+    """cik_tickers
+
+    Gets a list of CIKs and their corresponding tickers
+
+    localhost:5000/cik_tickers
+    """
+    return get_cik_tickers()
+
+names_tags = Tag(name="names", description="Company names")
+@app.get("/cik_names", 
+         summary="Get CIK names", 
+         tags=[names_tags],
+          responses = {
+                        200: CIKNamesResponse,
+                        204: None,
+                        422: None
+                    })
+def cik_names(query: CIKNames):
+    """cik_names
+
+    Gets a list of CIKs and their corresponding company names
+
+    localhost:5000/cik_names
+    """
+    return return_company_names()
+
+clean_name = Tag(name="clean_name", description="Cleaned account name")
+@app.get("/clean_name", 
+         summary="Get cleaned account name", 
+         tags=[clean_name],
+          responses = {
+                        200: CleanNameResponse,
+                        204: None,
+                        422: None
+                    })
+def clean_name(query: CleanName):
+    """clean_name
+
+    Gets a cleaned account name
+
+    localhost:5000/clean_name?name=Gross%20Profit
+    """
+    return {"clean_name": clean_account_name(query.name)}
+
+company_facts = Tag(name="company_facts", description="Company facts")
+@app.get("/company_facts", 
+         summary="Get company facts", 
+         tags=[company_facts],
+          responses = {
+                        200: CompanyFactsResponse,
+                        204: None,
+                        422: None
+                    })
+def company_facts(query: CompanyFacts):
+    """company_facts
+
+    Gets a list of CIKs and their corresponding company names
+
+    localhost:5000/company_facts?cik=320193
+    """
+    cik = int(query.cik)
+    return get_company_facts(cik)
 
 # test e.g. using 0000320193 and Income Tax Expense (Benefit)
 # http://localhost:5000/company?cik=320193&tag=IncomeTaxExpenseBenefit&taxonomy=us-gaap&frame=CY2024Q1
 
 # test e.g. using GrossProfit and USD
 # http://localhost:5000/account?units=USD&account=GrossProfit&frame=CY2024Q1&taxonomy=us-gaap
+
+def auxiliar_create_doc_facts():
+    cik = 320193
+    dict_ =  get_company_facts(cik)
+
+    dei = dict_["facts"]["dei"]
+    us_gaap = dict_["facts"]["us-gaap"]
+
+    # keep only the first two keys of each one 
+    dei = {k: dei[k] for k in list(dei)[:2]}
+    us_gaap = {k: us_gaap[k] for k in list(us_gaap)[:2]}
+
+    dict_["facts"]["dei"] = dei
+    dict_["facts"]["us-gaap"] = us_gaap
+
+    print(dict_)
+
+# return the account data 
+all_accounts = Tag(name="accounts", description="All accounts data")
+@app.get("/all_accounts", 
+         summary="Get account data", 
+         tags=[account_tag],
+          responses = {
+                        200: AccountResponse,
+                        204: None,
+                        422: None
+                    })
+def all_accounts():
+    """all_accounts
+
+    Gets the history of all accounts for all companies
+
+    localhost:5000/all_accounts
+    """
+    return return_accounts()
 
 if __name__ == '__main__':
     app.run(debug=True)
