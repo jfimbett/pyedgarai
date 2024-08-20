@@ -9,7 +9,7 @@ info = Info(title="Comparable companies API", version="0.0.1")
 
 from pyedgarai.pyedgarai import clean_account_name, get_xbrl_frames, get_company_concept
 from pyedgarai.pyedgarai import get_cik_tickers, return_company_names, get_company_facts
-from pyedgarai.pyedgarai import return_accounts, get_submission_history
+from pyedgarai.pyedgarai import return_accounts, get_submission_history, return_cik_sic
 from pyedgarai.options_api import rapipdf_html_string
 
 app = OpenAPI(__name__, info=info)
@@ -51,6 +51,13 @@ class CIKAccounts(BaseModel):
 
 class CIKAccountsResponse(BaseModel):
     pass
+
+class CIKSIC(BaseModel):
+    pass
+
+class CIKSICResponse(BaseModel):
+    cik : int = Field(None, description="CIK of the company", example=320193)
+    sic : str = Field(None, description="SIC code of the company", example="3571")
 
 class CIKNamesResponse(BaseModel):
     cik_names: Dict[str, List[str]] = Field(
@@ -524,6 +531,25 @@ def submission_history(query: SubmissionHistory):
     """
     cik = int(query.cik)
     return get_submission_history(cik)
+
+ciksic_tag = Tag(name="cik_sic", description="CIK SIC")
+@app.get("/cik_sic", 
+         summary="Get CIK SIC", 
+         tags=[ciksic_tag],
+          responses = {
+                        200: CIKSICResponse,
+                        204: None,
+                        422: None
+                    })
+def cik_sic(query: CIKSIC):
+    """cik_sic
+
+    Gets the CIK and SIC code of a company
+
+    localhost:5000/cik_sic
+    """
+    return return_cik_sic()
+
 
 if __name__ == '__main__':
     app.run(debug=True)
