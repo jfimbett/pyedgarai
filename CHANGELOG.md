@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.0.4 (2024-08-20)
+
+### Fix
+
+* fix: Modified position of api.py file ([`ced7edc`](https://github.com/jfimbett/pyedgarai/commit/ced7edc287506c3e813312b30c35ee147041e556))
+
 ## v0.0.3 (2024-08-19)
 
 ### Fix
