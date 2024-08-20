@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.1.0 (2024-08-20)
+
+### Feature
+
+* feat: add extra endpoints for more complete information ([`1f71537`](https://github.com/jfimbett/pyedgarai/commit/1f71537c14ec778c7a0657d7efdd8575e52ea53f))
+
 ## v0.0.4 (2024-08-20)
 
 ### Fix
