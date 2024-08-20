@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.1.1 (2024-08-20)
+
+### Fix
+
+* fix: added another endpoint submission_history ([`993139a`](https://github.com/jfimbett/pyedgarai/commit/993139afeb35d161532a3a4cf9abae8258493a00))
+
 ## v0.1.0 (2024-08-20)
 
 ### Feature
