@@ -4,12 +4,12 @@ from typing import Dict, List, Any
 from flask_openapi3 import Info, Tag
 from flask_openapi3 import OpenAPI
 from pydantic import BaseModel, Field
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Optional
 info = Info(title="Comparable companies API", version="0.0.1")
 
 from pyedgarai.pyedgarai import clean_account_name, get_xbrl_frames, get_company_concept
 from pyedgarai.pyedgarai import get_cik_tickers, return_company_names, get_company_facts
-from pyedgarai.pyedgarai import return_accounts
+from pyedgarai.pyedgarai import return_accounts, get_submission_history
 from pyedgarai.options_api import rapipdf_html_string
 
 app = OpenAPI(__name__, info=info)
@@ -257,6 +257,95 @@ class AccountResponse(BaseModel):
         }])
 
 
+class SubmissionHistory(BaseModel):
+    cik: int = Field(None, description="CIK of the company", example=320193)
+
+# Example usage
+response_data = {
+    'cik': '320193',
+    'entityType': 'operating',
+    'sic': '3571',
+    'sicDescription': 'Electronic Computers',
+    'insiderTransactionForOwnerExists': 0,
+    'insiderTransactionForIssuerExists': 1,
+    'name': 'Apple Inc.',
+    'tickers': ['AAPL'],
+    'exchanges': ['Nasdaq'],
+    'ein': '942404110',
+    'description': '',
+    'website': '',
+    'investorWebsite': '',
+    'category': 'Large accelerated filer',
+    'fiscalYearEnd': '0928',
+    'stateOfIncorporation': 'CA',
+    'stateOfIncorporationDescription': 'CA',
+    'addresses': {
+        'mailing': {
+            'street1': 'ONE APPLE PARK WAY',
+            'street2': None,
+            'city': 'CUPERTINO',
+            'stateOrCountry': 'CA',
+            'zipCode': '95014',
+            'stateOrCountryDescription': 'CA'
+        },
+        'business': {
+            'street1': 'ONE APPLE PARK WAY',
+            'street2': None,
+            'city': 'CUPERTINO',
+            'stateOrCountry': 'CA',
+            'zipCode': '95014',
+            'stateOrCountryDescription': 'CA'
+        }
+    },
+    'files': [
+        {
+            'name': 'CIK0000320193-submissions-001.json',
+            'filingCount': 1075,
+            'filingFrom': '1994-01-26',
+            'filingTo': '2014-02-03'
+        }
+    ]
+}
+
+class Address(BaseModel):
+    street1: str = Field(None, description="First line of the address", example="ONE APPLE PARK WAY")
+    street2: Optional[str] = Field(None, description="Second line of the address")
+    city: str = Field(None, description="City of the address", example="CUPERTINO")
+    stateOrCountry: str = Field(None, description="State or country of the address", example="CA")
+    zipCode: str = Field(None, description="Zip code of the address", example="95014")
+    stateOrCountryDescription: str = Field(None, description="Description of the state or country", example="CA")
+
+class Addresses(BaseModel):
+    mailing: Address = Field(None, description="Mailing address")
+    business: Address = Field(None, description="Business address")
+
+class File(BaseModel):
+    name: str = Field(None, description="Name of the file", example="CIK0000320193-submissions-001.json")
+    filingCount: int = Field(None, description="Number of filings", example=1075)
+    filingFrom: str = Field(None, description="Date of the first filing", example="1994-01-26")
+    filingTo: str = Field(None, description="Date of the last filing", example="2014-02-03")
+
+class SubmissionHistoryResponse(BaseModel):
+    cik: str = Field(None, description="CIK of the company", example="320193")
+    entityType: str = Field(None, description="Type of entity", example="operating")
+    sic: str = Field(None, description="Standard Industrial Classification (SIC) code", example="3571")
+    sicDescription: str = Field(None, description="Description of the SIC code", example="Electronic Computers")
+    insiderTransactionForOwnerExists: int = Field(None, description="Indicates if an insider transaction for the owner exists", example=0)
+    insiderTransactionForIssuerExists: int = Field(None, description="Indicates if an insider transaction for the issuer exists", example=1)
+    name: str = Field(None, description="Name of the company", example="Apple Inc.")
+    tickers: List[str] = Field(None, description="List of tickers", example=["AAPL"])
+    exchanges: List[str] = Field(None, description="List of exchanges", example=["Nasdaq"])
+    ein: str = Field(None, description="Employer Identification Number (EIN)", example="942404110")
+    description: Optional[str] = Field(None, description="Description of the company")
+    website: Optional[str] = Field(None, description="Website of the company")
+    investorWebsite: Optional[str] = Field(None, description="Investor website of the company")
+    category: str = Field(None, description="Category of the company", example="Large accelerated filer")
+    fiscalYearEnd: str = Field(None, description="Fiscal year end", example="0928")
+    stateOfIncorporation: str = Field(None, description="State of incorporation", example="CA")
+    stateOfIncorporationDescription: str = Field(None, description="Description of the state of incorporation", example="CA")
+    addresses: Addresses = Field(None, description="Addresses of the company")
+    files: List[File] = Field(None, description="List of files")
+
 # endpoint for account
 @app.get("/account",
          summary="Get all accounts",
@@ -381,11 +470,6 @@ def company_facts(query: CompanyFacts):
     cik = int(query.cik)
     return get_company_facts(cik)
 
-# test e.g. using 0000320193 and Income Tax Expense (Benefit)
-# http://localhost:5000/company?cik=320193&tag=IncomeTaxExpenseBenefit&taxonomy=us-gaap&frame=CY2024Q1
-
-# test e.g. using GrossProfit and USD
-# http://localhost:5000/account?units=USD&account=GrossProfit&frame=CY2024Q1&taxonomy=us-gaap
 
 def auxiliar_create_doc_facts():
     cik = 320193
@@ -421,6 +505,25 @@ def all_accounts():
     localhost:5000/all_accounts
     """
     return return_accounts()
+
+submission_history_tag = Tag(name="submission_history", description="Submission history")
+@app.get("/submission_history", 
+         summary="Get submission history", 
+         tags=[submission_history_tag],
+          responses = {
+                        200: SubmissionHistoryResponse,
+                        204: None,
+                        422: None
+                    })
+def submission_history(query: SubmissionHistory):
+    """submission_history
+
+    Gets the submission history of a company
+
+    localhost:5000/submission_history?cik=320193
+    """
+    cik = int(query.cik)
+    return get_submission_history(cik)
 
 if __name__ == '__main__':
     app.run(debug=True)

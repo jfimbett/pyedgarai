@@ -10,6 +10,8 @@ import time
 from sec_cik_mapper import StockMapper
 from requests.exceptions import HTTPError
 
+# https://www.sec.gov/data-research/standard-taxonomies
+
 #%%
 
 # Set up HTTP headers for requests to the SEC API
