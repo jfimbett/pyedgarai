@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.1.2 (2024-08-20)
+
+### Fix
+
+* fix: add a new endpoint to retrieve the table between sic and cik codes ([`34ae432`](https://github.com/jfimbett/pyedgarai/commit/34ae43287cb9b75feb4e1698d8fa93f72b47291d))
+
 ## v0.1.1 (2024-08-20)
 
 ### Fix
