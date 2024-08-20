@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.1.3 (2024-08-20)
+
+### Fix
+
+* fix: work on tutorial ([`8b78ea2`](https://github.com/jfimbett/pyedgarai/commit/8b78ea27c43384effe50f1a222aefc13be7922c1))
+
 ## v0.1.2 (2024-08-20)
 
 ### Fix
