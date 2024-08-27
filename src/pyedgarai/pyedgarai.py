@@ -419,6 +419,8 @@ def load_variable_names():
 
     The function fetches company facts, processes them, and identifies variables, 
     then saves the results to an 'accounts.xlsx' file.
+
+    example cik = 0000320193
     """
     df = pd.DataFrame()
     pbar = tqdm(CIKS)
@@ -563,6 +565,26 @@ def accounts_available():
     with open('found_accounts.json', 'w') as f:
         json.dump(dit_, f)
 
+
+def cik_sic_table():
+    # loop through all ciks and get the sic code from the submission history
+    dict_ = {}
+    for cik in tqdm(CIKS):
+        time.sleep(0.1)
+        try:
+            dict_[cik] = get_submission_history(cik)['sic']
+        except:
+            continue
+    
+    # save as json
+    with open('cik_sic.json', 'w') as f:
+        json.dump(dict_, f)
+
+def return_cik_sic():
+    with open('cik_sic.json', 'r') as f:
+        dict_ = json.load(f)
+    return dict_
 # %%
 if __name__ == '__main__':
-    get_cik_company_names()
+    dict_ = return_cik_sic()
+    print(dict_)
