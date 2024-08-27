@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v0.1.4 (2024-08-27)
+
+### Fix
+
+* fix: sic-cik table seems to work now ([`5aad14d`](https://github.com/jfimbett/pyedgarai/commit/5aad14de2bf84844b4288abbcfa812c1f6bce4db))
+
+### Unknown
+
+* Created using Colab ([`926cea5`](https://github.com/jfimbett/pyedgarai/commit/926cea5e6216852c468e19e9dddfa254d4fe0c42))
+
 ## v0.1.3 (2024-08-20)
 
 ### Fix
