@@ -10,7 +10,7 @@ import time
 from sec_cik_mapper import StockMapper
 from requests.exceptions import HTTPError
 
-# https://www.sec.gov/data-research/standard-taxonomies
+RELATIVE_PATH = 'src/pyedgarai' # make this the standard relative path for the project, and only if this file is ran from the root directory we change it. 
 
 #%%
 
@@ -22,7 +22,7 @@ CIKS = [int(str(cik).lstrip('0')) for cik in CIKS]
 
 # function that returns a dictionary of cik to company names, store it in a csv file 
 # use company facts function
-def get_cik_company_names():
+def get_cik_company_names(relative_path = RELATIVE_PATH):
     dict_ = {}
     for cik in tqdm(CIKS):
         try:
@@ -30,7 +30,7 @@ def get_cik_company_names():
         except:
             continue
     # save as json 
-    with open('cik_company_names.json', 'w') as f:
+    with open(f'{relative_path}/cik_company_names.json', 'w') as f:
         json.dump(dict_, f)
 
 def return_company_names():
@@ -413,7 +413,7 @@ def identify_cross_variables_from_facts(df_facts: pd.DataFrame, subset=['account
 
     return df
 
-def load_variable_names():
+def load_variable_names(relative_path = RELATIVE_PATH):
     """
     Loads variable names from SEC data and saves them to an Excel file.
 
@@ -460,7 +460,7 @@ def load_variable_names():
             continue
 
     df = df.drop_duplicates()
-    df.to_excel('accounts.xlsx')
+    df.to_excel(f'{relative_path}/accounts.xlsx')
 
 def modify_name_if_needed(name: str) -> str:
     """
@@ -513,14 +513,14 @@ def clean_account_name(account: str) -> str:
     account = account.replace(' ', '')
     return account
 
-def accounts_available():
+def accounts_available(relative_path = RELATIVE_PATH):
     """
     Checks the availability of accounts based on predefined criteria and saves the results in a JSON file.
     
     The function processes a maximum of 1,000 accounts from 'accounts.xlsx' and verifies 
     their existence using the SEC API, then saves the found accounts in 'found_accounts.json'.
     """
-    df = pd.read_excel('accounts.xlsx')
+    df = pd.read_excel(f'{relative_path}/accounts.xlsx')
     dep = 0
     not_found = []
     found = {}
@@ -562,11 +562,11 @@ def accounts_available():
     
     # Save found accounts to a JSON file
     dit_ = {'accounts': found}
-    with open('found_accounts.json', 'w') as f:
+    with open(f'{relative_path}/found_accounts.json', 'w') as f:
         json.dump(dit_, f)
 
 
-def cik_sic_table():
+def cik_sic_table(relative_path = RELATIVE_PATH):
     # loop through all ciks and get the sic code from the submission history
     dict_ = {}
     for cik in tqdm(CIKS):
@@ -577,11 +577,11 @@ def cik_sic_table():
             continue
     
     # save as json
-    with open('cik_sic.json', 'w') as f:
+    with open(f'{relative_path}/cik_sic.json', 'w') as f:
         json.dump(dict_, f)
 
-def return_cik_sic():
-    with open('cik_sic.json', 'r') as f:
+def return_cik_sic(relative_path = RELATIVE_PATH):
+    with open(f'{relative_path}/cik_sic.json', 'r') as f:
         dict_ = json.load(f)
     return dict_
 
