@@ -57,7 +57,7 @@ class CIKSIC(BaseModel):
     pass
 
 class ComparablesSIC(BaseModel):
-    pass 
+    cik : int = Field(None, description="CIK of the company", example=320193)
 
 class ComparablesSICResponse(BaseModel):
     pass
