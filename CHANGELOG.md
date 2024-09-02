@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.1.6 (2024-09-02)
+
+### Fix
+
+* fix: missing field in ComparablesSIC ([`7b105e8`](https://github.com/jfimbett/pyedgarai/commit/7b105e89ac2ec0f6e391817554a7c5472b43cc55))
+
 ## v0.1.5 (2024-09-02)
 
 ### Fix
