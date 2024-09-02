@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.1.5 (2024-09-02)
+
+### Fix
+
+* fix: added endpoint for comparables based on industry ([`42b3ec5`](https://github.com/jfimbett/pyedgarai/commit/42b3ec590011069a2836c4bf3256af15226120aa))
+
 ## v0.1.4 (2024-08-27)
 
 ### Fix
