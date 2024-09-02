@@ -10,6 +10,7 @@ info = Info(title="Comparable companies API", version="0.0.1")
 from pyedgarai.pyedgarai import clean_account_name, get_xbrl_frames, get_company_concept
 from pyedgarai.pyedgarai import get_cik_tickers, return_company_names, get_company_facts
 from pyedgarai.pyedgarai import return_accounts, get_submission_history, return_cik_sic
+from pyedgarai.pyedgarai import get_companies_with_same_sic
 from pyedgarai.options_api import rapipdf_html_string
 
 app = OpenAPI(__name__, info=info)
@@ -53,6 +54,12 @@ class CIKAccountsResponse(BaseModel):
     pass
 
 class CIKSIC(BaseModel):
+    pass
+
+class ComparablesSIC(BaseModel):
+    pass 
+
+class ComparablesSICResponse(BaseModel):
     pass
 
 class CIKSICResponse(BaseModel):
@@ -550,6 +557,24 @@ def cik_sic(query: CIKSIC):
     """
     return return_cik_sic()
 
+comparables_sic = Tag(name="comparables_sic", description="Comparables with same SIC")
+@ app.get("/comparables_sic", 
+         summary="Get comparables with same SIC", 
+         tags=[comparables_sic],
+          responses = {
+                        200: ComparablesSICResponse,
+                        204: None,
+                        422: None
+                    })
+def comparables_sic(query: ComparablesSIC):
+    """comparables_sic
+
+    Gets the comparables with the same SIC code
+
+    localhost:5000/comparables_sic?cik=320193
+    """
+    cik = int(query.cik)
+    return get_companies_with_same_sic(cik)
 
 if __name__ == '__main__':
     app.run(debug=True)

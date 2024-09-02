@@ -584,7 +584,16 @@ def return_cik_sic():
     with open('cik_sic.json', 'r') as f:
         dict_ = json.load(f)
     return dict_
-# %%
-if __name__ == '__main__':
-    dict_ = return_cik_sic()
-    print(dict_)
+
+# Function that given a cik gets all the companies that have the same sic code
+def get_companies_with_same_sic(cik: int):
+    # get the sic code for the cik
+    sic = return_cik_sic()[str(cik)]
+    # get all the ciks that have the same sic code
+    ciks = [k for k, v in return_cik_sic().items() if v == sic]
+    # return also the company names and tickers
+    company_names = return_company_names()
+    cik_tickers = get_cik_tickers()
+    companies = {k: {'name': company_names[k], 'tickers': cik_tickers[k]} for k in ciks}
+    return companies
+
