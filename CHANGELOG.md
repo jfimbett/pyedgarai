@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.2.10 (2024-09-09)
+
+### Fix
+
+* fix: modify pyproj ([`bbafd92`](https://github.com/jfimbett/pyedgarai/commit/bbafd92bc81c2669da726aecff5fc5ae6b6e24be))
+
 ## v0.2.9 (2024-09-09)
 
 ### Fix
