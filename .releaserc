@@ -8,9 +8,9 @@
     [
       "@semantic-release/exec",
       {
-        "prepareCmd": "echo 'version = \"${nextRelease.version}\"' > src\\pyedgarapi\\version.py"
+        "prepareCmd": "echo 'Running prepareCmd test: ${nextRelease.version}' && touch prepareCmd_test.txt"
       }
     ],
     "@semantic-release/github"
   ]
-} 
+}
