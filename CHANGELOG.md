@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.2.9 (2024-09-09)
+
+### Fix
+
+* fix: pyproject.toml ([`f2599be`](https://github.com/jfimbett/pyedgarai/commit/f2599be053537b26195d1e97a60e9d91521de219))
+
 ## v0.2.8 (2024-09-09)
 
 ### Fix
