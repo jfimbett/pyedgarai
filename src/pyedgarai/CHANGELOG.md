@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.2.1 (2024-09-09)
+
+### Fix
+
+* fix: add version.py file to access th version around ([`87ca6b2`](https://github.com/jfimbett/pyedgarai/commit/87ca6b2310ae1e4dad3667c37f0f12a52431bdb2))
+
 ## v0.2.0 (2024-09-09)
 
 ### Feature
