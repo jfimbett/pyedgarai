@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.2.5 (2024-09-09)
+
+### Fix
+
+* fix: changes to .releaserc now using the python format ([`49bfac9`](https://github.com/jfimbett/pyedgarai/commit/49bfac966859db91f250c66682712d6fe898bfb6))
+
 ## v0.2.4 (2024-09-09)
 
 ### Fix
