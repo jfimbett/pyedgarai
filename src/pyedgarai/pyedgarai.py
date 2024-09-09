@@ -10,8 +10,14 @@ import time
 from sec_cik_mapper import StockMapper
 from requests.exceptions import HTTPError
 
-RELATIVE_PATH = 'src/pyedgarai' # make this the standard relative path for the project, and only if this file is ran from the root directory we change it. 
 
+
+if __name__ == '__main__':
+    RELATIVE_PATH = ""
+    DATA_PATH = "../../data/"
+else:
+    RELATIVE_PATH = 'src/pyedgarai/' # make this the standard relative path for the project, and only if this file is ran from the root directory we change it. 
+    DATA_PATH = "data/"
 #%%
 
 # Set up HTTP headers for requests to the SEC API
@@ -30,11 +36,11 @@ def get_cik_company_names(relative_path = RELATIVE_PATH):
         except:
             continue
     # save as json 
-    with open(f'{relative_path}/cik_company_names.json', 'w') as f:
+    with open(f'{relative_path}cik_company_names.json', 'w') as f:
         json.dump(dict_, f)
 
-def return_company_names():
-    with open('cik_company_names.json', 'r') as f:
+def return_company_names(relative_path = RELATIVE_PATH):
+    with open(f'{relative_path}cik_company_names.json', 'r') as f:
         dict_ = json.load(f)
     return dict_
 
@@ -460,7 +466,7 @@ def load_variable_names(relative_path = RELATIVE_PATH):
             continue
 
     df = df.drop_duplicates()
-    df.to_excel(f'{relative_path}/accounts.xlsx')
+    df.to_excel(f'{relative_path}accounts.xlsx')
 
 def modify_name_if_needed(name: str) -> str:
     """
@@ -562,7 +568,7 @@ def accounts_available(relative_path = RELATIVE_PATH):
     
     # Save found accounts to a JSON file
     dit_ = {'accounts': found}
-    with open(f'{relative_path}/found_accounts.json', 'w') as f:
+    with open(f'{relative_path}found_accounts.json', 'w') as f:
         json.dump(dit_, f)
 
 
@@ -577,11 +583,11 @@ def cik_sic_table(relative_path = RELATIVE_PATH):
             continue
     
     # save as json
-    with open(f'{relative_path}/cik_sic.json', 'w') as f:
+    with open(f'{relative_path}cik_sic.json', 'w') as f:
         json.dump(dict_, f)
 
 def return_cik_sic(relative_path = RELATIVE_PATH):
-    with open(f'{relative_path}/cik_sic.json', 'r') as f:
+    with open(f'{relative_path}cik_sic.json', 'r') as f:
         dict_ = json.load(f)
     return dict_
 
@@ -594,6 +600,15 @@ def get_companies_with_same_sic(cik: int):
     # return also the company names and tickers
     company_names = return_company_names()
     cik_tickers = get_cik_tickers()
-    companies = {k: {'name': company_names[k], 'tickers': cik_tickers[k]} for k in ciks}
+    # convert key to int and then to str again in cik_tickers
+    cik_tickers = {str(int(k)): v for k, v in cik_tickers.items()}
+
+    companies = {}
+    for cik in ciks:
+        name = company_names[cik] if cik in company_names else None
+        tickers = cik_tickers[cik] if cik in cik_tickers else None
+        companies[cik] = {'name': name, 'tickers': tickers}
+    
     return companies
 
+    
