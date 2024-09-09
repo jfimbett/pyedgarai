@@ -26,4 +26,4 @@ version_variable = "pyproject.toml:version"
 version_toml = [
     "pyproject.toml:tool.poetry.version"
 ]
-build_command = "echo Running python-semantic-release > test.txt"
+build_command = "version = {version} > src/pyedgarai/version.py"
