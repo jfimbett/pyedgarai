@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.2.6 (2024-09-09)
+
+### Fix
+
+* fix: big changes to configuration ([`6da24be`](https://github.com/jfimbett/pyedgarai/commit/6da24beea34433767af6380f5dec43ddd0ea9e59))
+
 ## v0.2.5 (2024-09-09)
 
 ### Fix
