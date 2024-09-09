@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.2.8 (2024-09-09)
+
+### Fix
+
+* fix: testing the commands ([`abcdac6`](https://github.com/jfimbett/pyedgarai/commit/abcdac60f96ba01c7d765d8549883137870a252f))
+
 ## v0.2.7 (2024-09-09)
 
 ### Fix

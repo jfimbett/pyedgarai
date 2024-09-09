@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyedgarai"
-version = "0.2.7"
+version = "0.2.8"
 description = "A package for retrieving SEC filings and parse them using LLMs"
 authors = ["Juan F. Imbet"]
 license = "MIT"
@@ -26,4 +26,5 @@ version_variable = "pyproject.toml:version"
 version_toml = [
     "pyproject.toml:tool.poetry.version"
 ]
-build_command = "python -c \"with open('src/pyedgarai/version.py', 'w') as f: f.write('version = \\\"{version}\\\"\\n')\""
+build_command = "echo version = {version_variable} > version.py"
+
