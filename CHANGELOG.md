@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.3.1 (2024-09-09)
+
+### Fix
+
+* fix: stored_data endpoint is not available yet, we need to deal with storage in replit ([`b9967ea`](https://github.com/jfimbett/pyedgarai/commit/b9967ea37688dc1bc2fc8516ace8b7c7a7ab0378))
+
 ## v0.3.0 (2024-09-09)
 
 ### Feature
