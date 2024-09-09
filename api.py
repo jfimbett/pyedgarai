@@ -244,22 +244,23 @@ def comparables_sic(query: ComparablesSIC):
         return {"error": "Invalid API token."}
     return get_companies_with_same_sic(int(query.cik))
 
-@app.get("/stored_data", summary="Stored data", responses={200: StoredDataResponse})
-def stored_data(query: StoredData):
-    """Stored data for the given CIKs and accounts."""
-    if not authenticate(query.api_token):
-        return {"error": "Invalid API token."}
-    ciks = query.ciks
-    accounts = query.accounts
 
-    # clean account names 
-    accounts = [clean_account_name(name) for name in accounts]
-    df = get_data(ciks, accounts)
+# @app.get("/stored_data", summary="Stored data", responses={200: StoredDataResponse})
+# def stored_data(query: StoredData):
+#     """Stored data for the given CIKs and accounts."""
+#     if not authenticate(query.api_token):
+#         return {"error": "Invalid API token."}
+#     ciks = query.ciks
+#     accounts = query.accounts
 
-    # pass each column as a list in a value of a dictionary
-    data = df.to_dict(orient='list')
+#     # clean account names 
+#     accounts = [clean_account_name(name) for name in accounts]
+#     df = get_data(ciks, accounts)
 
-    return {"data": data}
+#     # pass each column as a list in a value of a dictionary
+#     data = df.to_dict(orient='list')
+
+#     return {"data": data}
 
 #%%
 if __name__ == '__main__':
