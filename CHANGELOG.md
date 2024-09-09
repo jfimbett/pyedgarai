@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.2.13 (2024-09-09)
+
+### Fix
+
+* fix: test ([`3f3839e`](https://github.com/jfimbett/pyedgarai/commit/3f3839e1e59b98d9286be8d13ea084a898233fe6))
+
 ## v0.2.12 (2024-09-09)
 
 ### Fix
