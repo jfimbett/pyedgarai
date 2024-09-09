@@ -1,5 +1,27 @@
 # CHANGELOG
 
+## v0.2.2 (2024-09-09)
+
+### Fix
+
+* fix: modify .releaserc file ([`1f14857`](https://github.com/jfimbett/pyedgarai/commit/1f1485726bac506c6f52b4b807ae54fca2cd0279))
+
+## v0.2.1 (2024-09-09)
+
+### Fix
+
+* fix: add version.py file to access th version around ([`87ca6b2`](https://github.com/jfimbett/pyedgarai/commit/87ca6b2310ae1e4dad3667c37f0f12a52431bdb2))
+
+## v0.2.0 (2024-09-09)
+
+### Feature
+
+* feat: add download_sec.py file and do some maintenance in the api.py code ([`bcb52c6`](https://github.com/jfimbett/pyedgarai/commit/bcb52c609609f4e03dffe8326df8c7dbaeb634dc))
+
+### Fix
+
+* fix: relative paths ([`909140c`](https://github.com/jfimbett/pyedgarai/commit/909140c48a4c205fa9024f64c62dcf6eed7bcf34))
+
 ## v0.1.6 (2024-09-02)
 
 ### Fix
