@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.2.14 (2024-09-09)
+
+### Fix
+
+* fix: fix quotes in the display of NEW_VERSION ([`0362369`](https://github.com/jfimbett/pyedgarai/commit/036236934d882e44662791586e9c358dd4116161))
+
 ## v0.2.13 (2024-09-09)
 
 ### Fix
