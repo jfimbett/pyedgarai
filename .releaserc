@@ -8,7 +8,7 @@
     [
       "@semantic-release/exec",
       {
-        "prepareCmd": "echo 'version = \"${nextRelease.version}\"' > src/pyedgarapi/version.py"
+        "prepareCmd": "echo 'version = \"${nextRelease.version}\"' > src\\pyedgarapi\\version.py"
       }
     ],
     "@semantic-release/github"
