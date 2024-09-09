@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.2.4 (2024-09-09)
+
+### Fix
+
+* fix: modify release file ([`dc42de9`](https://github.com/jfimbett/pyedgarai/commit/dc42de924d7a1fccfedbac4bc7e21aafcd2cfd35))
+
 ## v0.2.3 (2024-09-09)
 
 ### Fix
