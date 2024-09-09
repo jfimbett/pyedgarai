@@ -29,8 +29,8 @@ HEADERS = {
 
 @dataclass
 class Config:
-    PATH_TO_DATA = "..\\..\\data"
-    
+    PATH_TO_DATA = "..\\..\\data" if __name__ == "__main__" else "data"
+
 
 def download_zip_sec(url, save_path, chunk_size):
     try:
