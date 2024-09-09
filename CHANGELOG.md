@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.3.0 (2024-09-09)
+
+### Feature
+
+* feat: better documentation and beginning of authentication ([`b4e758f`](https://github.com/jfimbett/pyedgarai/commit/b4e758ff6fa57e971f4446f33721f0fbd36569a2))
+
 ## v0.2.14 (2024-09-09)
 
 ### Fix
