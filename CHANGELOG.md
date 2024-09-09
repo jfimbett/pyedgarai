@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.2.12 (2024-09-09)
+
+### Fix
+
+* fix: try with a different way of using env variables ([`78103d3`](https://github.com/jfimbett/pyedgarai/commit/78103d3ef2e69bc8c80ab98e3fbd9b4d738d11b2))
+
 ## v0.2.11 (2024-09-09)
 
 ### Fix
