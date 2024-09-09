@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.2.3 (2024-09-09)
+
+### Fix
+
+* fix: modify file .reeaserc ([`b36f2c3`](https://github.com/jfimbett/pyedgarai/commit/b36f2c3c9d861ee69838e3ff6baca0076e197b95))
+
 ## v0.2.2 (2024-09-09)
 
 ### Fix
