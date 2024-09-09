@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.2.7 (2024-09-09)
+
+### Fix
+
+* fix: add script to run when build ([`c5f007f`](https://github.com/jfimbett/pyedgarai/commit/c5f007fae1f38218ce6cd235f0e642ae2b35ecea))
+
 ## v0.2.6 (2024-09-09)
 
 ### Fix
