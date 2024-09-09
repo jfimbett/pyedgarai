@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.2.11 (2024-09-09)
+
+### Fix
+
+* fix: try build_comman via env variables ([`fe185f3`](https://github.com/jfimbett/pyedgarai/commit/fe185f3c6974b2f231794e511b563c5a387928fa))
+
 ## v0.2.10 (2024-09-09)
 
 ### Fix
