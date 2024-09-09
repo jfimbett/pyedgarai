@@ -26,4 +26,4 @@ version_variable = "pyproject.toml:version"
 version_toml = [
     "pyproject.toml:tool.poetry.version"
 ]
-build_command = "echo version = \"{version}\" > src/pyedgarai/version.py"
+build_command = "python -c \"with open('src/pyedgarai/version.py', 'w') as f: f.write('version = \\\"{version}\\\"\\n')\""
