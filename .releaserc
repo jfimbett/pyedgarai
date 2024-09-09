@@ -1,5 +1,0 @@
-{
-  "branch": "main",
-  "version_variable": "src/pyedgarai/version.py:version",
-  "build_command": "echo 'Running python-semantic-release'"
-}
