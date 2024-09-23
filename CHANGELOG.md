@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.4.0 (2024-09-23)
+
+### Feature
+
+* feat: stocks data end point ([`efeb326`](https://github.com/jfimbett/pyedgarai/commit/efeb326ef80438485d10004a16b1a4433f587b91))
+
 ## v0.3.1 (2024-09-09)
 
 ### Fix
