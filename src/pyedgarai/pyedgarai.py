@@ -9,8 +9,10 @@ import pandas as pd
 import time
 from sec_cik_mapper import StockMapper
 from requests.exceptions import HTTPError
+import yfinance as yf
+import logging
 
-
+logging.basicConfig(level=logging.INFO)
 
 if __name__ == '__main__':
     RELATIVE_PATH = ""
@@ -25,6 +27,61 @@ HEADERS = {"User-Agent": "PyEdgarAI a library for fetching data from the SEC"}
 # Get a list of CIKs from the StockMapper, remove leading zeros, and convert to integers
 CIKS = list(StockMapper().cik_to_tickers.keys())
 CIKS = [int(str(cik).lstrip('0')) for cik in CIKS]
+
+# download from yfinance data from a list of tickers 
+def get_stock_data(ticker, start_date, end_date):
+    """get_stock_data retrieves historical data on prices for a given stock
+
+    Args:
+        ticker (str): The stock ticker
+        start_date (str): Start date in the format 'YYYY-MM-DD'
+        end_date (str): End date in the format 'YYYY-MM-DD'
+
+    Returns:
+        pd.DataFrame: A pandas dataframe with the historical data
+
+    Example:
+        df = get_stock_data('AAPL', '2000-01-01', '2020-12-31')
+    """
+    stock = yf.Ticker(ticker)
+    data = stock.history(start=start_date, end=end_date, auto_adjust=False, actions=False)
+    # as dataframe 
+    df = pd.DataFrame(data)
+    df['ticker'] = ticker
+    df.reset_index(inplace=True)
+    return df
+
+def get_stocks_data(tickers, start_date, end_date):
+    """get_stocks_data retrieves historical data on prices for a list of stocks
+
+    Args:
+        tickers (list): List of stock tickers
+        start_date (str): Start date in the format 'YYYY-MM-DD'
+        end_date (str): End date in the format 'YYYY-MM-DD'
+
+    Returns:
+        pd.DataFrame: A pandas dataframe with the historical data
+
+    Example:
+        df = get_stocks_data(['AAPL', 'MSFT'], '2000-01-01', '2020-12-31')
+    """
+    # get the data for each stock
+    # try/except to avoid errors when a stock is not found
+    dfs = []
+    for ticker in tickers:
+        try:
+            df = get_stock_data(ticker, start_date, end_date)
+            # append if not empty
+            if not df.empty:
+                dfs.append(df)
+        except:
+            logging.warning(f"Stock {ticker} not found")
+    # concatenate all dataframes
+    data = pd.concat(dfs)
+    return data
+
+
+
 
 # function that returns a dictionary of cik to company names, store it in a csv file 
 # use company facts function
