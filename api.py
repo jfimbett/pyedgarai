@@ -7,7 +7,7 @@ from typing import Dict, List, Any, Optional, Type
 from models import (AccountRequest, AccountResponse, CompanyRequest, CompanyResponse, CIKTickers, CIKTickersResponse,
                     CIKNames, CIKNamesResponse, CleanName, CleanNameResponse, CompanyFacts, CompanyFactsResponse,
                     SubmissionHistory, SubmissionHistoryResponse, CIKSIC, CIKSICResponse, ComparablesSIC, ComparablesSICResponse,
-                    StoredData, StoredDataResponse, StockDataRequest, StockDataResponse) 
+                    AllAccounts, StoredData, StoredDataResponse, StockDataRequest, StockDataResponse) 
 
 from pyedgarai.pyedgarai import (clean_account_name, get_xbrl_frames, get_company_concept,
                                  get_cik_tickers, return_company_names, get_company_facts,
@@ -93,7 +93,7 @@ def company_facts(query: CompanyFacts):
     return get_company_facts(int(query.cik))
 
 @app.get("/all_accounts", summary="Get account data for all companies", tags=[all_accounts_tag], responses={200: AccountResponse})
-def all_accounts():
+def all_accounts(query: AllAccounts):
     """Retrieve all account data for all companies."""
     if not authenticate(query.api_token):
         return {"error": "Invalid API token."}

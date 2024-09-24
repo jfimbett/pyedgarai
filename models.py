@@ -93,6 +93,9 @@ class CompanyResponse(BaseModel):
     units: Dict[str, List[Dict[str, Any]]] = Field(
        description="Unit values", example={"USD": [{"accn": "0001193125-10-012091", "val": 1511000000}]})
 
+class AllAccounts(BaseModel):
+    api_token : str = Field( description="API token")
+
 class CompanyFacts(BaseModel):
     cik: int = Field( description="CIK of the company", example=320193)
     api_token : str = Field( description="API token")
