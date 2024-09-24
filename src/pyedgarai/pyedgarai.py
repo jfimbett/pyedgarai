@@ -28,6 +28,11 @@ HEADERS = {"User-Agent": "PyEdgarAI a library for fetching data from the SEC"}
 CIKS = list(StockMapper().cik_to_tickers.keys())
 CIKS = [int(str(cik).lstrip('0')) for cik in CIKS]
 
+
+
+#%%
+
+
 # download from yfinance data from a list of tickers 
 def get_stock_data(ticker, start_date, end_date):
     """get_stock_data retrieves historical data on prices for a given stock
@@ -80,6 +85,8 @@ def get_stocks_data(tickers, start_date, end_date):
     data = pd.concat(dfs)
     return data
 
+
+# return elements in yf available for a stock
 
 
 
@@ -669,3 +676,5 @@ def get_companies_with_same_sic(cik: int):
     return companies
 
     
+
+# %%

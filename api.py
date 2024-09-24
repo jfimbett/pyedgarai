@@ -2,7 +2,8 @@
 #%%
 from flask_openapi3 import Info, Tag, OpenAPI
 from version import version
-
+from pydantic import BaseModel, Field
+from typing import Dict, List, Any, Optional, Type
 from models import (AccountRequest, AccountResponse, CompanyRequest, CompanyResponse, CIKTickers, CIKTickersResponse,
                     CIKNames, CIKNamesResponse, CleanName, CleanNameResponse, CompanyFacts, CompanyFactsResponse,
                     SubmissionHistory, SubmissionHistoryResponse, CIKSIC, CIKSICResponse, ComparablesSIC, ComparablesSICResponse,
@@ -14,6 +15,10 @@ from pyedgarai.pyedgarai import (clean_account_name, get_xbrl_frames, get_compan
                                  get_companies_with_same_sic,
                                  get_stocks_data)
 from pyedgarai.download_sec import get_data
+
+from pyedgarai.yfinance_endpoints import IMPLEMENTED_ELEMENTS, IMPLEMENTED_FUNCTIONS, get_stock_element
+
+#%%
 
 # API Info
 info = Info(title="Comparable companies API", version=version)
@@ -27,20 +32,6 @@ def authenticate(api_token: str = None):
         return False
     return True
 
-# Predefined accounts list
-accounts = [
-    "Net Income (Loss) Attributable to Parent",
-    "Accumulated Other Comprehensive Income (Loss), Net of Tax",
-    "Earnings Per Share, Basic", "Earnings Per Share, Diluted", "Gross Profit",
-    "Income (Loss) from Continuing Operations, Per Diluted Share",
-    "Net Income (Loss), Including Portion Attributable to Noncontrolling Interest",
-    "Stockholders' Equity, Including Portion Attributable to Noncontrolling Interest",
-    "Income (Loss) from Continuing Operations, Per Basic Share",
-    "Interest Expense", "Selling, General and Administrative Expense"
-]
-
-# Clean account names
-clean_names = [clean_account_name(name) for name in accounts]
 
 # Tags
 account_tag = Tag(name="account", description="Accounting account data for all companies")
@@ -134,9 +125,58 @@ def stocks_data(query: StockDataRequest):
     """Retrieve stock data for the given tickers."""
     if not authenticate(query.api_token):
         return {"error": "Invalid API token."}
-    df = get_stocks_data(query.tickers)
+    df = get_stocks_data(query.tickers, query.start_date, query.end_date)
     data = df.to_dict(orient='list')
     return {"data": data}
+
+#---------------------------------#
+# Endpoints for yfinance, these are
+# done inside of a loop
+
+# A dictionary to hold request model classes
+request_models: Dict[str, Type[BaseModel]] = {}
+
+# Base request model
+class BaseRequestModel(BaseModel):
+    ticker: str
+    api_token: str
+
+# Generic response model
+class GenericResponseModel(BaseModel):
+    message: str
+    data: dict
+
+# Function to create dynamic request models
+def create_request_model(element_name: str) -> Type[BaseModel]:
+    class DynamicRequestModel(BaseRequestModel):
+        pass
+
+    DynamicRequestModel.__name__ = f"{element_name.replace('_', ' ').title().replace(' ','')}Request"
+    return DynamicRequestModel
+
+# Create Tag objects for each endpoint
+tags = {element: Tag(name=element) for element in IMPLEMENTED_ELEMENTS}
+
+# Dynamically create and register endpoints
+for element in IMPLEMENTED_ELEMENTS:
+    request_model = create_request_model(element)
+    request_models[element] = request_model
+
+    # Create the endpoint function with a unique name using a lambda
+    def create_endpoint_func(request_model: Type[BaseRequestModel], element: str):
+        def endpoint_func(query: request_model):
+            # Here you can perform authentication with query.api_token
+            # Call the get_stock_element function with appropriate parameters
+            return get_stock_element(query.ticker, element)
+        return endpoint_func
+
+    # Assign a unique name to the endpoint function
+    endpoint_func = create_endpoint_func(request_model, element)
+    endpoint_func.__name__ = f"endpoint_func_{element}"
+
+    # Register the endpoint with the app, using the Tag object instead of string
+    app.get(f'/{element}', summary=f"Endpoint for {element}",
+            tags=[tags[element]], responses={200: GenericResponseModel})(endpoint_func)
 
 #%%
 if __name__ == '__main__':

@@ -1,7 +1,22 @@
 from pydantic import BaseModel, Field
 from typing import Dict, List, Any, Optional
-
+from pyedgarai.pyedgarai import clean_account_name
 # Models
+# Predefined accounts list
+accounts = [
+    "Net Income (Loss) Attributable to Parent",
+    "Accumulated Other Comprehensive Income (Loss), Net of Tax",
+    "Earnings Per Share, Basic", "Earnings Per Share, Diluted", "Gross Profit",
+    "Income (Loss) from Continuing Operations, Per Diluted Share",
+    "Net Income (Loss), Including Portion Attributable to Noncontrolling Interest",
+    "Stockholders' Equity, Including Portion Attributable to Noncontrolling Interest",
+    "Income (Loss) from Continuing Operations, Per Basic Share",
+    "Interest Expense", "Selling, General and Administrative Expense"
+]
+
+# Clean account names
+clean_names = [clean_account_name(name) for name in accounts]
+
 
 class CleanName(BaseModel):
     name: str = Field( description="Name of the account", example="Gross Profit")
@@ -124,7 +139,8 @@ class StockDataRequest(BaseModel):
     tickers: List[str] = Field( description="List of tickers", example=["AAPL", "MSFT"])
     start_date: str = Field( description="Start date", example="2024-01-01")
     end_date: str = Field( description="End date", example="2024-12-31")
-
+    api_token : str = Field( description="API token")
+    
 class StockDataResponse(BaseModel):
     # returns a dataframe converted to json
     data: List[Dict] = Field( description="Stock data for the given tickers")
