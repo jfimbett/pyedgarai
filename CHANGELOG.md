@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.5.0 (2024-09-24)
+
+### Feature
+
+* feat: added yahoo finance functionality ([`9bdc045`](https://github.com/jfimbett/pyedgarai/commit/9bdc0456b924c940dbcef11f433078fde30b261e))
+
 ## v0.4.0 (2024-09-23)
 
 ### Feature
