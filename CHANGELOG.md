@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## v0.6.0 (2024-09-25)
+
+### Feature
+
+* feat: work on the comparable functions preparing for the endpoint ([`e4342b7`](https://github.com/jfimbett/pyedgarai/commit/e4342b7aeedd9e876fd8c0e32546ffbac592e58b))
+
+### Unknown
+
+* small changes, setting up ([`a7c2f6d`](https://github.com/jfimbett/pyedgarai/commit/a7c2f6d28962790658ea3ce33a47b9aadfec4d78))
+
+* add openpyxl ([`c4d098a`](https://github.com/jfimbett/pyedgarai/commit/c4d098a85736c5bb44b39d0afad6b8342525e168))
+
+* fix bug ([`cf0f00f`](https://github.com/jfimbett/pyedgarai/commit/cf0f00fc9177dd21adf8da6793093de95c2da4b3))
+
 ## v0.5.0 (2024-09-24)
 
 ### Feature

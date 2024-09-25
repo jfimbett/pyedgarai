@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyedgarai"
-version = "0.5.0"
+version = "0.6.0"
 description = "A package for retrieving SEC filings and parse them using LLMs"
 authors = ["Juan F. Imbet"]
 license = "MIT"
