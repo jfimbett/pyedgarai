@@ -12,6 +12,8 @@ from requests.exceptions import HTTPError
 import yfinance as yf
 import logging
 
+import numpy as np
+
 logging.basicConfig(level=logging.INFO)
 
 if __name__ == '__main__':
@@ -656,7 +658,7 @@ def return_cik_sic(relative_path = RELATIVE_PATH):
     return dict_
 
 # Function that given a cik gets all the companies that have the same sic code
-def get_companies_with_same_sic(cik: int):
+def get_companies_with_same_sic(cik: int, N = np.inf):
     # get the sic code for the cik
     sic = return_cik_sic()[str(cik)]
     # get all the ciks that have the same sic code
@@ -668,13 +670,25 @@ def get_companies_with_same_sic(cik: int):
     cik_tickers = {str(int(k)): v for k, v in cik_tickers.items()}
 
     companies = {}
-    for cik in ciks:
+    for i, cik in enumerate(ciks):
+        if i == N:
+            break
         name = company_names[cik] if cik in company_names else None
         tickers = cik_tickers[cik] if cik in cik_tickers else None
         companies[cik] = {'name': name, 'tickers': tickers}
-    
+
     return companies
 
     
 
 # %%
+# function to identify the comparables of a company. 
+def identify_comparables(*args, **kwargs):
+    cik = args[0]
+    method = kwargs['method']
+    variables = kwargs['variables']
+    N = kwargs['N']
+    if method == 'sic':
+        companies = get_companies_with_same_sic(cik, N)
+
+    return companies

@@ -101,5 +101,51 @@ The module can perform a request to both endpoints and with the information quer
 #### Task 2: Add a new company for comparable search. 
 
 
-If the user wants to add his own company (that is not part of the database) a new section should open where the user can either import data from a document (this functionality will be provided by another module and it is not required at the moment) or input data for the new firm. The user should be able to input the basic information of the company (name), and select the industry and specific accounting variables to fill. The variables that the user can choose to fill are provided in endpoint 
+If the user wants to add his own company (that is not part of the database) a new section should open where the user can either import data from a document (this functionality will be provided by another module and it is not required at the moment) or input data for the new firm. The user should be able to input the basic information of the company (name), and select the industry and specific accounting variables to fill. The variables that the user can choose to fill are provided in endpoint `/all_accounts`. An example of the response of this endpoint is provided below:
+
+```bash
+curl -X 'GET' \
+  'https://pyedgarai-jfimbett.replit.app/all_accounts?api_token=t3stt%40ken' \
+  -H 'accept: application/json'
+```
+
+```json
+{
+  "AccountsPayableCurrent": {
+    "description": "Carrying value as of the balance sheet date of liabilities incurred (and for which invoices have typically been received) and payable to vendors for goods and services received that are used in an entity's business. Used to reflect the current portion of the liabilities (due within one year or within the normal operating cycle if longer).",
+    "instant": 1,
+    "name": "Accounts Payable, Current",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "AccountsReceivableAfterAllowanceForCreditLossCurrent": {
+    "description": "Amount, after allowance for credit loss, of right to consideration from customer for product sold and service rendered in normal course of business, classified as current.",
+    "instant": 1,
+    "name": "Accounts Receivable, after Allowance for Credit Loss, Current",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "AccountsReceivableAllowanceForCreditLossCurrent": {
+    "description": "Amount of allowance for credit loss on accounts receivable, classified as current.",
+    "instant": 1,
+    "name": "Accounts Receivable, Allowance for Credit Loss, Current",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  ...
+}
+```
+
+The user should be able to select the variables that he wants to fill, and search for them by typing in the search bar. The search bar should be able to autocomplete the search query or to provide a list of possible variables that the user can select. 
+
+The companies added by the user should be stored inside of the website and should be available for the user to select in the future. However, these companies should not be stored in the database of the API, since we do not have a way to verify the data input by the user.
+
+### Identification of comparables model:
+
+ A dropdown menu where the user selects a method for choosing the comparables (also chooses how many comparables to show). 
+
+ ### Identification of variables to be shown in the output:
+
+ When showing information about the comparables, the user should be able to select the variables that he wants to see. These variables should be selected from the same list of variables that the user can select when adding a new company. 
+
 
