@@ -11,6 +11,7 @@ python = "^3.11"
 tqdm = "^4.66.5"
 bs4 = "^0.0.2"
 yfinance = "^0.2.43"
+openpyxl = "^3.1.5"
 
 [tool.poetry.dev-dependencies]
 
