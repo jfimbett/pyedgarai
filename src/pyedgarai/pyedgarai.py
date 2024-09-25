@@ -22,18 +22,12 @@ if __name__ == '__main__':
 else:
     RELATIVE_PATH = 'src/pyedgarai/' # make this the standard relative path for the project, and only if this file is ran from the root directory we change it. 
     DATA_PATH = "data/"
-#%%
 
 # Set up HTTP headers for requests to the SEC API
 HEADERS = {"User-Agent": "PyEdgarAI a library for fetching data from the SEC"}
 # Get a list of CIKs from the StockMapper, remove leading zeros, and convert to integers
 CIKS = list(StockMapper().cik_to_tickers.keys())
 CIKS = [int(str(cik).lstrip('0')) for cik in CIKS]
-
-
-
-#%%
-
 
 # download from yfinance data from a list of tickers 
 def get_stock_data(ticker, start_date, end_date):
@@ -86,11 +80,6 @@ def get_stocks_data(tickers, start_date, end_date):
     # concatenate all dataframes
     data = pd.concat(dfs)
     return data
-
-
-# return elements in yf available for a stock
-
-
 
 # function that returns a dictionary of cik to company names, store it in a csv file 
 # use company facts function
@@ -658,11 +647,19 @@ def return_cik_sic(relative_path = RELATIVE_PATH):
     return dict_
 
 # Function that given a cik gets all the companies that have the same sic code
-def get_companies_with_same_sic(cik: int, N = np.inf):
+def get_companies_with_same_sic(cik: int, digits=1):
     # get the sic code for the cik
     sic = return_cik_sic()[str(cik)]
+
+    # adjust the sic code to the number of digits
+    def adjust_sic(sic_):
+        try:
+            return int(str(sic_)[:digits])
+        except:
+            return None
+
     # get all the ciks that have the same sic code
-    ciks = [k for k, v in return_cik_sic().items() if v == sic]
+    ciks = [k for k, v in return_cik_sic().items() if adjust_sic(v) == adjust_sic(sic)]
     # return also the company names and tickers
     company_names = return_company_names()
     cik_tickers = get_cik_tickers()
@@ -671,24 +668,316 @@ def get_companies_with_same_sic(cik: int, N = np.inf):
 
     companies = {}
     for i, cik in enumerate(ciks):
-        if i == N:
-            break
         name = company_names[cik] if cik in company_names else None
         tickers = cik_tickers[cik] if cik in cik_tickers else None
-        companies[cik] = {'name': name, 'tickers': tickers}
+        companies[cik] = {'name': name, 'tickers': tickers, 'sic': adjust_sic(return_cik_sic()[cik])}
 
-    return companies
+    # return a dataframe with columns cik, name, tickers and industry
+    df = pd.DataFrame(companies).T
+    # reset index and name it cik 
+    df = df.reset_index()
+    df = df.rename(columns={'index': 'cik'})
 
+    return df
+
+def get_companies_similar_size(cik: int, interval= 100):
+    # get the Assets of all companies 
+    data = get_xbrl_frames('us-gaap', 
+                         clean_account_name('Assets'), 
+                         'USD', 
+                         'CY2024Q1I')
+    # to dataframe 
+    df_size = pd.DataFrame(data['data'])
+
+    # return a dataframe with companies +- interval% 
+    size = df_size[df_size['cik'] == cik]['val'].values[0]
+    upper_bound = size*(1+interval/100)
+    lower_bound = size*(1-interval/100)
+
+    df_size = df_size[(df_size['val'] >= lower_bound) & (df_size['val'] <= upper_bound)]
+
+    return df_size
+
+# same for profitability, Revenue from Contract with Customer, Including Assessed Tax over total assets 
+def get_companies_similar_profitability(cik: int, interval= 100):
+    # get the Assets of all companies 
+    data = get_xbrl_frames('us-gaap', 
+                         clean_account_name('Assets'), 
+                         'USD', 
+                         'CY2024Q1I')
+    # to dataframe 
+    df_size = pd.DataFrame(data['data'])
+
+    # return a dataframe with companies +- interval% 
+    size = df_size[df_size['cik'] == cik]['val'].values[0]
     
+    # now get revenues 
+    data = get_xbrl_frames('us-gaap', 
+                         clean_account_name('NetIncomeLoss'), 
+                         'USD', 
+                         'CY2024Q1')
+    # to dataframe
+    df_profit = pd.DataFrame(data['data'])
 
-# %%
-# function to identify the comparables of a company. 
+    profit = df_profit[df_profit['cik'] == cik]['val'].values[0]
+    # rename val in df_size to assets and
+    # val in df_profit to profit
+
+    df_size = df_size.rename(columns={'val': 'assets'})
+    df_profit = df_profit.rename(columns={'val': 'profit'})
+
+    # merge the two dataframes
+    df = pd.merge(df_size, df_profit, on='cik')
+    # calculate the profitability
+    df['profitability'] = df['profit']/df['assets']
+
+    profitability = profit/size
+    upper_bound = profitability*(1+interval/100)
+    lower_bound = profitability*(1-interval/100)
+
+    df = df[(df['profitability'] >= lower_bound) & (df['profitability'] <= upper_bound)]
+
+    return df
+
+# similar growth rate, compare assets in the last 5 years, compare assets year today with assets 5 years ago
+def get_companies_similar_growth_rate(cik: int, interval= 100):
+    current_year = time.localtime().tm_year
+    # get the Assets of all companies 
+    data = get_xbrl_frames('us-gaap', 
+                         clean_account_name('Assets'), 
+                         'USD', 
+                         f'CY{current_year}Q1I')
+    # to dataframe 
+    df_size = pd.DataFrame(data['data'])
+
+    # return a dataframe with companies +- interval% 
+    size = df_size[df_size['cik'] == cik]['val'].values[0]
+    
+    # now get assets 5 years ago
+    data = get_xbrl_frames('us-gaap', 
+                         clean_account_name('Assets'), 
+                         'USD', 
+                         f'CY{current_year-5}Q1I')
+    # to dataframe
+    df_size_5 = pd.DataFrame(data['data'])
+
+    size_5 = df_size_5[df_size_5['cik'] == cik]['val'].values[0]
+
+    growth_rate = (size-size_5)/size_5
+    upper_bound = growth_rate + (interval/100)
+    lower_bound = growth_rate - (interval/100)
+
+    # keep only cik and val 
+    df_size = df_size[['cik', 'val']]
+    df_size_5 = df_size_5[['cik', 'val']]
+    df_size = df_size.rename(columns={'val': 'assets'})
+    df_size_5 = df_size_5.rename(columns={'val': 'assets_5'})
+
+    df = pd.merge(df_size, df_size_5, on='cik')
+    df['growth_rate'] = (df['assets']-df['assets_5'])/df['assets_5']
+
+    df = df[(df['growth_rate'] >= lower_bound) & (df['growth_rate'] <= upper_bound)]
+
+    return df
+
+# similar capital structure, compare debt to equity ratio
+# Stockholder's Equity over Total Liabilities
+# use only data from this year 
+def get_companies_similar_capital_structure(cik: int, interval= 100):
+    current_year = time.localtime().tm_year
+    # get the Stockholder's Equity of all companies 
+    data = get_xbrl_frames('us-gaap', 
+                         clean_account_name("StockholdersEquity"), 
+                         'USD', 
+                         f'CY{current_year}Q1I')
+    # to dataframe 
+    df_equity = pd.DataFrame(data['data'])
+
+    # get the Total Liabilities of all companies 
+    data = get_xbrl_frames('us-gaap', 
+                         clean_account_name("Liabilities"), 
+                         'USD', 
+                         f'CY{current_year}Q1I')
+    # to dataframe 
+    df_liabilities = pd.DataFrame(data['data'])
+
+    # return a dataframe with companies +- interval% 
+    equity = df_equity[df_equity['cik'] == cik]['val'].values[0]
+    liabilities = df_liabilities[df_liabilities['cik'] == cik]['val'].values[0]
+
+    capital_structure = liabilities/equity
+    upper_bound = capital_structure + (interval/100)
+    lower_bound = capital_structure - (interval/100)
+
+    # keep only cik and val
+    df_equity = df_equity[['cik', 'val']]
+    df_liabilities = df_liabilities[['cik', 'val']]
+
+    # retrieve fror cik 
+    temp = df_equity[df_equity['cik'] == cik]
+    temp = df_liabilities[df_liabilities['cik'] == cik]
+
+    df_equity = df_equity.rename(columns={'val': 'equity'})
+    df_liabilities = df_liabilities.rename(columns={'val': 'liabilities'})
+
+    df = pd.merge(df_equity, df_liabilities, on='cik')
+    
+    temp = df[df['cik'] == cik]
+    
+    df['debt_to_equity'] = df['liabilities']/df['equity']
+
+    df = df[(df['debt_to_equity'] >= lower_bound) & (df['debt_to_equity'] <= upper_bound)]
+    
+    temp = df[df['cik'] == cik]
+
+    return df
+
+# download state of all companies
+def get_state_of_companies():
+    all_ciks = return_cik_sic().keys()
+    states = {}
+    for cik in tqdm(all_ciks):
+        time.sleep(0.05)
+        try:
+            data = get_submission_history(int(cik))
+            state = data['addresses']['business']['stateOrCountryDescription']
+            states[cik] = state
+        except:
+            continue
+    # to json 
+    with open(f'{RELATIVE_PATH}states.json', 'w') as f:
+        json.dump(states, f)
+
+
+# similar geographic location, compare companies in the same state
+def get_companies_similar_location(cik: int):
+    # get the state of the company
+    data = get_submission_history(cik)
+    current_state = data['addresses']['business']['stateOrCountryDescription']
+    
+    # load the states
+    with open(f'{RELATIVE_PATH}states.json', 'r') as f:
+        states = json.load(f)
+
+    # get all the ciks that have the same state
+    ciks = [k for k, v in states.items() if v == current_state]
+
+    # in dataframe one column the cik and the other the state
+    df = pd.DataFrame(ciks, columns=['cik'])
+    df['state'] = current_state
+
+    return df
+
 def identify_comparables(*args, **kwargs):
     cik = args[0]
     method = kwargs['method']
-    variables = kwargs['variables']
-    N = kwargs['N']
-    if method == 'sic':
-        companies = get_companies_with_same_sic(cik, N)
+    variables_to_compare = kwargs['variables_to_compare']
 
-    return companies
+    # it must be a subset of the following variables
+    # industry, size, profitability, growth_rate, capital_structure, location
+
+    # check that there is at least one variable to compare 
+    if not variables_to_compare:
+        raise ValueError("At least one variable to compare must be provided.")
+    
+    vars_not_rec = []
+    for var in variables_to_compare:
+        if var not in ['industry', 'size', 'profitability', 'growth_rate', 'capital_structure', 'location']:
+            vars_not_rec.append(var)
+
+    if vars_not_rec:
+        raise ValueError(f"Variables not recognized: {vars_not_rec}")
+
+
+    data_frames = []
+    labels = []
+
+    if 'industry' in variables_to_compare:
+        labels.append('industry')
+        temp = get_companies_with_same_sic(cik)
+        # cik to int 
+        temp['cik'] = temp['cik'].astype(int)
+        # check the cik is in the dataframe
+        if cik not in temp['cik'].values:
+            raise ValueError(f"Company with cik {cik} not found in the dataframe for industry.")
+        data_frames.append(temp)
+
+    if 'size' in variables_to_compare:
+        labels.append('size')
+        temp = get_companies_similar_size(cik)
+        # cik to int
+        temp['cik'] = temp['cik'].astype(int)
+        # check the cik is in the dataframe
+        if cik not in temp['cik'].values:
+            raise ValueError(f"Company with cik {cik} not found in the dataframe for size.")
+    
+        data_frames.append(temp)
+
+
+    if 'profitability' in variables_to_compare:
+        labels.append('profitability')
+        temp = get_companies_similar_profitability(cik)
+        # cik to int
+        temp['cik'] = temp['cik'].astype(int)
+        # check the cik is in the dataframe
+        if cik not in temp['cik'].values:
+            raise ValueError(f"Company with cik {cik} not found in the dataframe for profitability.")
+        
+        data_frames.append(temp)
+
+    if 'growth_rate' in variables_to_compare:
+        labels.append('growth_rate')
+        temp = get_companies_similar_growth_rate(cik)
+        # cik to int
+        temp['cik'] = temp['cik'].astype(int)
+        # check the cik is in the dataframe
+        if cik not in temp['cik'].values:
+            raise ValueError(f"Company with cik {cik} not found in the dataframe for growth rate.")
+        
+        data_frames.append(temp)
+
+    if 'capital_structure' in variables_to_compare:
+        labels.append('capital_structure')
+        temp = get_companies_similar_capital_structure(cik)
+        # cik to int
+        temp['cik'] = temp['cik'].astype(int)
+        # check the cik is in the dataframe
+        if cik not in temp['cik'].values:
+            raise ValueError(f"Company with cik {cik} not found in the dataframe for capital structure.")
+        
+        data_frames.append(temp)
+
+    if 'location' in variables_to_compare:
+        labels.append('location')
+        temp = get_companies_similar_location(cik)
+        # cik to int
+        temp['cik'] = temp['cik'].astype(int)
+        # check the cik is in the dataframe
+        if cik not in temp['cik'].values:
+            raise ValueError(f"Company with cik {cik} not found in the dataframe for location.")
+        
+        data_frames.append(temp)
+
+    # merge all dataframes
+    df = data_frames[0] 
+
+    # log how many observations are in the dataframe together with the step 
+
+    logging.info(f"Step 1: {df.shape[0]} observations for {labels[0]}.")
+    for i in range(1, len(data_frames)):
+        temp = data_frames[i]
+        df = pd.merge(df, temp, on='cik', how = 'inner')
+        logging.info(f"Step {i+1}: {df.shape[0]} observations for {labels[i]}. Using has {len(temp)} observations.")
+
+    return df
+
+
+# test
+cik = 320193
+variables_to_compare=['industry', 'size', 'profitability', 'growth_rate'] #, 'capital_structure', 'location']
+df = identify_comparables(cik, method='similar', variables_to_compare=variables_to_compare)
+
+#%%
+if __name__ == '__main__':
+    pass
+# %%
