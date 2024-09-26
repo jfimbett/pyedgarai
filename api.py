@@ -1,19 +1,21 @@
 # Imports
 #%%
 from flask_openapi3 import Info, Tag, OpenAPI
+import json
 from version import version
 from pydantic import BaseModel, Field
 from typing import Dict, List, Any, Optional, Type
 from models import (AccountRequest, AccountResponse, CompanyRequest, CompanyResponse, CIKTickers, CIKTickersResponse,
                     CIKNames, CIKNamesResponse, CleanName, CleanNameResponse, CompanyFacts, CompanyFactsResponse,
                     SubmissionHistory, SubmissionHistoryResponse, CIKSIC, CIKSICResponse, ComparablesSIC, ComparablesSICResponse,
-                    AllAccounts, StoredData, StoredDataResponse, StockDataRequest, StockDataResponse) 
+                    AllAccounts, StoredData, StoredDataResponse, StockDataRequest, StockDataResponse,
+                    ComparablesRequest, ComparablesResponse) 
 
 from pyedgarai.pyedgarai import (clean_account_name, get_xbrl_frames, get_company_concept,
                                  get_cik_tickers, return_company_names, get_company_facts,
                                  return_accounts, get_submission_history, return_cik_sic, 
                                  get_companies_with_same_sic,
-                                 get_stocks_data)
+                                 get_stocks_data, identify_comparables)
 from pyedgarai.download_sec import get_data
 
 from pyedgarai.yfinance_endpoints import IMPLEMENTED_ELEMENTS, IMPLEMENTED_FUNCTIONS, get_stock_element
@@ -45,10 +47,41 @@ submission_history_tag = Tag(name="submission_history", description="Submission 
 ciksic_tag = Tag(name="cik_sic", description="CIK SIC")
 comparables_sic_tag = Tag(name="comparables_sic", description="Comparables with same SIC")
 stocks_data = Tag(name="stocks_data", description="Price data for stocks")
+comparables_data = Tag(name="comparables_data", description="Comparables data")
+
+@app.get("/comparables", summary="Get comparables", tags=[comparables_data], responses={200: ComparablesResponse})
+def comparables(query: ComparablesRequest):
+    """Retrieve comparables for a company."""
+    print(query) 
+    if not authenticate(query.api_token):
+        return {"error": "Invalid API token."}
+    
+
+    kwargs = {}
+    params_comparables = {}
+    if query.industry_digits:
+        params_comparables['industry'] = {'digits': query.industry_digits}
+    if query.size_interval:
+        params_comparables['size'] = {'interval': query.size_interval}
+    if query.profitability_interval:
+        params_comparables['profitability'] = {'interval': query.profitability_interval}
+    if query.growth_rate_interval:
+        params_comparables['growth_rate'] = {'interval': query.growth_rate_interval}
+    if query.capital_structure_interval:
+        params_comparables['capital_structure'] = {'interval': query.capital_structure_interval}
+    if query.location:
+        params_comparables['location'] = query.location
+
+    kwargs['params_comparables'] = params_comparables
+    kwargs['variables_to_compare'] = query.variables_to_compare
+    kwargs['method'] = query.method
+
+
+
+    return identify_comparables(query.cik, **kwargs)
+
 
 # Endpoints
-
-
 @app.get("/account", summary="Get account data", tags=[account_tag], responses={200: AccountResponse})
 def account(query: AccountRequest):
     """Retrieve account data for all companies."""

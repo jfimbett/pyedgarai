@@ -147,3 +147,19 @@ class StockDataRequest(BaseModel):
 class StockDataResponse(BaseModel):
     # returns a dataframe converted to json
     data: List[Dict] = Field( description="Stock data for the given tickers")
+
+class ComparablesRequest(BaseModel):
+    cik: int = Field(description="CIK of the company", example=320193)
+    variables_to_compare: List[str] = Field( description="List of variables to compare", example=['industry', 'size', 'profitability', 'growth_rate', 'capital_structure', 'location'])
+    method : str = Field(description="Method to use for comparison", example="kmeans")
+    api_token : str = Field(description="API token")
+    industry_digits: Optional[int] = Field(description="Digits for industry variable", example=2, default=None)
+    size_interval: Optional[int] = Field(description="Interval for size variable", example=100, default=None)
+    profitability_interval: Optional[int] = Field(description="Interval for profitability variable", example=100, default=None)
+    growth_rate_interval: Optional[int] = Field(description="Interval for growth rate variable", example=100, default=None)
+    capital_structure_interval: Optional[int] = Field(description="Interval for capital structure variable", example=100, default=None)
+    location: Optional[str] = Field(description="Location parameters", example='', default=None)
+
+class ComparablesResponse(BaseModel):
+    cik: int = Field(description="CIK of the company", example=320193)
+    comparables: List[Dict] = Field(description="List of comparable companies with the required data")

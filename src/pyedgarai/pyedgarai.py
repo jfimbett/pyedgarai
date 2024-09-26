@@ -870,8 +870,11 @@ def get_companies_similar_location(cik: int):
 
 def identify_comparables(*args, **kwargs):
     cik = args[0]
+    print(kwargs)
     method = kwargs['method']
     variables_to_compare = kwargs['variables_to_compare']
+
+    params_comparables = kwargs['params_comparables']
 
     # it must be a subset of the following variables
     # industry, size, profitability, growth_rate, capital_structure, location
@@ -894,7 +897,7 @@ def identify_comparables(*args, **kwargs):
 
     if 'industry' in variables_to_compare:
         labels.append('industry')
-        temp = get_companies_with_same_sic(cik)
+        temp = get_companies_with_same_sic(cik, **params_comparables['industry'])
         # cik to int 
         temp['cik'] = temp['cik'].astype(int)
         # check the cik is in the dataframe
@@ -904,7 +907,7 @@ def identify_comparables(*args, **kwargs):
 
     if 'size' in variables_to_compare:
         labels.append('size')
-        temp = get_companies_similar_size(cik)
+        temp = get_companies_similar_size(cik, **params_comparables['size'])
         # cik to int
         temp['cik'] = temp['cik'].astype(int)
         # check the cik is in the dataframe
@@ -916,7 +919,7 @@ def identify_comparables(*args, **kwargs):
 
     if 'profitability' in variables_to_compare:
         labels.append('profitability')
-        temp = get_companies_similar_profitability(cik)
+        temp = get_companies_similar_profitability(cik, **params_comparables['profitability'])
         # cik to int
         temp['cik'] = temp['cik'].astype(int)
         # check the cik is in the dataframe
@@ -927,7 +930,7 @@ def identify_comparables(*args, **kwargs):
 
     if 'growth_rate' in variables_to_compare:
         labels.append('growth_rate')
-        temp = get_companies_similar_growth_rate(cik)
+        temp = get_companies_similar_growth_rate(cik, **params_comparables['growth_rate'])
         # cik to int
         temp['cik'] = temp['cik'].astype(int)
         # check the cik is in the dataframe
@@ -938,7 +941,7 @@ def identify_comparables(*args, **kwargs):
 
     if 'capital_structure' in variables_to_compare:
         labels.append('capital_structure')
-        temp = get_companies_similar_capital_structure(cik)
+        temp = get_companies_similar_capital_structure(cik, **params_comparables['capital_structure'])
         # cik to int
         temp['cik'] = temp['cik'].astype(int)
         # check the cik is in the dataframe
@@ -960,24 +963,19 @@ def identify_comparables(*args, **kwargs):
 
     # merge all dataframes
     df = data_frames[0] 
-
     # log how many observations are in the dataframe together with the step 
-
     logging.info(f"Step 1: {df.shape[0]} observations for {labels[0]}.")
     for i in range(1, len(data_frames)):
         temp = data_frames[i]
-        df = pd.merge(df, temp, on='cik', how = 'inner')
+        df = pd.merge(df, temp, on='cik', how = 'inner', suffixes=('', '_drop'))
         logging.info(f"Step {i+1}: {df.shape[0]} observations for {labels[i]}. Using has {len(temp)} observations.")
 
-    return df
+    # drop columns ending in _drop 
+    df = df[df.columns.drop(list(df.filter(regex='_drop')))]
+    # return the df as json 
+    to_return = df.to_json()
+    # drop if the key ends in _x or _y
+    to_return = json.loads(to_return)
+    
+    return to_return
 
-
-# test
-cik = 320193
-variables_to_compare=['industry', 'size', 'profitability', 'growth_rate'] #, 'capital_structure', 'location']
-df = identify_comparables(cik, method='similar', variables_to_compare=variables_to_compare)
-
-#%%
-if __name__ == '__main__':
-    pass
-# %%
