@@ -12,7 +12,6 @@ from requests.exceptions import HTTPError
 import yfinance as yf
 import logging
 import re
-
 import numpy as np
 
 logging.basicConfig(level=logging.INFO)
@@ -586,7 +585,8 @@ df = pd.read_excel(f'{RELATIVE_PATH}accounts.xlsx')
 
 # dictionary between clean name and instant
 instant_dict = {clean_account_name(k): (v, u, t) for k, v, u, t in zip(df['account'], df['instant'], df['units'], df['taxonomy'])}
-
+# force change the one in NetIncomeLoss to a 0
+instant_dict['NetIncomeLoss'] = (0, 'USD', 'us-gaap')
 
 def accounts_available(relative_path = RELATIVE_PATH):
     """
@@ -888,9 +888,21 @@ def get_companies_similar_location(cik: int):
 
     return df
 
+"""
+' For debugging 
+
+cik = 320193
+
+kwargs = {'params_comparables': {'industry': {'digits': 2}, 'size': {'interval': 200}, 'profitability': {'interval': 200}, 'growth_rate': {'interval': 200}, 'capital_structure': {'interval': 200}}, 'variables_to_compare': ['industry', 'size', 'profitability', 'growth_rate', 'capital_structure', 'location'], 'method': 'kmeans', 'extra_variables': ['GrossProfit', 'NetIncomeLoss', 'EarningsPerShareBasic']}
+
+"""
+
 def identify_comparables(*args, **kwargs):
     cik = args[0]
+    print("-----------------")
+    print("kwargs")
     print(kwargs)
+    print("-----------------")
     method = kwargs['method']
     variables_to_compare = kwargs['variables_to_compare']
 
@@ -1038,3 +1050,5 @@ def identify_comparables(*args, **kwargs):
     
     return to_return
 
+
+# %%

@@ -169,105 +169,163 @@ Finally there are some optional parameters that the user can select:
   - country_level
   - region_level
 
+
+Identification of variables to be shown in the output:
+
+ When showing information about the comparables, the user should be able to select the variables that he wants to see. These variables should be selected from the same list of variables that the user can select when adding a new company. 
+
 Example of the API endpoint for the list of comparables:
 
 ```bash
 curl -X 'GET' \
-  'http://127.0.0.1:5000/comparables?cik=320193&variables_to_compare=industry&variables_to_compare=size&variables_to_compare=profitability&variables_to_compare=growth_rate&variables_to_compare=capital_structure&variables_to_compare=location&method=kmeans&api_token=t3stt%40ken&industry_digits=2&size_interval=200&profitability_interval=200&growth_rate_interval=200&capital_structure_interval=200' \
+  'http://127.0.0.1:5000/comparables?cik=320193&variables_to_compare=industry&variables_to_compare=size&variables_to_compare=profitability&variables_to_compare=growth_rate&variables_to_compare=capital_structure&variables_to_compare=location&extra_variables=GrossProfit&extra_variables=NetIncomeLoss&extra_variables=EarningsPerShareBasic&method=kmeans&api_token=t3stt%40ken&industry_digits=2&size_interval=200&profitability_interval=200&growth_rate_interval=200&capital_structure_interval=200' \
   -H 'accept: application/json'
 ```
 
 Response:
 ```json
 {
+  "EarningsPerShareBasic": {
+    "0": 1.53,
+    "1": 0.47,
+    "2": 0.86,
+    "3": -0.11
+  },
+  "GrossProfit": {
+    "0": 42271000000,
+    "1": 8273000000,
+    "2": 1471200000,
+    "3": 495706000
+  },
+  "NetIncomeLoss": {
+    "0": 23636000000,
+    "1": 1886000000,
+    "2": 278800000,
+    "3": -35009000
+  },
   "accn": {
-    "0": "0000320193-24-000069"
-  },
-  "accn_x": {
-    "0": "0000320193-24-000069"
-  },
-  "accn_y": {
-    "0": "0000320193-24-000069"
+    "0": "0000320193-24-000069",
+    "1": "0000858877-24-000007",
+    "2": "0001327567-24-000017",
+    "3": "0001628280-24-027955"
   },
   "assets": {
-    "0": 337411000000
+    "0": 337411000000,
+    "1": 122998000000,
+    "2": 17930800000,
+    "3": 3623610000
   },
   "assets_5": {
-    "0": 341998000000
+    "0": 341998000000,
+    "1": 97287000000,
+    "2": 6261800000,
+    "3": 2069189000
   },
   "cik": {
-    "0": 320193
+    "0": 320193,
+    "1": 858877,
+    "2": 1327567,
+    "3": 1474432
   },
   "debt_to_equity": {
-    "0": 3.5476857967
+    "0": 3.5476857967,
+    "1": 1.6874235274,
+    "2": 3.0133398988,
+    "3": 1.6373225675
   },
   "end": {
-    "0": "2024-03-30"
-  },
-  "end_x": {
-    "0": "2024-03-30"
-  },
-  "end_y": {
-    "0": "2024-03-30"
+    "0": "2024-03-30",
+    "1": "2024-04-27",
+    "2": "2024-04-30",
+    "3": "2024-05-05"
   },
   "entityName": {
-    "0": "Apple Inc."
-  },
-  "entityName_x": {
-    "0": "Apple Inc."
-  },
-  "entityName_y": {
-    "0": "Apple Inc."
+    "0": "Apple Inc.",
+    "1": "CISCO SYSTEMS, INC.",
+    "2": "PALO ALTO NETWORKS, INC",
+    "3": "Pure Storage, Inc."
   },
   "equity": {
-    "0": 74194000000
+    "0": 74194000000,
+    "1": 45768000000,
+    "2": 4467800000,
+    "3": 1373973000
   },
   "growth_rate": {
-    "0": -0.0134123591
+    "0": -0.0134123591,
+    "1": 0.2642799141,
+    "2": 1.8635216711,
+    "3": 0.7512223388
   },
   "liabilities": {
-    "0": 263217000000
+    "0": 263217000000,
+    "1": 77230000000,
+    "2": 13463000000,
+    "3": 2249637000
   },
   "loc": {
-    "0": "US-CA"
-  },
-  "loc_x": {
-    "0": "US-CA"
-  },
-  "loc_y": {
-    "0": "US-CA"
+    "0": "US-CA",
+    "1": "US-CA",
+    "2": "US-CA",
+    "3": "US-CA"
   },
   "name": {
-    "0": "Apple Inc."
+    "0": "Apple Inc.",
+    "1": "CISCO SYSTEMS, INC.",
+    "2": "PALO ALTO NETWORKS, INC",
+    "3": "Pure Storage, Inc."
   },
   "profit": {
-    "0": 23636000000
+    "0": 23636000000,
+    "1": 1886000000,
+    "2": 278800000,
+    "3": -35009000
   },
   "profitability": {
-    "0": 0.0700510653
+    "0": 0.0700510653,
+    "1": 0.0153335827,
+    "2": 0.0155486649,
+    "3": -0.0096613598
   },
   "sic": {
-    "0": 35
+    "0": 35,
+    "1": 35,
+    "2": 35,
+    "3": 35
   },
   "start": {
-    "0": "2023-12-31"
+    "0": "2023-12-31",
+    "1": "2024-01-28",
+    "2": "2024-02-01",
+    "3": "2024-02-05"
   },
   "state": {
-    "0": "CA"
+    "0": "CA",
+    "1": "CA",
+    "2": "CA",
+    "3": "CA"
   },
   "tickers": {
     "0": [
       "AAPL"
+    ],
+    "1": [
+      "CSCO"
+    ],
+    "2": [
+      "PANW"
+    ],
+    "3": [
+      "PSTG"
     ]
   },
   "val": {
-    "0": 337411000000
+    "0": 337411000000,
+    "1": 122998000000,
+    "2": 17930800000,
+    "3": 3623610000
   }
 }
 ```
-
-Identification of variables to be shown in the output:
-
- When showing information about the comparables, the user should be able to select the variables that he wants to see. These variables should be selected from the same list of variables that the user can select when adding a new company. 
 
 
