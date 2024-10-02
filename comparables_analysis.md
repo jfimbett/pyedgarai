@@ -142,9 +142,131 @@ The companies added by the user should be stored inside of the website and shoul
 
 ### Identification of comparables model:
 
- A dropdown menu where the user selects a method for choosing the comparables (also chooses how many comparables to show). 
+ A dropdown menu where the user selects a method for choosing the comparables (also chooses how many comparables to show). For the moment the developer can have a dropdown menu with the following ***methods*** available:
+- Automatic
+- LLM
 
- ### Identification of variables to be shown in the output:
+However for the moment the API only has implemented one method, the Automatic method. The output of all methods have the same format, so for the moment there is no need to send the method to the API.
+
+#### Comparable selection of variables
+When computing comparable firms, the user should be able to select a subset of variables from the following list:
+- industry
+- size
+- profitability
+- growth_rate 
+- capital_structure
+- location
+
+Finally there are some optional parameters that the user can select:
+
+- industry_digits: The number of digits to consider when comparing the industry. For example, if the user selects 2, the industry will be compared at the 2-digit SIC level.
+- size_interval: Interval in % to consider similar companies, e.g. 100. 
+- profitability_interval: Interval in % to consider similar companies, e.g. 100.
+- growth_rate_interval: Interval in % to consider similar companies, e.g. 100.
+- capital_structure_interval: Interval in % to consider similar companies, e.g. 100.
+- location: Parameter not yet implemented in the API, but the user should be able to select one of the following:
+  - state_level
+  - country_level
+  - region_level
+
+Example of the API endpoint for the list of comparables:
+
+```bash
+curl -X 'GET' \
+  'http://127.0.0.1:5000/comparables?cik=320193&variables_to_compare=industry&variables_to_compare=size&variables_to_compare=profitability&variables_to_compare=growth_rate&variables_to_compare=capital_structure&variables_to_compare=location&method=kmeans&api_token=t3stt%40ken&industry_digits=2&size_interval=200&profitability_interval=200&growth_rate_interval=200&capital_structure_interval=200' \
+  -H 'accept: application/json'
+```
+
+Response:
+```json
+{
+  "accn": {
+    "0": "0000320193-24-000069"
+  },
+  "accn_x": {
+    "0": "0000320193-24-000069"
+  },
+  "accn_y": {
+    "0": "0000320193-24-000069"
+  },
+  "assets": {
+    "0": 337411000000
+  },
+  "assets_5": {
+    "0": 341998000000
+  },
+  "cik": {
+    "0": 320193
+  },
+  "debt_to_equity": {
+    "0": 3.5476857967
+  },
+  "end": {
+    "0": "2024-03-30"
+  },
+  "end_x": {
+    "0": "2024-03-30"
+  },
+  "end_y": {
+    "0": "2024-03-30"
+  },
+  "entityName": {
+    "0": "Apple Inc."
+  },
+  "entityName_x": {
+    "0": "Apple Inc."
+  },
+  "entityName_y": {
+    "0": "Apple Inc."
+  },
+  "equity": {
+    "0": 74194000000
+  },
+  "growth_rate": {
+    "0": -0.0134123591
+  },
+  "liabilities": {
+    "0": 263217000000
+  },
+  "loc": {
+    "0": "US-CA"
+  },
+  "loc_x": {
+    "0": "US-CA"
+  },
+  "loc_y": {
+    "0": "US-CA"
+  },
+  "name": {
+    "0": "Apple Inc."
+  },
+  "profit": {
+    "0": 23636000000
+  },
+  "profitability": {
+    "0": 0.0700510653
+  },
+  "sic": {
+    "0": 35
+  },
+  "start": {
+    "0": "2023-12-31"
+  },
+  "state": {
+    "0": "CA"
+  },
+  "tickers": {
+    "0": [
+      "AAPL"
+    ]
+  },
+  "val": {
+    "0": 337411000000
+  }
+}
+```
+
+Identification of variables to be shown in the output:
 
  When showing information about the comparables, the user should be able to select the variables that he wants to see. These variables should be selected from the same list of variables that the user can select when adding a new company. 
 

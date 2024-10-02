@@ -76,6 +76,8 @@ def comparables(query: ComparablesRequest):
     kwargs['variables_to_compare'] = query.variables_to_compare
     kwargs['method'] = query.method
 
+    kwargs['extra_variables'] = query.extra_variables
+
 
 
     return identify_comparables(query.cik, **kwargs)

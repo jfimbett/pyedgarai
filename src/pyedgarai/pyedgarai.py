@@ -11,6 +11,7 @@ from sec_cik_mapper import StockMapper
 from requests.exceptions import HTTPError
 import yfinance as yf
 import logging
+import re
 
 import numpy as np
 
@@ -22,6 +23,7 @@ if __name__ == '__main__':
 else:
     RELATIVE_PATH = 'src/pyedgarai/' # make this the standard relative path for the project, and only if this file is ran from the root directory we change it. 
     DATA_PATH = "data/"
+
 
 # Set up HTTP headers for requests to the SEC API
 HEADERS = {"User-Agent": "PyEdgarAI a library for fetching data from the SEC"}
@@ -232,7 +234,7 @@ def get_company_concept(cik: int, taxonomy: str, tag: str):
     else:
         response.raise_for_status()
 
-def get_xbrl_frames(taxonomy: str, tag: str, unit: str, period: str):
+def get_xbrl_frames(taxonomy: str, tag: str, unit: str, period: str, verbose=False):
     """
     Fetches XBRL (eXtensible Business Reporting Language) frame data from the SEC based on taxonomy, tag, unit, and period.
 
@@ -249,6 +251,7 @@ def get_xbrl_frames(taxonomy: str, tag: str, unit: str, period: str):
         HTTPError: If the request fails (i.e., if the response status code is not 200).
     """
     url = f"https://data.sec.gov/api/xbrl/frames/{taxonomy}/{tag}/{unit}/{period}.json"
+    verbose and logging.info(f"Fetching data from {url}")
     response = requests.get(url, headers=HEADERS)
     if response.status_code == 200:
         return response.json()
@@ -569,10 +572,21 @@ def clean_account_name(account: str) -> str:
                .replace("'", '')
                .replace("Attributable to Parent", '')
                .replace('-', ''))
-    account = process(account)
-    account = modify_name_if_needed(account)
+    try:
+        account = process(account)
+        account = modify_name_if_needed(account)
+        
+    except:
+        pass
+
     account = account.replace(' ', '')
     return account
+
+df = pd.read_excel(f'{RELATIVE_PATH}accounts.xlsx')
+
+# dictionary between clean name and instant
+instant_dict = {clean_account_name(k): (v, u, t) for k, v, u, t in zip(df['account'], df['instant'], df['units'], df['taxonomy'])}
+
 
 def accounts_available(relative_path = RELATIVE_PATH):
     """
@@ -832,6 +846,12 @@ def get_companies_similar_capital_structure(cik: int, interval= 100):
 
     return df
 
+def clean_df_bad_endings(df: pd.DataFrame) -> pd.DataFrame:
+    for col in df.columns:
+        if col.endswith('_x') or col.endswith('_y'):
+            df = df.drop(col, axis=1)
+    return df
+
 # download state of all companies
 def get_state_of_companies():
     all_ciks = return_cik_sic().keys()
@@ -876,6 +896,8 @@ def identify_comparables(*args, **kwargs):
 
     params_comparables = kwargs['params_comparables']
 
+    extra_variables = kwargs['extra_variables']
+
     # it must be a subset of the following variables
     # industry, size, profitability, growth_rate, capital_structure, location
 
@@ -915,7 +937,6 @@ def identify_comparables(*args, **kwargs):
             raise ValueError(f"Company with cik {cik} not found in the dataframe for size.")
     
         data_frames.append(temp)
-
 
     if 'profitability' in variables_to_compare:
         labels.append('profitability')
@@ -972,6 +993,44 @@ def identify_comparables(*args, **kwargs):
 
     # drop columns ending in _drop 
     df = df[df.columns.drop(list(df.filter(regex='_drop')))]
+
+    # if we have keys that look like cik cik_x cik_y we drop the _x and _y variables
+    df = clean_df_bad_endings(df)
+
+    def get_extra_variables(ciks, var):
+        current_year = time.localtime().tm_year
+        # we need to know the instant 
+        instant = instant_dict[clean_account_name(var)][0]
+        units = instant_dict[clean_account_name(var)][1]
+        instant_end = 'I' if instant else ''
+        units_end = units.replace('/', '-per-')
+
+        # in units_end replace three consecutive uppercase letters with USD 
+        units_end = re.sub(r'[A-Z]{3}', 'USD', units_end)
+
+        # get the var of all companies 
+        taxonomy = instant_dict[clean_account_name(var)][2]
+        data = get_xbrl_frames(taxonomy, 
+                         clean_account_name(var), 
+                         units_end, 
+                         f'CY{current_year}Q1{instant_end}', verbose=True)
+        
+        # to dataframe
+        df_var = pd.DataFrame(data['data'])
+        # keep only cik and val
+        df_var = df_var[['cik', 'val']]
+        # rename val to var
+        df_var = df_var.rename(columns={'val': var})
+        # return the value for the ciks
+        return df_var[df_var['cik'].isin(ciks)]
+    
+    # add the extra variables 
+    if extra_variables:
+        for var in extra_variables:
+            temp = get_extra_variables(df['cik'], var)
+            df = pd.merge(df, temp, on='cik', how = 'left')
+            df = clean_df_bad_endings(df)
+
     # return the df as json 
     to_return = df.to_json()
     # drop if the key ends in _x or _y

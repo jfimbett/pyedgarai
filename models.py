@@ -151,6 +151,7 @@ class StockDataResponse(BaseModel):
 class ComparablesRequest(BaseModel):
     cik: int = Field(description="CIK of the company", example=320193)
     variables_to_compare: List[str] = Field( description="List of variables to compare", example=['industry', 'size', 'profitability', 'growth_rate', 'capital_structure', 'location'])
+    extra_variables: List[str] = Field(description="Extra variables to compare", example=['GrossProfit', 'NetIncomeLoss', 'EarningsPerShareBasic'], default=None)
     method : str = Field(description="Method to use for comparison", example="kmeans")
     api_token : str = Field(description="API token")
     industry_digits: Optional[int] = Field(description="Digits for industry variable", example=2, default=None)
