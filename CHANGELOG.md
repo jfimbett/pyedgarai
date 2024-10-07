@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## v0.7.0 (2024-10-07)
+
+### Feature
+
+* feat: added valuation metrics endpoint ([`7563f23`](https://github.com/jfimbett/pyedgarai/commit/7563f234b77b86c84b0401c555e2dbd62fad03bf))
+
+* feat: comparables module work ([`423a327`](https://github.com/jfimbett/pyedgarai/commit/423a32787b48105126c2246bd4a98e1a5a45fde0))
+
+* feat: comparables module ([`0542d0d`](https://github.com/jfimbett/pyedgarai/commit/0542d0d4ee2134e42b41e941ae1c042057a27bbb))
+
+### Fix
+
+* fix: some changes ([`42dcc88`](https://github.com/jfimbett/pyedgarai/commit/42dcc884cb7a0a3b2a4c86ffd8a78c8d2ef339fe))
+
 ## v0.6.0 (2024-09-25)
 
 ### Feature
