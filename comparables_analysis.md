@@ -178,7 +178,7 @@ Example of the API endpoint for the list of comparables:
 
 ```bash
 curl -X 'GET' \
-  'http://127.0.0.1:5000/comparables?cik=320193&variables_to_compare=industry&variables_to_compare=size&variables_to_compare=profitability&variables_to_compare=growth_rate&variables_to_compare=capital_structure&variables_to_compare=location&extra_variables=GrossProfit&extra_variables=NetIncomeLoss&extra_variables=EarningsPerShareBasic&method=kmeans&api_token=t3stt%40ken&industry_digits=2&size_interval=200&profitability_interval=200&growth_rate_interval=200&capital_structure_interval=200' \
+  'https://pyedgarai-jfimbett.replit.app/comparables?cik=320193&variables_to_compare=industry&variables_to_compare=size&variables_to_compare=profitability&variables_to_compare=growth_rate&variables_to_compare=capital_structure&variables_to_compare=location&extra_variables=GrossProfit&extra_variables=NetIncomeLoss&extra_variables=EarningsPerShareBasic&method=kmeans&api_token=t3stt%40ken&industry_digits=2&size_interval=200&profitability_interval=200&growth_rate_interval=200&capital_structure_interval=200' \
   -H 'accept: application/json'
 ```
 
@@ -328,4 +328,78 @@ Response:
 }
 ```
 
+### Multiples
 
+Once the list of comparables is shown, the user should also be able to see the following three multiples for the comparable companies:
+- Price to Earnings (P/E)
+- Price to Book (P/B)
+- Enterprise to EBITDA (EV/EBITDA)
+
+these ratios can be obtained in the endpoint `/valuation_metrics`. The endpoint requires a list of tickers and the `api_token` as parameters. The api response consists of the valuation metrics for the list of tickers and the average of each one of the multiples. 
+
+```bash
+curl -X 'GET' \
+  'https://pyedgarai-jfimbett.replit.app/valuation_metrics?tickers=AAPL&tickers=MSFT&tickers=GOOGL&api_token=t3stt%40ken' \
+  -H 'accept: application/json'
+```
+output
+
+```json
+{
+  "avg_multiples": {
+    "enterpriseToEbitda": 22.572666666666667,
+    "priceToBook": 23.3740289,
+    "priceToEarnings": 33.50176351750078
+  },
+  "variables": [
+    {
+      "currentPrice": 226.8,
+      "enterpriseToEbitda": 26.467,
+      "enterpriseValue": 3487801278464,
+      "eps": 6.16,
+      "marketCap": 3448289886208,
+      "priceToBook": 51.75719,
+      "priceToEarnings": 36.81818181818182,
+      "sharesOutstanding": 15204100096,
+      "ticker": "AAPL"
+    },
+    {
+      "currentPrice": 416.06,
+      "enterpriseToEbitda": 24.066,
+      "enterpriseValue": 3114910875648,
+      "eps": 11.86,
+      "marketCap": 3092590624768,
+      "priceToBook": 11.52042,
+      "priceToEarnings": 35.080944350758855,
+      "sharesOutstanding": 7433039872,
+      "ticker": "MSFT"
+    },
+    {
+      "currentPrice": 167.06,
+      "enterpriseToEbitda": 17.185,
+      "enterpriseValue": 1984502562816,
+      "eps": 5.84,
+      "marketCap": 2064878272512,
+      "priceToBook": 6.8444767,
+      "priceToEarnings": 28.606164383561644,
+      "sharesOutstanding": 5858999808,
+      "ticker": "GOOGL"
+    }
+  ]
+}
+```
+
+### apply the multiples to the target company
+
+Finally, the user should be able to apply the multiples to the target company. This will be performed in the website and not in the API. The idea is the following, given an average multiple e.g. the average Price to Book of the comparables, an estimate value of the target company can be obtained by multiplying the average multiple by the accounting variable of the target company.
+
+$$
+\text{Estimated Value} = \text{Accounting Variable} \times \text{Average Multiple}
+$$
+
+for example
+$$
+\text{Estimated Market Value} = \text{Book Value of the target company} \times \text{Average Price to Book of the comparables}
+$$
+
+in this step the user should input the accounting variable of the target company and the average multiple. 

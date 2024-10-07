@@ -14,6 +14,8 @@ import logging
 import re
 import numpy as np
 
+
+
 logging.basicConfig(level=logging.INFO)
 
 if __name__ == '__main__':
@@ -1049,6 +1051,8 @@ def identify_comparables(*args, **kwargs):
     to_return = json.loads(to_return)
     
     return to_return
+
+
 
 
 # %%

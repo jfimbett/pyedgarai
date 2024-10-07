@@ -2,6 +2,7 @@
 #%%
 from flask_openapi3 import Info, Tag, OpenAPI
 import json
+import time
 from version import version
 from pydantic import BaseModel, Field
 from typing import Dict, List, Any, Optional, Type
@@ -9,7 +10,9 @@ from models import (AccountRequest, AccountResponse, CompanyRequest, CompanyResp
                     CIKNames, CIKNamesResponse, CleanName, CleanNameResponse, CompanyFacts, CompanyFactsResponse,
                     SubmissionHistory, SubmissionHistoryResponse, CIKSIC, CIKSICResponse, ComparablesSIC, ComparablesSICResponse,
                     AllAccounts, StoredData, StoredDataResponse, StockDataRequest, StockDataResponse,
-                    ComparablesRequest, ComparablesResponse) 
+                    ComparablesRequest, ComparablesResponse,
+                    ValuationMetricsRequest, ValuationMetricsResponse)
+                    
 
 from pyedgarai.pyedgarai import (clean_account_name, get_xbrl_frames, get_company_concept,
                                  get_cik_tickers, return_company_names, get_company_facts,
@@ -19,7 +22,9 @@ from pyedgarai.pyedgarai import (clean_account_name, get_xbrl_frames, get_compan
 from pyedgarai.download_sec import get_data
 
 from pyedgarai.yfinance_endpoints import IMPLEMENTED_ELEMENTS, IMPLEMENTED_FUNCTIONS, get_stock_element
+import logging
 
+logging.basicConfig(level=logging.INFO)
 #%%
 
 # API Info
@@ -48,6 +53,7 @@ ciksic_tag = Tag(name="cik_sic", description="CIK SIC")
 comparables_sic_tag = Tag(name="comparables_sic", description="Comparables with same SIC")
 stocks_data = Tag(name="stocks_data", description="Price data for stocks")
 comparables_data = Tag(name="comparables_data", description="Comparables data")
+valuation_metrics = Tag(name="valuation_metrics", description="Valuation metrics")
 
 @app.get("/comparables", summary="Get comparables", tags=[comparables_data], responses={200: ComparablesResponse})
 def comparables(query: ComparablesRequest):
@@ -212,6 +218,50 @@ for element in IMPLEMENTED_ELEMENTS:
     # Register the endpoint with the app, using the Tag object instead of string
     app.get(f'/{element}', summary=f"Endpoint for {element}",
             tags=[tags[element]], responses={200: GenericResponseModel})(endpoint_func)
+
+@app.get("/valuation_metrics", summary="Get valuation metrics", tags=[valuation_metrics], responses={200: ValuationMetricsResponse})
+def relevant_valuation_metrics(query: ValuationMetricsRequest):
+    
+    if not authenticate(query.api_token):
+        return {"error": "Invalid API token."}
+    
+    tickers = query.tickers
+    # get earnings per share
+    variables = []
+    for ticker in tickers:
+        try:
+            temp = get_stock_element(ticker, 'income_stmt')
+            # to json 
+            temp = json.loads(temp)
+            eps = temp['data']['Basic EPS'][0]
+            info = get_stock_element(ticker, 'info')
+            marketCap = info['data']['marketCap']
+            enterpriseValue = info['data']['enterpriseValue']
+            sharesOutstanding = info['data']['sharesOutstanding']
+            priceToBook = info['data']['priceToBook']
+            enterpriseToEbitda = info['data']['enterpriseToEbitda']
+            currentPrice = info['data']['currentPrice']
+
+            dict_ = {'ticker': ticker, 'eps': eps, 'marketCap': marketCap, 'enterpriseValue': enterpriseValue,
+                    'sharesOutstanding': sharesOutstanding, 'priceToBook': priceToBook, 'enterpriseToEbitda': enterpriseToEbitda,
+                    'currentPrice': currentPrice, 'priceToEarnings': currentPrice / eps}
+            variables.append(dict_)
+        except:
+            logging.warning(f'Error getting data for {ticker}')
+
+    # apply the average multiple 
+    avg_multiple = {}
+    multiples = ['priceToEarnings', 'priceToBook', 'enterpriseToEbitda']
+    for multiple in multiples:
+        avg_multiple[multiple] = sum([e[multiple] for e in variables]) / len(variables)
+    to_return = {'avg_multiples': avg_multiple, 'variables': variables}
+    return to_return
+
+
+
+
+
+
 
 #%%
 if __name__ == '__main__':

@@ -164,3 +164,23 @@ class ComparablesRequest(BaseModel):
 class ComparablesResponse(BaseModel):
     cik: int = Field(description="CIK of the company", example=320193)
     comparables: List[Dict] = Field(description="List of comparable companies with the required data")
+
+class ValuationMetricsRequest(BaseModel):
+    tickers: List[str] = Field(description="List of stock tickers", example=['AAPL', 'MSFT', 'GOOGL'])
+    api_token: str = Field(description="API token for authentication", example="your_api_token")
+
+class ValuationMetricsResponse(BaseModel):
+    avg_multiple: Dict[str, float] = Field(description="Average valuation multiples (Price to Earnings, Price to Book, Enterprise to EBITDA)", 
+                                           example={"priceToEarnings": 15.5, "priceToBook": 2.3, "enterpriseToEbitda": 10.1})
+    variables: List[Dict] = Field(description="List of valuation metrics for each ticker", 
+                                  example=[{
+                                      "ticker": "AAPL",
+                                      "eps": 6.35,
+                                      "marketCap": 2400000000000,
+                                      "enterpriseValue": 2500000000000,
+                                      "sharesOutstanding": 5000000000,
+                                      "priceToBook": 40.5,
+                                      "enterpriseToEbitda": 20.5,
+                                      "currentPrice": 150,
+                                      "priceToEarnings": 23.6
+                                  }])
