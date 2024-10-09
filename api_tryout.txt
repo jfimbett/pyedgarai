@@ -1,0 +1,46 @@
+curl -X 'GET' \
+  'http://127.0.0.1:5000/valuation_metrics?tickers=AAPL&tickers=MSFT&tickers=GOOGL&api_token=t3stt%40ken' \
+  -H 'accept: application/json'
+
+{
+  "avg_multiples": {
+    "enterpriseToEbitda": 22.411666666666665,
+    "priceToBook": 23.246618100000003,
+    "priceToEarnings": 33.25511688581695
+  },
+  "variables": [
+    {
+      "currentPrice": 225.77,
+      "enterpriseToEbitda": 26.348,
+      "enterpriseValue": 3472141058048,
+      "eps": 6.16,
+      "marketCap": 3432629665792,
+      "priceToBook": 51.522137,
+      "priceToEarnings": 36.65097402597403,
+      "sharesOutstanding": 15204100096,
+      "ticker": "AAPL"
+    },
+    {
+      "currentPrice": 414.71,
+      "enterpriseToEbitda": 23.988,
+      "enterpriseValue": 3104876265472,
+      "eps": 11.86,
+      "marketCap": 3082556014592,
+      "priceToBook": 11.48304,
+      "priceToEarnings": 34.96711635750422,
+      "sharesOutstanding": 7433039872,
+      "ticker": "MSFT"
+    },
+    {
+      "currentPrice": 164.38,
+      "enterpriseToEbitda": 16.899,
+      "enterpriseValue": 1951511740416,
+      "eps": 5.84,
+      "marketCap": 2030947794944,
+      "priceToBook": 6.7346773,
+      "priceToEarnings": 28.147260273972602,
+      "sharesOutstanding": 5858999808,
+      "ticker": "GOOGL"
+    }
+  ]
+}
