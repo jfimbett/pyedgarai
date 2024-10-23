@@ -1,9 +1,14 @@
 ' Define an error handler
 
-Function AlpGet_Account(units As String, account As String, frame As String, taxonomy As String, api_token As String) As Variant
+Function AlpGet_Account(units As String, account As String, frame As String, taxonomy As String, api_token As String) As String
+    Dim result As String
+    result = Evaluate("AlpGet_Account_Wrapper(""" & units & """, """ & account & """, """ & frame & """, """ & taxonomy & """, """ & api_token & """)")
+    AlpGet_Account = result
+End Function
+
+Function AlpGet_Account_Wrapper(units As String, account As String, frame As String, taxonomy As String, api_token As String) as String
     ' Add an error handler
     On Error GoTo ErrorHandler
-
     Dim url As String
     Dim xmlhttp As Object
     Dim jsonResponse As Object
@@ -23,7 +28,7 @@ Function AlpGet_Account(units As String, account As String, frame As String, tax
 
     ' Send the request
     xmlhttp.Send
-
+    
     ' Parse the JSON response
     Set jsonResponse = JsonConverter.ParseJson(xmlhttp.responseText)
 
@@ -32,17 +37,12 @@ Function AlpGet_Account(units As String, account As String, frame As String, tax
 
     ' Display jsonResponse
     Set data = jsonResponse("data")
-
-    ' display the information of Application.Caller
-    Dim cell As Range
-    Set cell = Application.Caller
-
-    ' Write the data to Excel starting from the cell where the function is called
-    Set row = cell.Row + 1
-    Set col = cell.Column
-
+    
+    row = ActiveCell.Row + 1
+    col = ActiveCell.Column
+    
     ' Write headers
-    Cells(row, col).Value = "accn"
+    Cells(row, col).Value     = "accn"
     Cells(row, col + 1).Value = "cik"
     Cells(row, col + 2).Value = "end"
     Cells(row, col + 3).Value = "entityName"
@@ -53,21 +53,22 @@ Function AlpGet_Account(units As String, account As String, frame As String, tax
     ' Iterate over each item in the 'data' array and write to the sheet
     Dim item As Variant
     For Each item In data
-        Cells(row, col).Value = item("accn")
+        row = row + 1
+        Cells(row, col).Value     = item("accn")
         Cells(row, col + 1).Value = item("cik")
         Cells(row, col + 2).Value = item("end")
         Cells(row, col + 3).Value = item("entityName")
         Cells(row, col + 4).Value = item("loc")
         Cells(row, col + 5).Value = item("start")
         Cells(row, col + 6).Value = item("val")
-        row = row + 1
     Next item
+
+    AlpGet_Account_Wrapper = units & "-" & account & "-" & frame & "-" & taxonomy 
 
 Exit Function
 ErrorHandler:
-    MsgBox "An error occurred: " & Err.Description
+    MsgBox "An error occurred: " & Err.Description & " " & Erl
     Exit Function   
-
 End Function
 
 
