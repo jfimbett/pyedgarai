@@ -1,0 +1,708 @@
+Curl
+curl -X 'GET' \
+  'http://localhost:5000/all_accounts?api_token=t3stt%40ken' \
+  -H 'accept: application/json'
+ 
+ 
+{
+  "AccountsPayableCurrent": {
+    "description": "Carrying value as of the balance sheet date of liabilities incurred (and for which invoices have typically been received) and payable to vendors for goods and services received that are used in an entity's business. Used to reflect the current portion of the liabilities (due within one year or within the normal operating cycle if longer).",
+    "instant": 1,
+    "name": "Accounts Payable, Current",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "AccountsReceivableAfterAllowanceForCreditLossCurrent": {
+    "description": "Amount, after allowance for credit loss, of right to consideration from customer for product sold and service rendered in normal course of business, classified as current.",
+    "instant": 1,
+    "name": "Accounts Receivable, after Allowance for Credit Loss, Current",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "AccountsReceivableAllowanceForCreditLossCurrent": {
+    "description": "Amount of allowance for credit loss on accounts receivable, classified as current.",
+    "instant": 1,
+    "name": "Accounts Receivable, Allowance for Credit Loss, Current",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "AccountsReceivableCreditLossExpenseReversal": {
+    "description": "Amount of expense (reversal of expense) for expected credit loss on accounts receivable.",
+    "instant": 0,
+    "name": "Accounts Receivable, Credit Loss Expense (Reversal)",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "AccruedLiabilitiesCurrent": {
+    "description": "Carrying value as of the balance sheet date of obligations incurred and payable, pertaining to costs that are statutory in nature, are incurred on contractual obligations, or accumulate over time and for which invoices have not yet been received or will not be rendered. Examples include taxes, interest, rent and utilities. Used to reflect the current portion of the liabilities (due within one year or within the normal operating cycle if longer).",
+    "instant": 1,
+    "name": "Accrued Liabilities, Current",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "AccumulatedDepreciationDepletionAndAmortizationPropertyPlantAndEquipment": {
+    "description": "Amount of accumulated depreciation, depletion and amortization for physical assets used in the normal conduct of business to produce goods and services.",
+    "instant": 1,
+    "name": "Accumulated Depreciation, Depletion and Amortization, Property, Plant, and Equipment",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "AccumulatedOtherComprehensiveIncomeLossNetOfTax": {
+    "description": "Accumulated change in equity from transactions and other events and circumstances from non-owner sources, net of tax effect, at period end. Excludes Net Income (Loss), and accumulated changes in equity from transactions resulting from investments by owners and distributions to owners. Includes foreign currency translation items, certain pension adjustments, unrealized gains and losses on certain investments in debt and equity securities, other than temporary impairment (OTTI) losses related to factors other than credit losses on available-for-sale and held-to-maturity debt securities that an entity does not intend to sell and it is not more likely than not that the entity will be required to sell before recovery of the amortized cost basis, as well as changes in the fair value of derivatives related to the effective portion of a designated cash flow hedge.",
+    "instant": 1,
+    "name": "Accumulated Other Comprehensive Income (Loss), Net of Tax",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "AdditionalPaidInCapitalCommonStock": {
+    "description": "Value received from shareholders in common stock-related transactions that are in excess of par value or stated value and amounts received from other stock-related transactions. Includes only common stock transactions (excludes preferred stock transactions). May be called contributed capital, capital in excess of par, capital surplus, or paid-in capital.",
+    "instant": 1,
+    "name": "Additional Paid in Capital, Common Stock",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "AntidilutiveSecuritiesExcludedFromComputationOfEarningsPerShareAmount": {
+    "description": "Securities (including those issuable pursuant to contingent stock agreements) that could potentially dilute basic earnings per share (EPS) or earnings per unit (EPU) in the future that were not included in the computation of diluted EPS or EPU because to do so would increase EPS or EPU amounts or decrease loss per share or unit amounts for the period presented.",
+    "instant": 1,
+    "name": "Antidilutive Securities Excluded from Computation of Earnings Per Share, Amount",
+    "taxonomy": "us-gaap",
+    "units": "shares"
+  },
+  "Assets": {
+    "description": "Sum of the carrying amounts as of the balance sheet date of all assets that are recognized. Assets are probable future economic benefits obtained or controlled by an entity as a result of past transactions or events.",
+    "instant": 1,
+    "name": "Assets",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "AssetsCurrent": {
+    "description": "Sum of the carrying amounts as of the balance sheet date of all assets that are expected to be realized in cash, sold, or consumed within one year (or the normal operating cycle, if longer). Assets are probable future economic benefits obtained or controlled by an entity as a result of past transactions or events.",
+    "instant": 1,
+    "name": "Assets, Current",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "CashAndCashEquivalentsAtCarryingValue": {
+    "description": "Amount of currency on hand as well as demand deposits with banks or financial institutions. Includes other kinds of accounts that have the general characteristics of demand deposits. Also includes short-term, highly liquid investments that are both readily convertible to known amounts of cash and so near their maturity that they present insignificant risk of changes in value because of changes in interest rates. Excludes cash and cash equivalents within disposal group and discontinued operation.",
+    "instant": 1,
+    "name": "Cash and Cash Equivalents, at Carrying Value",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsIncludingDisposalGroupAndDiscontinuedOperations": {
+    "description": "Amount of cash and cash equivalents, and cash and cash equivalents restricted to withdrawal or usage; including, but not limited to, disposal group and discontinued operations. Cash includes, but is not limited to, currency on hand, demand deposits with banks or financial institutions, and other accounts with general characteristics of demand deposits. Cash equivalents include, but are not limited to, short-term, highly liquid investments that are both readily convertible to known amounts of cash and so near their maturity that they present insignificant risk of changes in value because of changes in interest rates.",
+    "instant": 1,
+    "name": "Cash, Cash Equivalents, Restricted Cash and Restricted Cash Equivalents, Including Disposal Group and Discontinued Operations",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "CashProvidedByUsedInOperatingActivitiesDiscontinuedOperations": {
+    "description": "Amount of cash inflow (outflow) of operating activities of discontinued operations. Operating activity cash flows include transactions, adjustments, and changes in value not defined as investing or financing activities.",
+    "instant": 0,
+    "name": "Cash Provided by (Used in) Operating Activities, Discontinued Operations",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "CommonStockParOrStatedValuePerShare": {
+    "description": "Face amount or stated value per share of common stock.",
+    "instant": 1,
+    "name": "Common Stock, Par or Stated Value Per Share",
+    "taxonomy": "us-gaap",
+    "units": "USD/shares"
+  },
+  "CommonStockSharesAuthorized": {
+    "description": "The maximum number of common shares permitted to be issued by an entity's charter and bylaws.",
+    "instant": 1,
+    "name": "Common Stock, Shares Authorized",
+    "taxonomy": "us-gaap",
+    "units": "shares"
+  },
+  "CommonStockSharesIssued": {
+    "description": "Total number of common shares of an entity that have been sold or granted to shareholders (includes common shares that were issued, repurchased and remain in the treasury). These shares represent capital invested by the firm's shareholders and owners, and may be all or only a portion of the number of shares authorized. Shares issued include shares outstanding and shares held in the treasury.",
+    "instant": 1,
+    "name": "Common Stock, Shares, Issued",
+    "taxonomy": "us-gaap",
+    "units": "shares"
+  },
+  "CommonStockValueIssued": {
+    "description": "Aggregate par or stated value of issued nonredeemable common stock (or common stock redeemable solely at the option of the issuer). This item includes treasury stock repurchased by the entity. Note: elements for number of nonredeemable common shares, par value and other disclosure concepts are in another section within stockholders' equity.",
+    "instant": 1,
+    "name": "Common Stock, Value, Issued",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "ComprehensiveIncomeLossNetOfTax": {
+    "description": "Amount after tax of increase (decrease) in equity from transactions and other events and circumstances from net income and other comprehensive income, attributable to parent entity. Excludes changes in equity resulting from investments by owners and distributions to owners.",
+    "instant": 0,
+    "name": "Comprehensive Income (Loss), Net of Tax, Attributable to Parent",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "ContractWithCustomerLiability": {
+    "description": "Amount of obligation to transfer good or service to customer for which consideration has been received or is receivable.",
+    "instant": 1,
+    "name": "Contract with Customer, Liability",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "CostOfGoodsSoldDeprecated20180131": {
+    "description": "Total costs related to goods produced and sold during the reporting period.",
+    "instant": 0,
+    "name": "Cost of Goods Sold (Deprecated 2018-01-31)",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "CostOfServicesDeprecated20180131": {
+    "description": "Total costs related to services rendered by an entity during the reporting period.",
+    "instant": 0,
+    "name": "Cost of Services (Deprecated 2018-01-31)",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "CostsAndExpenses": {
+    "description": "Total costs of sales and operating expenses for the period.",
+    "instant": 0,
+    "name": "Costs and Expenses",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "DebtIssuanceCostsNet": {
+    "description": "Amount, after accumulated amortization, of debt issuance costs. Includes, but is not limited to, legal, accounting, underwriting, printing, and registration costs.",
+    "instant": 1,
+    "name": "Debt Issuance Costs, Net",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "DebtLongtermAndShorttermCombinedAmount": {
+    "description": "Represents the aggregate of total long-term debt, including current maturities and short-term debt.",
+    "instant": 1,
+    "name": "Debt, Long-term and Short-term, Combined Amount",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "DeferredIncomeTaxExpenseBenefit": {
+    "description": "Amount of deferred income tax expense (benefit) pertaining to income (loss) from continuing operations.",
+    "instant": 0,
+    "name": "Deferred Income Tax Expense (Benefit)",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "DepreciationDepletionAndAmortization": {
+    "description": "The aggregate expense recognized in the current period that allocates the cost of tangible assets, intangible assets, or depleting assets to periods that benefit from use of the assets.",
+    "instant": 0,
+    "name": "Depreciation, Depletion and Amortization",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "DiscontinuedOperationIncomeLossFromDiscontinuedOperationNetOfTaxPerBasicShare": {
+    "description": "Per basic share amount, after tax, of income (loss) from the day-to-day business activities of the discontinued operation.",
+    "instant": 0,
+    "name": "Discontinued Operation, Income (Loss) from Discontinued Operation, Net of Tax, Per Basic Share",
+    "taxonomy": "us-gaap",
+    "units": "USD/shares"
+  },
+  "DiscontinuedOperationIncomeLossFromDiscontinuedOperationNetOfTaxPerDilutedShare": {
+    "description": "Per diluted share amount, after tax, of income (loss) from the day-to-day business activities of the discontinued operation.",
+    "instant": 0,
+    "name": "Discontinued Operation, Income (Loss) from Discontinued Operation, Net of Tax, Per Diluted Share",
+    "taxonomy": "us-gaap",
+    "units": "USD/shares"
+  },
+  "DividendsCommonStockCash": {
+    "description": "Amount of paid and unpaid common stock dividends declared with the form of settlement in cash.",
+    "instant": 0,
+    "name": "Dividends, Common Stock, Cash",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "EarningsPerShareBasic": {
+    "description": "The amount of net income (loss) for the period per each share of common stock or unit outstanding during the reporting period.",
+    "instant": 0,
+    "name": "Earnings Per Share, Basic",
+    "taxonomy": "us-gaap",
+    "units": "USD/shares"
+  },
+  "EarningsPerShareDiluted": {
+    "description": "The amount of net income (loss) for the period available to each share of common stock or common unit outstanding during the reporting period and to each share or unit that would have been outstanding assuming the issuance of common shares or units for all dilutive potential common shares or units outstanding during the reporting period.",
+    "instant": 0,
+    "name": "Earnings Per Share, Diluted",
+    "taxonomy": "us-gaap",
+    "units": "USD/shares"
+  },
+  "FiniteLivedIntangibleAssetsAccumulatedAmortization": {
+    "description": "Accumulated amount of amortization of assets, excluding financial assets and goodwill, lacking physical substance with a finite life.",
+    "instant": 1,
+    "name": "Finite-Lived Intangible Assets, Accumulated Amortization",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "Goodwill": {
+    "description": "Amount after accumulated impairment loss of an asset representing future economic benefits arising from other assets acquired in a business combination that are not individually identified and separately recognized.",
+    "instant": 1,
+    "name": "Goodwill",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "GrossProfit": {
+    "description": "Aggregate revenue less cost of goods and services sold or operating expenses directly attributable to the revenue generation activity.",
+    "instant": 0,
+    "name": "Gross Profit",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "IncomeLossFromContinuingOperationsNetOfTax": {
+    "description": "Amount after tax of income (loss) from continuing operations attributable to the parent.",
+    "instant": 0,
+    "name": "Income (Loss) from Continuing Operations, Net of Tax, Attributable to Parent",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "IncomeLossFromContinuingOperationsPerBasicShare": {
+    "description": "The amount of net income (loss) from continuing operations per each share of common stock or unit outstanding during the reporting period.",
+    "instant": 0,
+    "name": "Income (Loss) from Continuing Operations, Per Basic Share",
+    "taxonomy": "us-gaap",
+    "units": "USD/shares"
+  },
+  "IncomeLossFromContinuingOperationsPerDilutedShare": {
+    "description": "The amount of net income (loss) derived from continuing operations during the period available to each share of common stock or common unit outstanding during the reporting period and to each share or unit that would have been outstanding assuming the issuance of common shares or units for all dilutive potential common shares or units outstanding during the reporting period.",
+    "instant": 0,
+    "name": "Income (Loss) from Continuing Operations, Per Diluted Share",
+    "taxonomy": "us-gaap",
+    "units": "USD/shares"
+  },
+  "IncomeLossFromDiscontinuedOperationsNetOfTax": {
+    "description": "Amount after tax of income (loss) from a discontinued operation attributable to the parent. Includes, but is not limited to, the income (loss) from operations during the phase-out period, gain (loss) on disposal, gain (loss) for reversal of write-down (write-down) to fair value, less cost to sell, and adjustments to a prior period gain (loss) on disposal.",
+    "instant": 0,
+    "name": "Income (Loss) from Discontinued Operations, Net of Tax, Attributable to Parent",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "IncomeLossFromDiscontinuedOperationsNetOfTaxIncludingPortionAttributableToNoncontrollingInterest": {
+    "description": "Amount after tax of income (loss) from a discontinued operation including the portion attributable to the noncontrolling interest. Includes, but is not limited to, the income (loss) from operations during the phase-out period, gain (loss) on disposal, gain (loss) for reversal of write-down (write-down) to fair value, less cost to sell, and adjustments to a prior period gain (loss) on disposal.",
+    "instant": 0,
+    "name": "Income (Loss) from Discontinued Operations, Net of Tax, Including Portion Attributable to Noncontrolling Interest",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "IncomeLossFromEquityMethodInvestments": {
+    "description": "Amount of income (loss) for proportionate share of equity method investee's income (loss).",
+    "instant": 0,
+    "name": "Income (Loss) from Equity Method Investments",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "IncomeTaxExpenseBenefit": {
+    "description": "Amount of current income tax expense (benefit) and deferred income tax expense (benefit) pertaining to continuing operations.",
+    "instant": 0,
+    "name": "Income Tax Expense (Benefit)",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "IncomeTaxesPaid": {
+    "description": "The amount of cash paid during the current period to foreign, federal, state, and local authorities as taxes on income.",
+    "instant": 0,
+    "name": "Income Taxes Paid",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "IncreaseDecreaseInAccountsPayable": {
+    "description": "The increase (decrease) during the reporting period in the aggregate amount of liabilities incurred (and for which invoices have typically been received) and payable to vendors for goods and services received that are used in an entity's business.",
+    "instant": 0,
+    "name": "Increase (Decrease) in Accounts Payable",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "IncreaseDecreaseInAccountsReceivable": {
+    "description": "The increase (decrease) during the reporting period in amount due within one year (or one business cycle) from customers for the credit sale of goods and services.",
+    "instant": 0,
+    "name": "Increase (Decrease) in Accounts Receivable",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "IncreaseDecreaseInInventories": {
+    "description": "The increase (decrease) during the reporting period in the aggregate value of all inventory held by the reporting entity, associated with underlying transactions that are classified as operating activities.",
+    "instant": 0,
+    "name": "Increase (Decrease) in Inventories",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "IncreaseDecreaseInOtherOperatingAssetsAndLiabilitiesNet": {
+    "description": "Amount of increase (decrease) in operating assets after deduction of operating liabilities classified as other.",
+    "instant": 0,
+    "name": "Increase (Decrease) in Other Operating Assets and Liabilities, Net",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "IncrementalCommonSharesAttributableToDilutiveEffectOfSharebasedPaymentArrangements": {
+    "description": "Additional shares included in the calculation of diluted EPS as a result of the potentially dilutive effect of share based payment arrangements using the treasury stock method.",
+    "instant": 0,
+    "name": "Incremental Common Shares Attributable to Dilutive Effect of Share-based Payment Arrangements",
+    "taxonomy": "us-gaap",
+    "units": "shares"
+  },
+  "IntangibleAssetsNetExcludingGoodwill": {
+    "description": "Sum of the carrying amounts of all intangible assets, excluding goodwill, as of the balance sheet date, net of accumulated amortization and impairment charges.",
+    "instant": 1,
+    "name": "Intangible Assets, Net (Excluding Goodwill)",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "InterestExpense": {
+    "description": "Amount of the cost of borrowed funds accounted for as interest expense.",
+    "instant": 0,
+    "name": "Interest Expense",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "InventoryFinishedGoodsNetOfReserves": {
+    "description": "Carrying amount, net of valuation reserves and adjustments, as of the balance sheet date of merchandise or goods held by the company that are readily available for sale.",
+    "instant": 1,
+    "name": "Inventory, Finished Goods, Net of Reserves",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "InventoryNet": {
+    "description": "Amount after valuation and LIFO reserves of inventory expected to be sold, or consumed within one year or operating cycle, if longer.",
+    "instant": 1,
+    "name": "Inventory, Net",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "InventoryRawMaterialsAndPurchasedPartsNetOfReserves": {
+    "description": "Carrying amount, net of valuation reserves and adjustments, as of the balance sheet date of items purchased for use as components of a finished product or pieces of machinery and equipment plus any items in their natural and unrefined state. This element may be used when the reporting entity combines raw materials and purchased parts into an aggregate amount.",
+    "instant": 1,
+    "name": "Inventory, Raw Materials and Purchased Parts, Net of Reserves",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "InventoryWorkInProcessNetOfReserves": {
+    "description": "Carrying amount, net of reserves and adjustments, as of the balance sheet date of merchandise or goods which are partially completed. This inventory is generally comprised of raw materials, labor and factory overhead costs, which require further materials, labor and overhead to be converted into finished goods, and which generally require the use of estimates to determine percentage complete and pricing.",
+    "instant": 1,
+    "name": "Inventory, Work in Process, Net of Reserves",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "InvestmentIncomeInterest": {
+    "description": "Amount before accretion (amortization) of purchase discount (premium) of interest income on nonoperating securities.",
+    "instant": 0,
+    "name": "Investment Income, Interest",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "LiabilitiesAndEquity": {
+    "description": "Amount of liabilities and equity items, including the portion of equity attributable to noncontrolling interests, if any.",
+    "instant": 1,
+    "name": "Liabilities and Equity",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "LiabilitiesCurrent": {
+    "description": "Total obligations incurred as part of normal operations that are expected to be paid during the following twelve months or within one business cycle, if longer.",
+    "instant": 1,
+    "name": "Liabilities, Current",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "LiabilitiesNoncurrent": {
+    "description": "Amount of obligation due after one year or beyond the normal operating cycle, if longer.",
+    "instant": 1,
+    "name": "Liabilities, Noncurrent",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "LongTermDebtNoncurrent": {
+    "description": "Amount after unamortized (discount) premium and debt issuance costs of long-term debt classified as noncurrent and excluding amounts to be repaid within one year or the normal operating cycle, if longer. Includes, but not limited to, notes payable, bonds payable, debentures, mortgage loans and commercial paper. Excludes capital lease obligations.",
+    "instant": 1,
+    "name": "Long-term Debt, Excluding Current Maturities",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "NetCashProvidedByUsedInFinancingActivities": {
+    "description": "Amount of cash inflow (outflow) from financing activities, including discontinued operations. Financing activity cash flows include obtaining resources from owners and providing them with a return on, and a return of, their investment; borrowing money and repaying amounts borrowed, or settling the obligation; and obtaining and paying for other resources obtained from creditors on long-term credit.",
+    "instant": 0,
+    "name": "Net Cash Provided by (Used in) Financing Activities",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "NetCashProvidedByUsedInInvestingActivities": {
+    "description": "Amount of cash inflow (outflow) from investing activities, including discontinued operations. Investing activity cash flows include making and collecting loans and acquiring and disposing of debt or equity instruments and property, plant, and equipment and other productive assets.",
+    "instant": 0,
+    "name": "Net Cash Provided by (Used in) Investing Activities",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "NetCashProvidedByUsedInOperatingActivities": {
+    "description": "Amount of cash inflow (outflow) from operating activities, including discontinued operations. Operating activity cash flows include transactions, adjustments, and changes in value not defined as investing or financing activities.",
+    "instant": 0,
+    "name": "Net Cash Provided by (Used in) Operating Activities",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "NetCashProvidedByUsedInOperatingActivitiesContinuingOperations": {
+    "description": "Amount of cash inflow (outflow) from operating activities, excluding discontinued operations. Operating activity cash flows include transactions, adjustments, and changes in value not defined as investing or financing activities.",
+    "instant": 0,
+    "name": "Net Cash Provided by (Used in) Operating Activities, Continuing Operations",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "NetIncomeLoss": {
+    "description": "The portion of profit or loss for the period, net of income taxes, which is attributable to the parent.",
+    "instant": 0,
+    "name": "Net Income (Loss) Attributable to Parent",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "NetIncomeLossAvailableToCommonStockholdersBasic": {
+    "description": "Amount, after deduction of tax, noncontrolling interests, dividends on preferred stock and participating securities; of income (loss) available to common shareholders.",
+    "instant": 0,
+    "name": "Net Income (Loss) Available to Common Stockholders, Basic",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "NetIncomeLossAvailableToCommonStockholdersDiluted": {
+    "description": "Amount, after deduction of tax, noncontrolling interests, dividends on preferred stock and participating securities, and addition from assumption of issuance of common shares for dilutive potential common shares; of income (loss) available to common shareholders.",
+    "instant": 0,
+    "name": "Net Income (Loss) Available to Common Stockholders, Diluted",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "NetIncomeLossIncludingPortionAttributableToNoncontrollingInterest": {
+    "description": "The consolidated profit or loss for the period, net of income taxes, including the portion attributable to the noncontrolling interest.",
+    "instant": 0,
+    "name": "Net Income (Loss), Including Portion Attributable to Noncontrolling Interest",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "OtherAssetsCurrent": {
+    "description": "Amount of current assets classified as other.",
+    "instant": 1,
+    "name": "Other Assets, Current",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "OtherAssetsNoncurrent": {
+    "description": "Amount of noncurrent assets classified as other.",
+    "instant": 1,
+    "name": "Other Assets, Noncurrent",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "OtherComprehensiveIncomeLossBeforeReclassificationsNetOfTax": {
+    "description": "Amount after tax, before reclassification adjustments of other comprehensive income (loss).",
+    "instant": 0,
+    "name": "Other Comprehensive Income (Loss), before Reclassifications, Net of Tax",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "OtherComprehensiveIncomeLossDefinedBenefitPlanReclassificationAdjustmentFromAOCIAfterTax": {
+    "description": "Amount, after tax, of reclassification adjustment from accumulated other comprehensive (income) loss for net periodic benefit cost (credit) of defined benefit plan.",
+    "instant": 0,
+    "name": "Other Comprehensive (Income) Loss, Defined Benefit Plan, Reclassification Adjustment from AOCI, after Tax",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "OtherComprehensiveIncomeLossDefinedBenefitPlanReclassificationAdjustmentFromAOCITax": {
+    "description": "Amount of tax (expense) benefit for reclassification adjustment from accumulated other comprehensive (income) loss of defined benefit plan.",
+    "instant": 0,
+    "name": "Other Comprehensive (Income) Loss, Defined Benefit Plan, Reclassification Adjustment from AOCI, Tax",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "OtherComprehensiveIncomeLossForeignCurrencyTransactionAndTranslationAdjustmentNetOfTax": {
+    "description": "Amount after tax and reclassification adjustments of gain (loss) on foreign currency translation adjustments, foreign currency transactions designated and effective as economic hedges of a net investment in a foreign entity and intra-entity foreign currency transactions that are of a long-term-investment nature.",
+    "instant": 0,
+    "name": "Other Comprehensive Income (Loss), Foreign Currency Transaction and Translation Adjustment, Net of Tax",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "OtherComprehensiveIncomeLossNetOfTax": {
+    "description": "Amount after tax and reclassification adjustments of other comprehensive income (loss).",
+    "instant": 0,
+    "name": "Other Comprehensive Income (Loss), Net of Tax",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "OtherNonoperatingIncomeExpense": {
+    "description": "Amount of income (expense) related to nonoperating activities, classified as other.",
+    "instant": 0,
+    "name": "Other Nonoperating Income (Expense)",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "PaymentsForProceedsFromOtherInvestingActivities": {
+    "description": "Amount of cash (inflow) outflow from investing activities classified as other.",
+    "instant": 0,
+    "name": "Payments for (Proceeds from) Other Investing Activities",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "PaymentsForRepurchaseOfCommonStock": {
+    "description": "The cash outflow to reacquire common stock during the period.",
+    "instant": 0,
+    "name": "Payments for Repurchase of Common Stock",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "PaymentsOfOrdinaryDividendsCommonStock": {
+    "description": "Amount of cash outflow in the form of ordinary dividends to common shareholders of the parent entity.",
+    "instant": 0,
+    "name": "Payments of Ordinary Dividends, Common Stock",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "PaymentsToAcquirePropertyPlantAndEquipment": {
+    "description": "The cash outflow associated with the acquisition of long-lived, physical assets that are used in the normal conduct of business to produce goods and services and not intended for resale; includes cash outflows to pay for construction of self-constructed assets.",
+    "instant": 0,
+    "name": "Payments to Acquire Property, Plant, and Equipment",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "PreferredStockParOrStatedValuePerShare": {
+    "description": "Face amount or stated value per share of preferred stock nonredeemable or redeemable solely at the option of the issuer.",
+    "instant": 1,
+    "name": "Preferred Stock, Par or Stated Value Per Share",
+    "taxonomy": "us-gaap",
+    "units": "USD/shares"
+  },
+  "PreferredStockSharesAuthorized": {
+    "description": "The maximum number of nonredeemable preferred shares (or preferred stock redeemable solely at the option of the issuer) permitted to be issued by an entity's charter and bylaws.",
+    "instant": 1,
+    "name": "Preferred Stock, Shares Authorized",
+    "taxonomy": "us-gaap",
+    "units": "shares"
+  },
+  "PreferredStockSharesIssued": {
+    "description": "Total number of nonredeemable preferred shares (or preferred stock redeemable solely at the option of the issuer) issued to shareholders (includes related preferred shares that were issued, repurchased, and remain in the treasury). May be all or portion of the number of preferred shares authorized. Excludes preferred shares that are classified as debt.",
+    "instant": 1,
+    "name": "Preferred Stock, Shares Issued",
+    "taxonomy": "us-gaap",
+    "units": "shares"
+  },
+  "ProceedsFromIncomeTaxRefunds": {
+    "description": "The amount of cash received during the period as refunds for the overpayment of taxes.",
+    "instant": 0,
+    "name": "Proceeds from Income Tax Refunds",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "ProceedsFromRepaymentsOfShorttermDebt": {
+    "description": "The net cash inflow or outflow for borrowing having initial term of repayment within one year or the normal operating cycle, if longer.",
+    "instant": 0,
+    "name": "Proceeds from (Repayments of) Short-term Debt",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "ProceedsFromSaleOfProductiveAssets": {
+    "description": "The cash inflow from the sale of property, plant and equipment (capital expenditures), software, and other intangible assets.",
+    "instant": 0,
+    "name": "Proceeds from Sale of Productive Assets",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "PropertyPlantAndEquipmentNet": {
+    "description": "Amount after accumulated depreciation, depletion and amortization of physical assets used in the normal conduct of business to produce goods and services and not intended for resale. Examples include, but are not limited to, land, buildings, machinery and equipment, office equipment, and furniture and fixtures.",
+    "instant": 1,
+    "name": "Property, Plant and Equipment, Net",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "ReclassificationFromAccumulatedOtherComprehensiveIncomeCurrentPeriodNetOfTax": {
+    "description": "Amount after tax of reclassification adjustments of other comprehensive income (loss).",
+    "instant": 0,
+    "name": "Reclassification from Accumulated Other Comprehensive Income, Current Period, Net of Tax",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "RetainedEarningsAccumulatedDeficit": {
+    "description": "The cumulative amount of the reporting entity's undistributed earnings or deficit.",
+    "instant": 1,
+    "name": "Retained Earnings (Accumulated Deficit)",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "RevenueFromContractWithCustomerIncludingAssessedTax": {
+    "description": "Amount, including tax collected from customer, of revenue from satisfaction of performance obligation by transferring promised good or service to customer. Tax collected from customer is tax assessed by governmental authority that is both imposed on and concurrent with specific revenue-producing transaction, including, but not limited to, sales, use, value-added and excise.",
+    "instant": 0,
+    "name": "Revenue from Contract with Customer, Including Assessed Tax",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "RevenueNetDeprecated20180131": {
+    "description": "Total revenue from sale of goods and services rendered during the reporting period, in the normal course of business, reduced by sales returns and allowances, and sales discounts.",
+    "instant": 0,
+    "name": "Revenue, Net (Deprecated 2018-01-31)",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "SalesRevenueGoodsNetDeprecated20180131": {
+    "description": "Aggregate revenue during the period from the sale of goods in the normal course of business, after deducting returns, allowances and discounts.",
+    "instant": 0,
+    "name": "Sales Revenue, Goods, Net (Deprecated 2018-01-31)",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "SalesRevenueServicesNetDeprecated20180131": {
+    "description": "Aggregate revenue during the period from services rendered in the normal course of business, after deducting allowances and discounts.",
+    "instant": 0,
+    "name": "Sales Revenue, Services, Net (Deprecated 2018-01-31)",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "SellingGeneralAndAdministrativeExpense": {
+    "description": "The aggregate total costs related to selling a firm's product and services, as well as all other general and administrative expenses. Direct selling expenses (for example, credit, warranty, and advertising) are expenses that can be directly linked to the sale of specific products. Indirect selling expenses are expenses that cannot be directly linked to the sale of specific products, for example telephone expenses, Internet, and postal charges. General and administrative expenses include salaries of non-sales personnel, rent, utilities, communication, etc.",
+    "instant": 0,
+    "name": "Selling, General and Administrative Expense",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "SharebasedPaymentArrangementNoncashExpense": {
+    "description": "Amount of noncash expense for share-based payment arrangement.",
+    "instant": 0,
+    "name": "Share-based Payment Arrangement, Noncash Expense",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "StockIssuedDuringPeriodValueRestrictedStockAwardNetOfForfeitures": {
+    "description": "Value of stock related to Restricted Stock Awards issued during the period, net of the stock value of such awards forfeited.",
+    "instant": 0,
+    "name": "Stock Issued During Period, Value, Restricted Stock Award, Net of Forfeitures",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "StockIssuedDuringPeriodValueStockOptionsExercised": {
+    "description": "Value of stock issued as a result of the exercise of stock options.",
+    "instant": 0,
+    "name": "Stock Issued During Period, Value, Stock Options Exercised",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest": {
+    "description": "Amount of stockholders' equity (deficit), net of receivables from officers, directors, owners, and affiliates of the entity, attributable to both the parent and noncontrolling interests. Amount excludes temporary equity. Alternate caption for the concept is permanent equity.",
+    "instant": 1,
+    "name": "Stockholders' Equity, Including Portion Attributable to Noncontrolling Interest",
+    "taxonomy": "us-gaap",
+    "units": "USD"
+  },
+  "TreasuryStockShares": {
+    "description": "Number of common and preferred shares that were previously issued and that were repurchased by the issuing entity and held in treasury on the financial statement date. This stock has no voting rights and receives no dividends.",
+    "instant": 1,
+    "name": "Treasury Stock, Shares",
+    "taxonomy": "us-gaap",
+    "units": "shares"
+  },
+  "WeightedAverageNumberOfSharesOutstandingBasic": {
+    "description": "Number of [basic] shares or units, after adjustment for contingently issuable shares or units and other shares or units not deemed outstanding, determined by relating the portion of time within a reporting period that common shares or units have been outstanding to the total time in that period.",
+    "instant": 0,
+    "name": "Weighted Average Number of Shares Outstanding, Basic",
+    "taxonomy": "us-gaap",
+    "units": "shares"
+  },
+  "WeightedAverageNumberOfSharesOutstandingDiluted": {
+    "description": "The average number of shares or units issued and outstanding that are used in calculating diluted EPS or earnings per unit (EPU), determined based on the timing of issuance of shares or units in the period.",
+    "instant": 0,
+    "name": "Weighted Average Number of Shares Outstanding, Diluted",
+    "taxonomy": "us-gaap",
+    "units": "shares"
+  }
+}

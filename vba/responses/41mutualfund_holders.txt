@@ -1,0 +1,7 @@
+Curl
+curl -X 'GET' \
+  'http://localhost:5000/mutualfund_holders?ticker=AAPL&api_token=t3stt%40ken' \
+  -H 'accept: application/json'
+ 
+ 
+{"data": {"Date Reported": ["2023-06-30", "2023-06-30", "2023-08-31", "2023-09-30", "2023-09-30", "2023-06-30", "2023-08-31", "2023-06-30", "2023-08-31", "2023-09-30"], "Holder": ["Vanguard Total Stock Market Index Fund", "Vanguard 500 Index Fund", "Fidelity 500 Index Fund", "SPDR S&P 500 ETF Trust", "iShares Core S&P 500 ETF", "Vanguard Growth Index Fund", "Invesco ETF Tr-Invesco QQQ Tr, Series 1 ETF", "Vanguard Institutional Index Fund-Institutional Index Fund", "Vanguard Information Technology Index Fund", "Select Sector SPDR Fund-Technology"], "pctHeld": [0.0298, 0.0225, 0.0108, 0.0106, 0.0089, 0.0081, 0.008, 0.0064999997, 0.0049, 0.0041], "Shares": [465990265, 352024182, 169378703, 165192563, 138984763, 127130805, 124293053, 100926716, 76972129, 64568089], "Value": [90388131702, 68282130582, 31821176932, 28282618711, 23795581273, 24659562245, 23350935867, 19576755102, 14460753875, 11054702517]}}

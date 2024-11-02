@@ -1,0 +1,7 @@
+Curl
+curl -X 'GET' \
+  'http://localhost:5000/insider_roster_holders?ticker=AAPL&api_token=t3stt%40ken' \
+  -H 'accept: application/json'
+ 
+ 
+{"data": {"Name": ["ADAMS KATHERINE L", "COOK TIMOTHY D", "JUNG ANDREA", "KONDO CHRISTOPHER", "LEVINSON ARTHUR D", "MAESTRI LUCA", "O'BRIEN DEIRDRE", "SUGAR RONALD D", "WAGNER SUSAN L", "WILLIAMS JEFFREY E"], "Position": ["General Counsel", "Chief Executive Officer", "Director", "Officer", "Director", "Chief Financial Officer", "Officer", "Director", "Director", "Chief Operating Officer"], "URL": ["", "", "", "", "", "", "", "", "", ""], "Most Recent Transaction": ["Sale", "Sale", "Conversion of Exercise of derivative security", "Conversion of Exercise of derivative security", "Sale", "Sale", "Sale", "Conversion of Exercise of derivative security", "Conversion of Exercise of derivative security", "Sale"], "Latest Transaction Date": ["2024-10-02", "2024-10-02", "2024-02-01", "2024-10-15", "2024-05-30", "2024-10-04", "2024-10-02", "2024-02-01", "2024-02-01", "2024-10-02"], "Shares Owned Directly": [187043, 3280180, 74489, 19549, 4415580, 107788, 136572, 107795, 67375, 489944], "Position Direct Date": ["2024-10-02", "2024-10-02", "2024-02-01", "2024-10-15", "2024-05-30", "2024-10-04", "2024-10-02", "2024-02-01", "2024-02-01", "2024-10-02"]}}

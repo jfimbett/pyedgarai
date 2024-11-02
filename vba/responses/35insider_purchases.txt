@@ -1,0 +1,7 @@
+Curl
+curl -X 'GET' \
+  'http://localhost:5000/insider_purchases?ticker=AAPL&api_token=t3stt%40ken' \
+  -H 'accept: application/json'
+ 
+ 
+{"data": {"Insider Purchases Last 6m": ["Purchases", "Sales", "Net Shares Purchased (Sold)", "Total Insider Shares Held", "% Net Shares Purchased (Sold)", "% Buy Shares", "% Sell Shares"], "Shares": ["1000894.0", "658942.0", "341952.0", "410967840.0", "0.001", "0.002", "0.002"], "Trans": ["8", "10", "18", "<NA>", "<NA>", "<NA>", "<NA>"]}}

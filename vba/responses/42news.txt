@@ -1,0 +1,246 @@
+Curl
+curl -X 'GET' \
+  'http://localhost:5000/news?ticker=AAPL&api_token=t3stt%40ken' \
+  -H 'accept: application/json'
+ 
+ 
+{
+  "data": [
+    {
+      "link": "https://finance.yahoo.com/news/intel-to-report-q3-earnings-as-wall-street-looks-for-signs-of-improvements-at-chipmaker-155136248.html",
+      "providerPublishTime": 1730389896,
+      "publisher": "Yahoo Finance",
+      "relatedTickers": [
+        "INTC",
+        "AMZN",
+        "MSFT",
+        "AAPL",
+        "QCOM",
+        "AMD"
+      ],
+      "thumbnail": {
+        "resolutions": [
+          {
+            "height": 3088,
+            "tag": "original",
+            "url": "https://s.yimg.com/uu/api/res/1.2/eoAXYMzlQyPQ2wbJ6xJ_aw--~B/aD0zMDg4O3c9NDY0MDthcHBpZD15dGFjaHlvbg--/https://s.yimg.com/os/creatr-uploaded-images/2024-10/5c6655b0-9790-11ef-8eac-b1d77bd6c8c1",
+            "width": 4640
+          },
+          {
+            "height": 140,
+            "tag": "140x140",
+            "url": "https://s.yimg.com/uu/api/res/1.2/AMK7SJXVt.Cc3sigdW.G9A--~B/Zmk9ZmlsbDtoPTE0MDtweW9mZj0wO3c9MTQwO2FwcGlkPXl0YWNoeW9u/https://s.yimg.com/os/creatr-uploaded-images/2024-10/5c6655b0-9790-11ef-8eac-b1d77bd6c8c1",
+            "width": 140
+          }
+        ]
+      },
+      "title": "Intel to report Q3 earnings as Wall Street looks for signs of improvements at chipmaker",
+      "type": "STORY",
+      "uuid": "28ff47e8-964d-4836-b6fc-02219fb2cac9"
+    },
+    {
+      "link": "https://finance.yahoo.com/news/apple-inc-aapl-launches-mac-152203492.html",
+      "providerPublishTime": 1730388123,
+      "publisher": "Insider Monkey",
+      "relatedTickers": [
+        "AAPL"
+      ],
+      "thumbnail": {
+        "resolutions": [
+          {
+            "height": 816,
+            "tag": "original",
+            "url": "https://s.yimg.com/uu/api/res/1.2/fTPNobtT0bdcSxj2xXAamw--~B/aD04MTY7dz0xNDU2O2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/insidermonkey.com/bd47dc2e86b4a3086f845d200d9daf1f",
+            "width": 1456
+          },
+          {
+            "height": 140,
+            "tag": "140x140",
+            "url": "https://s.yimg.com/uu/api/res/1.2/nIyTyNRglKMNfFFMGli.7A--~B/Zmk9ZmlsbDtoPTE0MDtweW9mZj0wO3c9MTQwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/insidermonkey.com/bd47dc2e86b4a3086f845d200d9daf1f",
+            "width": 140
+          }
+        ]
+      },
+      "title": "Apple Inc. (AAPL) Launches New Mac Mini with M4 and M4 Pro Chips, Promising Unmatched Performance in a Compact, Carbon-Neutral Design",
+      "type": "STORY",
+      "uuid": "346232a2-5a02-329a-86b7-4eb41e2a52a2"
+    },
+    {
+      "link": "https://finance.yahoo.com/m/ec5a96ec-a564-3f59-b834-7e036a49e01f/the-dow-falls-400-points-and.html",
+      "providerPublishTime": 1730387460,
+      "publisher": "Quartz",
+      "relatedTickers": [
+        "^DJI",
+        "AMZN",
+        "AAPL",
+        "^GSPC",
+        "MSFT"
+      ],
+      "thumbnail": {
+        "resolutions": [
+          {
+            "height": 424,
+            "tag": "original",
+            "url": "https://s.yimg.com/uu/api/res/1.2/u9byuQ4JxFxr.M3MnaTMAQ--~B/aD00MjQ7dz02MzY7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/quartz.com/25e05d63aff92706136c9643c53bf66f",
+            "width": 636
+          },
+          {
+            "height": 140,
+            "tag": "140x140",
+            "url": "https://s.yimg.com/uu/api/res/1.2/D8lA_xgyMIC4GyAY60_tiQ--~B/Zmk9ZmlsbDtoPTE0MDtweW9mZj0wO3c9MTQwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/quartz.com/25e05d63aff92706136c9643c53bf66f",
+            "width": 140
+          }
+        ]
+      },
+      "title": "The Dow falls 400 points and the Nasdaq sinks 450 as Microsoft and Meta lead a tech stock selloff",
+      "type": "STORY",
+      "uuid": "ec5a96ec-a564-3f59-b834-7e036a49e01f"
+    },
+    {
+      "link": "https://finance.yahoo.com/news/apple-nasdaq-aapl-risky-investment-140020152.html",
+      "providerPublishTime": 1730383220,
+      "publisher": "Simply Wall St.",
+      "relatedTickers": [
+        "AAPL"
+      ],
+      "thumbnail": {
+        "resolutions": [
+          {
+            "height": 432,
+            "tag": "original",
+            "url": "https://s.yimg.com/uu/api/res/1.2/.m1ghW2JIKMrn_021vRckQ--~B/aD00MzI7dz0xMTk0O2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/simply_wall_st__316/13f69b02f49f819df1dcc276114d4a99",
+            "width": 1194
+          },
+          {
+            "height": 140,
+            "tag": "140x140",
+            "url": "https://s.yimg.com/uu/api/res/1.2/vJzlo.hO4lsED1bc1JFKuA--~B/Zmk9ZmlsbDtoPTE0MDtweW9mZj0wO3c9MTQwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/simply_wall_st__316/13f69b02f49f819df1dcc276114d4a99",
+            "width": 140
+          }
+        ]
+      },
+      "title": "Is Apple (NASDAQ:AAPL) A Risky Investment?",
+      "type": "STORY",
+      "uuid": "14f45f64-9f37-3b3d-b114-0e2a5fe37d31"
+    },
+    {
+      "link": "https://finance.yahoo.com/m/026d8860-747d-3eb4-b3df-68bfccaccc02/looking-for-new-activities%3F.html",
+      "providerPublishTime": 1730383211,
+      "publisher": "LA Times",
+      "relatedTickers": [
+        "GOOG",
+        "AAPL"
+      ],
+      "thumbnail": {
+        "resolutions": [
+          {
+            "height": 560,
+            "tag": "original",
+            "url": "https://s.yimg.com/uu/api/res/1.2/OHjVsuwm4s9NT.SSKNKq_g--~B/aD01NjA7dz04NDA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/la_times_articles_853/bfef6521064e4dc278b1ed41d28de64a",
+            "width": 840
+          },
+          {
+            "height": 140,
+            "tag": "140x140",
+            "url": "https://s.yimg.com/uu/api/res/1.2/x8lmQIKYr8ulD6XHoTev0w--~B/Zmk9ZmlsbDtoPTE0MDtweW9mZj0wO3c9MTQwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/la_times_articles_853/bfef6521064e4dc278b1ed41d28de64a",
+            "width": 140
+          }
+        ]
+      },
+      "title": "Looking for new activities? Google wants you to turn to its navigation app",
+      "type": "STORY",
+      "uuid": "026d8860-747d-3eb4-b3df-68bfccaccc02"
+    },
+    {
+      "link": "https://finance.yahoo.com/m/c7c7e36b-19bd-30d3-ab46-bba60bcbefee/these-stocks-are-moving-the.html",
+      "providerPublishTime": 1730386860,
+      "publisher": "Barrons.com",
+      "relatedTickers": [
+        "AAPL",
+        "COIN",
+        "SMCI",
+        "MSFT",
+        "META",
+        "HOOD"
+      ],
+      "thumbnail": {
+        "resolutions": [
+          {
+            "height": 640,
+            "tag": "original",
+            "url": "https://s.yimg.com/uu/api/res/1.2/v.wwt9ODd7e2iZ0kNG3vMQ--~B/aD02NDA7dz0xMjgwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/Barrons.com/a45a4c595327cf4ee3621907b7d9454c",
+            "width": 1280
+          },
+          {
+            "height": 140,
+            "tag": "140x140",
+            "url": "https://s.yimg.com/uu/api/res/1.2/Kc_7RezAk25XQ8QWnyk7Ow--~B/Zmk9ZmlsbDtoPTE0MDtweW9mZj0wO3c9MTQwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/Barrons.com/a45a4c595327cf4ee3621907b7d9454c",
+            "width": 140
+          }
+        ]
+      },
+      "title": "These Stocks Are Moving the Most Today: Microsoft, Meta, Super Micro, Uber, Carvana, Estee Lauder, Robinhood, Peloton, Li Auto, and More",
+      "type": "STORY",
+      "uuid": "c7c7e36b-19bd-30d3-ab46-bba60bcbefee"
+    },
+    {
+      "link": "https://finance.yahoo.com/m/b2d2e394-cf78-3ee9-9461-b80aa5f918bc/apple-stocks-open-slightly.html",
+      "providerPublishTime": 1730382041,
+      "publisher": "Barrons.com",
+      "relatedTickers": [
+        "AAPL"
+      ],
+      "thumbnail": {
+        "resolutions": [
+          {
+            "height": 65,
+            "tag": "original",
+            "url": "https://s.yimg.com/uu/api/res/1.2/_kc6REYMS1JrAuV5bYtjfA--~B/aD02NTt3PTMyMDthcHBpZD15dGFjaHlvbg--/https://media.zenfs.com/en/Barrons.com/12ea0f43d8f8307249a68d1cb2e0587e",
+            "width": 320
+          },
+          {
+            "height": 140,
+            "tag": "140x140",
+            "url": "https://s.yimg.com/uu/api/res/1.2/5waH37HKuL3X52B3V2GWrw--~B/Zmk9ZmlsbDtoPTE0MDtweW9mZj0wO3c9MTQwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/Barrons.com/12ea0f43d8f8307249a68d1cb2e0587e",
+            "width": 140
+          }
+        ]
+      },
+      "title": "Apple Stocks Open Slightly Lower Ahead of Earnings",
+      "type": "STORY",
+      "uuid": "b2d2e394-cf78-3ee9-9461-b80aa5f918bc"
+    },
+    {
+      "link": "https://finance.yahoo.com/news/apple-amazon-spotlight-mixed-week-093121984.html",
+      "providerPublishTime": 1730381798,
+      "publisher": "Bloomberg",
+      "relatedTickers": [
+        "AMZN",
+        "MSFT",
+        "META",
+        "AAPL",
+        "GOOG",
+        "SSNLF"
+      ],
+      "thumbnail": {
+        "resolutions": [
+          {
+            "height": 1331,
+            "tag": "original",
+            "url": "https://s.yimg.com/uu/api/res/1.2/v5IbmiYTpJFkIQjp0fWV9g--~B/aD0xMzMxO3c9MjAwMDthcHBpZD15dGFjaHlvbg--/https://media.zenfs.com/en/bloomberg_markets_842/d14a72eb8fb0cb2c286174e0ca7c87e0",
+            "width": 2000
+          },
+          {
+            "height": 140,
+            "tag": "140x140",
+            "url": "https://s.yimg.com/uu/api/res/1.2/73xLu8hv7m6ICAEOzeCYSg--~B/Zmk9ZmlsbDtoPTE0MDtweW9mZj0wO3c9MTQwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/bloomberg_markets_842/d14a72eb8fb0cb2c286174e0ca7c87e0",
+            "width": 140
+          }
+        ]
+      },
+      "title": "Apple, Amazon Take Spotlight in Mixed Week for Big Tech Earnings",
+      "type": "STORY",
+      "uuid": "f269eaf0-08ab-3039-aa95-5023c20abb02"
+    }
+  ]
+}

@@ -773,77 +773,81 @@ Cleanup:
     Set units = Nothing
 End Function
 
-
-Ensure that "JsonConverter" is included in your VBA project to parse JSON correctly. You can get "JsonConverter" from https://github.com/VBA-tools/VBA-JSON.
-Function AlpGet_company_concept(cik As String, tag As String, taxonomy As String, api_token As String)
-
-    ' Set variables
+Function AlpGet_CompanyConcept_Wrapper(cik As String, tag As String, taxonomy As String, api_token As String) As String
+    ' Add an error handler
+    On Error GoTo ErrorHandler
+    
     Dim url As String
-    Dim http As Object
+    Dim xmlhttp As Object
     Dim jsonResponse As Object
-    Dim data As Variant
-    Dim dict As Object
-    Dim i As Long
+    Dim units As Object
+    Dim unit As Variant
+    Dim row As Long
     Dim col As Long
-    Dim resultRow As Long
-    Dim cell As Range
-    
-    ' Create the URL
-    url = "http://127.0.0.1:5000/company_concept?cik=" & cik & "&tag=" & tag & "&taxonomy=" & taxonomy & "&api_token=" & api_token
-    
-    ' Set reference to the current cell where the formula is called
-    Set cell = Application.Caller
-    
+
+    ' Set the endpoint URL
+    url = "http://localhost:5000/company_concept?cik=" & cik & "&tag=" & tag & "&taxonomy=" & taxonomy & "&api_token=" & api_token
+
     ' Create the XMLHTTP object
-    Set http = CreateObject("MSXML2.XMLHTTP")
-    
-    ' Open the request
-    http.Open "GET", url, False
-    
-    ' Set the request headers
-    http.setRequestHeader "Content-Type", "application/json"
-    http.setRequestHeader "Accept", "application/json"
-    
+    Set xmlhttp = CreateObject("MSXML2.XMLHTTP")
+
+    ' Set up the request
+    xmlhttp.Open "GET", url, False
+    xmlhttp.setRequestHeader "Accept", "application/json"
+
     ' Send the request
-    http.send
+    xmlhttp.Send
     
     ' Parse the JSON response
-    Set jsonResponse = JsonConverter.ParseJson(http.responseText)
-    
-    ' Write JSON data to Excel
-    If Not jsonResponse Is Nothing Then
-        ' Handle the main keys of the response if needed
-        data = jsonResponse("units")("USD")
-        
-        ' Create headers
-        col = 0
-        If TypeName(data) = "Collection" And data.Count > 0 Then
-            For Each dict In data
-                For Each key In dict.keys
-                    cell.Offset(0, col).Value = key
-                    col = col + 1
-                Next key
-                Exit For
-            Next dict
-            
-            ' Fill data
-            resultRow = 1
-            For Each dict In data
-                col = 0
-                For Each key In dict.keys
-                    cell.Offset(resultRow, col).Value = dict(key)
-                    col = col + 1
-                Next key
-                resultRow = resultRow + 1
-            Next dict
-        End If
-        
-    End If
+    Set jsonResponse = JsonConverter.ParseJson(xmlhttp.responseText)
 
+    ' Check if 'units' key exists in the response
+    If Not jsonResponse.Exists("units") Then Exit Function
+
+    ' Display jsonResponse
+    Set units = jsonResponse("units")
+    
+    row = ActiveCell.Row + 1
+    col = ActiveCell.Column
+    
+    ' Write headers
+    Cells(row, col).Value     = "accn"
+    Cells(row, col + 1).Value = "end"
+    Cells(row, col + 2).Value = "filed"
+    Cells(row, col + 3).Value = "form"
+    Cells(row, col + 4).Value = "fp"
+    Cells(row, col + 5).Value = "fy"
+    Cells(row, col + 6).Value = "val"
+
+    ' Since units is a dictionary with currency keys, iterate over its items
+    For Each unit In units.Items
+        Dim item As Variant
+        For Each item In unit
+            row = row + 1
+            Cells(row, col).Value     = item("accn")
+            Cells(row, col + 1).Value = item("end")
+            Cells(row, col + 2).Value = item("filed")
+            Cells(row, col + 3).Value = item("form")
+            Cells(row, col + 4).Value = item("fp")
+            Cells(row, col + 5).Value = item("fy")
+            Cells(row, col + 6).Value = item("val")
+        Next item
+    Next unit
+
+    AlpGet_CompanyConcept_Wrapper = cik & "-" & tag & "-" & taxonomy
+
+Exit Function
+ErrorHandler:
+    MsgBox "An error occurred: " & Err.Description & " " & Erl
+    Exit Function
 End Function
 
+Function AlpGet_CompanyConcept(cik As String, tag As String, taxonomy As String, api_token As String) As String
+    Dim result As String
+    result = Evaluate("AlpGet_CompanyConcept_Wrapper(" & """" & cik & """" & ", " & """" & tag & """" & ", " & """" & taxonomy & """" & ", " & """" & api_token & """" & ")")
+    AlpGet_CompanyConcept = result
+End Function
 
-Note: This code assumes you have a JSON parser available, such as `JsonConverter.bas`, which you can find in various open-source VBA JSON parsers online. You need to include this or a similar JSON parsing library in your VBA project for the above function to work.
 Function AlpGet_comparables(cik As String, _
                             method As String, _
                             api_token As String, _

@@ -1,0 +1,9 @@
+Curl
+curl -X 'GET' \
+  'http://localhost:5000/quarterly_earnings?ticker=AAPL&api_token=t3stt%40ken' \
+  -H 'accept: application/json'
+ 
+ 
+{
+  "data": "None"
+}

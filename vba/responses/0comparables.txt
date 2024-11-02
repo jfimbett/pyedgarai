@@ -1,0 +1,76 @@
+Curl
+curl -X 'GET' \
+  'http://localhost:5000/comparables?cik=320193&variables_to_compare=industry&variables_to_compare=size&variables_to_compare=profitability&variables_to_compare=growth_rate&variables_to_compare=capital_structure&variables_to_compare=location&extra_variables=GrossProfit&extra_variables=NetIncomeLoss&extra_variables=EarningsPerShareBasic&method=kmeans&api_token=t3stt%40ken&industry_digits=2&size_interval=100&profitability_interval=100&growth_rate_interval=100&capital_structure_interval=100' \
+  -H 'accept: application/json'
+ 
+ 
+{
+  "EarningsPerShareBasic": {
+    "0": 1.53
+  },
+  "GrossProfit": {
+    "0": 42271000000
+  },
+  "NetIncomeLoss": {
+    "0": 23636000000
+  },
+  "accn": {
+    "0": "0000320193-24-000069"
+  },
+  "assets": {
+    "0": 337411000000
+  },
+  "assets_5": {
+    "0": 341998000000
+  },
+  "cik": {
+    "0": 320193
+  },
+  "debt_to_equity": {
+    "0": 3.5476857967
+  },
+  "end": {
+    "0": "2024-03-30"
+  },
+  "entityName": {
+    "0": "Apple Inc."
+  },
+  "equity": {
+    "0": 74194000000
+  },
+  "growth_rate": {
+    "0": -0.0134123591
+  },
+  "liabilities": {
+    "0": 263217000000
+  },
+  "loc": {
+    "0": "US-CA"
+  },
+  "name": {
+    "0": "Apple Inc."
+  },
+  "profit": {
+    "0": 23636000000
+  },
+  "profitability": {
+    "0": 0.0700510653
+  },
+  "sic": {
+    "0": 35
+  },
+  "start": {
+    "0": "2023-12-31"
+  },
+  "state": {
+    "0": "CA"
+  },
+  "tickers": {
+    "0": [
+      "AAPL"
+    ]
+  },
+  "val": {
+    "0": 337411000000
+  }
+}

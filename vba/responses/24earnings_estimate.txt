@@ -1,0 +1,7 @@
+Curl
+curl -X 'GET' \
+  'http://localhost:5000/earnings_estimate?ticker=AAPL&api_token=t3stt%40ken' \
+  -H 'accept: application/json'
+ 
+ 
+{"data": {"index": ["numberOfAnalysts", "avg", "low", "high", "yearAgoEps", "growth"], "0q": [25.0, 1.6, 1.53, 1.66, 1.36, 0.176], "+1q": [25.0, 2.38, 2.21, 2.48, 2.18, 0.092], "0y": [39.0, 6.7, 6.57, 6.76, 5.73, 0.169], "+1y": [43.0, 7.46, 6.88, 7.93, 6.7, 0.113000005]}}

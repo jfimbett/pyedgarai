@@ -1,0 +1,7 @@
+Curl
+curl -X 'GET' \
+  'http://localhost:5000/major_holders?ticker=AAPL&api_token=t3stt%40ken' \
+  -H 'accept: application/json'
+ 
+ 
+{"data": {"Breakdown": ["Value"], "insidersPercentHeld": [0.02703], "institutionsPercentHeld": [0.60953], "institutionsFloatPercentHeld": [0.62646], "institutionsCount": [6459.0]}}

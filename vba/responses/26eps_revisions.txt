@@ -1,0 +1,7 @@
+Curl
+curl -X 'GET' \
+  'http://localhost:5000/eps_revisions?ticker=AAPL&api_token=t3stt%40ken' \
+  -H 'accept: application/json'
+ 
+ 
+{"data": {"index": ["upLast7days", "upLast30days", "downLast7days", "downLast30days"], "0q": [3, 5, null, 1], "+1q": [2, 4, null, 2], "0y": [3, 6, null, 1], "+1y": [1, 4, null, 3]}}

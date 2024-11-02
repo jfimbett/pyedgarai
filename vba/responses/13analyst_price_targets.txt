@@ -1,0 +1,15 @@
+Curl
+curl -X 'GET' \
+  'http://localhost:5000/analyst_price_targets?ticker=AAPL&api_token=t3stt%40ken' \
+  -H 'accept: application/json'
+ 
+ 
+{
+  "data": {
+    "current": 226.83,
+    "high": 300,
+    "low": 183.86,
+    "mean": 239.76,
+    "median": 241
+  }
+}

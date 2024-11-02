@@ -1,0 +1,7 @@
+Curl
+curl -X 'GET' \
+  'http://localhost:5000/sustainability?ticker=AAPL&api_token=t3stt%40ken' \
+  -H 'accept: application/json'
+ 
+ 
+{"data": {"index": ["esgScores"], "maxAge": [86400], "totalEsg": [16.79], "environmentScore": [0.55], "socialScore": [7.52], "governanceScore": [8.72], "ratingYear": [2024], "ratingMonth": [10], "highestControversy": [3.0], "peerCount": [68], "esgPerformance": ["LAG_PERF"], "peerGroup": ["Technology Hardware"], "relatedControversy": [["Social Supply Chain Incidents;Customer Incidents;Business Ethics Incidents"]], "peerEsgScorePerformance": [{"min": 4.46, "avg": 15.219264705882354, "max": 27.47}], "peerGovernancePerformance": [{"min": 1.43, "avg": 4.245, "max": 8.72}], "peerSocialPerformance": [{"min": 1.98, "avg": 4.912222222222223, "max": 10.65}], "peerEnvironmentPerformance": [{"min": 0.17, "avg": 1.957222222222222, "max": 7.59}], "peerHighestControversyPerformance": [{"min": 0.0, "avg": 0.75, "max": 3.0}], "percentile": [null], "environmentPercentile": [null], "socialPercentile": [null], "governancePercentile": [null], "adult": [false], "alcoholic": [false], "animalTesting": [false], "catholic": [null], "controversialWeapons": [false], "smallArms": [false], "furLeather": [false], "gambling": [false], "gmo": [false], "militaryContract": [false], "nuclear": [false], "pesticides": [false], "palmOil": [false], "coal": [false], "tobacco": [false]}}

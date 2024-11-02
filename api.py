@@ -179,8 +179,8 @@ request_models: Dict[str, Type[BaseModel]] = {}
 
 # Base request model
 class BaseRequestModel(BaseModel):
-    ticker: str
-    api_token: str
+    ticker: str = Field(..., title="Ticker", description="Stock ticker", example="AAPL")
+    api_token: str = Field(..., title="API token", description="API token", example=TEST_TOKEN)
 
 # Generic response model
 class GenericResponseModel(BaseModel):

@@ -20,14 +20,14 @@ clean_names = [clean_account_name(name) for name in accounts]
 
 class CleanName(BaseModel):
     name: str = Field( description="Name of the account", example="Gross Profit")
-    api_token : str = Field( description="API token")
+    api_token : str = Field( description="API token", example = "t3stt@ken")
 
 class CleanNameResponse(BaseModel):
     clean_name: str = Field( description="Cleaned name of the account", example="GrossProfit")
-    api_token : str = Field( description="API token")
+    api_token : str = Field( description="API token", example = "t3stt@ken")
 
 class CIKTickers(BaseModel):
-    api_token : str = Field( description="API token")
+    api_token : str = Field( description="API token", example="t3stt@ken")
 
 class CIKTickersResponse(BaseModel):
     cik_tickers: Dict[str, List[str]] = Field(
@@ -39,7 +39,7 @@ class CIKTickersResponse(BaseModel):
         })
 
 class CIKNames(BaseModel):
-    api_token : str = Field( description="API token")
+    api_token : str = Field( description="API token",  example="t3stt@ken")
 
 class CIKNamesResponse(BaseModel):
     cik_names: Dict[str, List[str]] = Field(
@@ -54,8 +54,8 @@ class AccountRequest(BaseModel):
     units: str = Field( description="Units of the account (e.g., USD, USD-per-share, shares).", example="USD")
     account: str = Field( description="Account name", example=clean_names[0])
     frame: str = Field( description="Data frame (e.g., year, quarter, add 'I' for instant data).", example="CY2024Q1")
-    taxonomy: str = Field( description="Account taxonomy (e.g., us-gaap, dei).")
-    api_token : str = Field( description="API token")
+    taxonomy: str = Field( description="Account taxonomy (e.g., us-gaap, dei).", example="us-gaap")
+    api_token : str = Field( description="API token", example="t3stt@ken")
 
 class AccountResponse(BaseModel):
     ccp: str = Field( description="Calendar period code (e.g., CY2024Q1)", example="CY2024Q1")
@@ -81,7 +81,7 @@ class CompanyRequest(BaseModel):
     cik: int = Field( description="CIK of the company", example=320193)
     tag: str = Field( description="Account name", example=clean_names[1])
     taxonomy: str = Field( description="Account taxonomy", example="us-gaap")
-    api_token : str = Field( description="API token")
+    api_token : str = Field( description="API token", example="t3stt@ken")
 
 class CompanyResponse(BaseModel):
     cik: int = Field( description="CIK of the company", example=320193)
@@ -94,11 +94,11 @@ class CompanyResponse(BaseModel):
        description="Unit values", example={"USD": [{"accn": "0001193125-10-012091", "val": 1511000000}]})
 
 class AllAccounts(BaseModel):
-    api_token : str = Field( description="API token")
+    api_token : str = Field( description="API token", example="t3stt@ken")
 
 class CompanyFacts(BaseModel):
     cik: int = Field( description="CIK of the company", example=320193)
-    api_token : str = Field( description="API token")
+    api_token : str = Field( description="API token", example="t3stt@ken")
 
 class CompanyFactsResponse(BaseModel):
     cik: int = Field( description="CIK of the company", example=320193)
@@ -107,7 +107,7 @@ class CompanyFactsResponse(BaseModel):
 
 class SubmissionHistory(BaseModel):
     cik: int = Field( description="CIK of the company", example=320193)
-    api_token : str = Field( description="API token")
+    api_token : str = Field( description="API token", example="t3stt@ken")
 
 class SubmissionHistoryResponse(BaseModel):
     cik: str = Field( description="CIK of the company", example="320193")
@@ -116,7 +116,7 @@ class SubmissionHistoryResponse(BaseModel):
     files: List[Dict] = Field( description="Files submitted by the company")
 
 class CIKSIC(BaseModel):
-    api_token : str = Field( description="API token")
+    api_token : str = Field( description="API token", example="t3stt@ken")
 
 class CIKSICResponse(BaseModel):
     cik: int = Field( description="CIK of the company", example=320193)
@@ -124,7 +124,7 @@ class CIKSICResponse(BaseModel):
 
 class ComparablesSIC(BaseModel):
     cik: int = Field( description="CIK of the company", example=320193)
-    api_token : str = Field( description="API token")
+    api_token : str = Field( description="API token", example="t3stt@ken")
 
 class ComparablesSICResponse(BaseModel):
     pass
@@ -132,7 +132,7 @@ class ComparablesSICResponse(BaseModel):
 class StoredData(BaseModel):
     ciks: List[int] = Field(description="List of CIKs", example=[320193, 1750])
     accounts: List[str] = Field( description="List of accounts", example=["Net Income (Loss) Attributable to Parent", "Gross Profit"])
-    api_token : str = Field( description="API token")
+    api_token : str = Field( description="API token", example="t3stt@ken")
 
 class StoredDataResponse(BaseModel):
     # Its a dataframe converted to json 
@@ -142,7 +142,7 @@ class StockDataRequest(BaseModel):
     tickers: List[str] = Field( description="List of tickers", example=["AAPL", "MSFT"])
     start_date: str = Field( description="Start date", example="2024-01-01")
     end_date: str = Field( description="End date", example="2024-12-31")
-    api_token : str = Field( description="API token")
+    api_token : str = Field( description="API token", example="t3stt@ken")
     
 class StockDataResponse(BaseModel):
     # returns a dataframe converted to json
@@ -153,7 +153,7 @@ class ComparablesRequest(BaseModel):
     variables_to_compare: List[str] = Field( description="List of variables to compare", example=['industry', 'size', 'profitability', 'growth_rate', 'capital_structure', 'location'])
     extra_variables: List[str] = Field(description="Extra variables to compare", example=['GrossProfit', 'NetIncomeLoss', 'EarningsPerShareBasic'], default=None)
     method : str = Field(description="Method to use for comparison", example="kmeans")
-    api_token : str = Field(description="API token")
+    api_token : str = Field(description="API token", example="t3stt@ken")
     industry_digits: Optional[int] = Field(description="Digits for industry variable", example=2, default=None)
     size_interval: Optional[int] = Field(description="Interval for size variable", example=100, default=None)
     profitability_interval: Optional[int] = Field(description="Interval for profitability variable", example=100, default=None)
@@ -167,7 +167,7 @@ class ComparablesResponse(BaseModel):
 
 class ValuationMetricsRequest(BaseModel):
     tickers: List[str] = Field(description="List of stock tickers", example=['AAPL', 'MSFT', 'GOOGL'])
-    api_token: str = Field(description="API token for authentication", example="your_api_token")
+    api_token: str = Field(description="API token for authentication", example="t3stt@ken")
 
 class ValuationMetricsResponse(BaseModel):
     avg_multiple: Dict[str, float] = Field(description="Average valuation multiples (Price to Earnings, Price to Book, Enterprise to EBITDA)", 
