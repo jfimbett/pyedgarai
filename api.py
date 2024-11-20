@@ -208,7 +208,13 @@ for element in IMPLEMENTED_ELEMENTS:
         def endpoint_func(query: request_model):
             # Here you can perform authentication with query.api_token
             # Call the get_stock_element function with appropriate parameters
-            return get_stock_element(query.ticker, element)
+            response = get_stock_element(query.ticker, element)
+            # amke sure you return the response as a dictionary
+            # if response is a string, convert it to a dictionary
+            if isinstance(response, str):
+                response = json.loads(response)
+            
+            return response
         return endpoint_func
 
     # Assign a unique name to the endpoint function
