@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlpGet Earnings Function User Manual</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        code {
+            background-color: #f8f9fa;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-size: 90%;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <h1 class="mb-4">AlpGet Earnings Function User Manual</h1>
+
+        <h2>Function Overview</h2>
+        <p>The <code>AlpGet_Earnings_Wrapper</code> and <code>AlpGet_Earnings</code> are VBA functions designed to fetch earnings data from a local server. The <code>AlpGet_Earnings</code> function is a simplified interface for the <code>AlpGet_Earnings_Wrapper</code> function, which handles the actual data retrieval process.</p>
+
+        <h3>Function Signatures</h3>
+        <ul>
+            <li><code>Function AlpGet_Earnings_Wrapper(ticker As String, api_token As String) As String</code></li>
+            <li><code>Function AlpGet_Earnings(ticker As String, api_token As String) As String</code></li>
+        </ul>
+
+        <h2>Parameters</h2>
+        <dl class="row">
+            <dt class="col-sm-3">ticker</dt>
+            <dd class="col-sm-9">A string representing the stock ticker symbol whose earnings data you want to retrieve.</dd>
+
+            <dt class="col-sm-3">api_token</dt>
+            <dd class="col-sm-9">A string containing the API token required for authentication when accessing the data.</dd>
+        </dl>
+
+        <h2>Functionality</h2>
+        <p>The function sends an HTTP GET request to a local server to retrieve earnings data for a specific stock ticker using the provided API token. On successful retrieval, it updates the active Excel cell with the earnings data.</p>
+
+        <h2>Usage Examples</h2>
+
+        <h3>Example 1: Retrieve Earnings for a Single Ticker</h3>
+        <pre><code>Sub TestEarnings()
+    Dim result As String
+    result = AlpGet_Earnings("AAPL", "your_api_token")
+    MsgBox "Earnings Data Retrieved: " & result
+End Sub</code></pre>
+
+        <h3>Example 2: Writing Earnings Data to Active Cell</h3>
+        <pre><code>Sub WriteEarningsToCell()
+    AlpGet_Earnings "GOOGL", "your_api_token"
+    ' The data will be written to the active cell in Excel.
+End Sub</code></pre>
+
+        <h2>Error Handling</h2>
+        <p>If an error occurs during the data retrieval process, a message box will display the error description and line number within the <code>AlpGet_Earnings_Wrapper</code> function.</p>
+
+        <footer class="mt-5 pt-3 border-top">
+            <p class="text-muted">Please ensure that the JSON library for VBA is installed and that your local server is running at <code>http://localhost:5000</code>.</p>
+        </footer>
+    </div>
+</body>
+</html>

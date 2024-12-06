@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>User Manual for AlpGet_eps_trend Function</title>
+    <style>
+        body {
+            padding: 20px;
+        }
+
+        .vba-code {
+            background-color: #f8f9fa;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            padding: 10px;
+            font-family: "Courier New", Courier, monospace;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1 class="text-center">User Manual for AlpGet_eps_trend Function</h1>
+
+        <section>
+            <h2>Overview</h2>
+            <p>The <code>AlpGet_eps_trend</code> function allows users to retrieve EPS trend data for a specific ticker
+                from a local API endpoint. It acts as a wrapper that simplifies the process of sending HTTP requests
+                and placing the response data into an Excel worksheet.</p>
+        </section>
+
+        <section>
+            <h2>Function Syntax</h2>
+            <pre class="vba-code">
+Function AlpGet_eps_trend(ticker As String, api_token As String) As String
+    ' Retrieve the EPS trend data
+End Function</pre>
+        </section>
+
+        <section>
+            <h2>Parameters</h2>
+            <ul>
+                <li><strong>ticker</strong>: A string representing the stock ticker symbol for which EPS trend data is
+                    requested.</li>
+                <li><strong>api_token</strong>: A string that serves as the authentication token required to access the
+                    API.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Return Value</h2>
+            <p>The function returns a string in the format "<code>{ticker}-eps_trend</code>" indicating the ticker and
+                the task completed.</p>
+        </section>
+
+        <section>
+            <h2>Usage Example</h2>
+            <pre class="vba-code">
+Sub GetEPSTrend()
+    Dim result As String
+    result = AlpGet_eps_trend("AAPL", "your_api_token_here")
+    MsgBox result
+End Sub</pre>
+        </section>
+
+        <section>
+            <h2>Example Explanation</h2>
+            <p>In the above example, the <code>GetEPSTrend</code> subroutine calls the <code>AlpGet_eps_trend</code>
+                function with the ticker symbol "AAPL" and a specified API token. After execution, a message box
+                displays the result, indicating the EPS trend data for Apple Inc. has been retrieved.</p>
+        </section>
+
+        <section>
+            <h2>Error Handling</h2>
+            <p>If an error occurs during the process of retrieving data, a message box will display the error
+                description along with the line number where the error happened, allowing users to diagnose and correct
+                issues efficiently.</p>
+        </section>
+    </div>
+
+</body>
+
+</html>

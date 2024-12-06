@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlpGet Quarterly Balance Sheet User Manual</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        pre {
+            background-color: #f7f7f9;
+            padding: 1em;
+            border-radius: 5px;
+        }
+
+        .example-block {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container my-5">
+        <h1 class="mb-4">User Manual for AlpGet_QuarterlyBalanceSheet</h1>
+
+        <h2>Function Overview</h2>
+        <p>The <code>AlpGet_QuarterlyBalanceSheet</code> function allows you to retrieve the quarterly balance sheet data for a specified ticker using an API endpoint. The data is then displayed in the active Excel worksheet starting from the currently selected cell.</p>
+
+        <h3>Function Signature</h3>
+        <p>
+            <strong>Function Name:</strong> <code>AlpGet_QuarterlyBalanceSheet</code>
+        </p>
+        <p>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>ticker</code> (String) - The stock ticker symbol for the company.</li>
+                <li><code>api_token</code> (String) - The API token for authentication.</li>
+            </ul>
+        </p>
+        <p>
+            <strong>Returns:</strong> (String) - A combination of the ticker and api_token.
+        </p>
+
+        <h2>Usage</h2>
+        <p>Below are examples of how to use the <code>AlpGet_QuarterlyBalanceSheet</code> function in VBA/Excel:</p>
+
+        <div class="example-block">
+            <h4>Example 1:</h4>
+            <pre><code class="vba">Dim ticker As String
+Dim api_token As String
+Dim result As String
+
+ticker = "AAPL"
+api_token = "your_api_token_here"
+
+result = AlpGet_QuarterlyBalanceSheet(ticker, api_token)
+
+' The result will contain the ticker and api_token
+MsgBox result</code></pre>
+        </div>
+
+        <div class="example-block">
+            <h4>Example 2:</h4>
+            <pre><code class="vba">Sub RetrieveBalanceSheet()
+    Dim ticker As String
+    Dim api_token As String
+    Dim result As String
+
+    ticker = "GOOG"
+    api_token = "your_api_token_here"
+
+    result = AlpGet_QuarterlyBalanceSheet(ticker, api_token)
+
+    ' Display the result in a message box
+    MsgBox "Data retrieved for: " & result
+End Sub</code></pre>
+        </div>
+
+        <footer class="text-center mt-5">
+            &copy; 2023 AlpGet Inc.
+        </footer>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

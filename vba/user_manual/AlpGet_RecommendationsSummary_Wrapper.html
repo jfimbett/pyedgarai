@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        pre {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        code {
+            color: #d63384;
+        }
+    </style>
+    <title>AlpGet_RecommendationsSummary - User Manual</title>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1 class="mb-4">AlpGet_RecommendationsSummary Function - User Manual</h1>
+
+    <h2 class="mt-5">Function Overview</h2>
+    <p>The <code>AlpGet_RecommendationsSummary</code> function retrieves a summary of recommendations for a specified
+        stock based on its ticker. This function communicates with an API endpoint to fetch and display the summary of 
+        different recommendations (strong buy, buy, hold, sell, strong sell) for the specified ticker in the currently 
+        active Excel sheet starting from the selected cell.</p>
+
+    <h2 class="mt-5">Function Declaration</h2>
+    <pre><code>Function AlpGet_RecommendationsSummary(ticker As String, api_token As String) As String</code></pre>
+
+    <h2 class="mt-5">Parameters</h2>
+    <ul>
+        <li><strong>ticker</strong>: <code>String</code> - The stock ticker symbol you want to get the recommendations summary for.</li>
+        <li><strong>api_token</strong>: <code>String</code> - Your API token for authentication with the recommendations API.</li>
+    </ul>
+
+    <h2 class="mt-5">Return Value</h2>
+    <p>The function returns the ticker symbol if the operation is successful, otherwise it returns an empty string if an error occurs.</p>
+
+    <h2 class="mt-5">Examples of Usage</h2>
+    <pre><code>' Example 1: Get recommendations summary for Apple Inc.
+Dim ticker As String
+ticker = "AAPL"
+Dim apiToken As String
+apiToken = "your_api_token"
+
+Dim result As String
+result = AlpGet_RecommendationsSummary(ticker, apiToken)
+If result <> "" Then
+    MsgBox "Recommendations summary retrieved for: " & result
+Else
+    MsgBox "Failed to retrieve recommendations summary."
+End If
+
+' Example 2: Get recommendations summary for Microsoft Corp.
+result = AlpGet_RecommendationsSummary("MSFT", "another_api_token")
+If result <> "" Then
+    MsgBox "Recommendations summary retrieved for: " & result
+Else
+    MsgBox "Failed to retrieve recommendations summary."
+End If
+</code></pre>
+
+    <h2 class="mt-5">Error Handling</h2>
+    <p>The function will display a message box with an error description in case of any issues during the API request 
+    or data processing:</p>
+    <pre><code>An error occurred: [Error Description] [Line Number]</code></pre>
+
+    <h2 class="mt-5">Notes</h2>
+    <ul>
+        <li>Ensure your API service is running locally and accessible at <code>http://localhost:5000</code>.</li>
+        <li>This function depends on the VBA JSON parser library (e.g., <a href="https://github.com/VBA-tools/VBA-JSON">VBA-JSON</a>) 
+        for parsing the JSON response.</li>
+        <li>Check your API permissions and rates to prevent throttling or access issues.</li>
+    </ul>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

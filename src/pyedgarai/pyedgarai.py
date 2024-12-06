@@ -906,11 +906,12 @@ def identify_comparables(*args, **kwargs):
     print(kwargs)
     print("-----------------")
     method = kwargs['method']
-    variables_to_compare = kwargs['variables_to_compare']
-
+    #variables_to_compare = kwargs['variables_to_compare']
+    variables_to_compare = ['industry', 'size', 'profitability', 'growth_rate', 'capital_structure', 'location']
     params_comparables = kwargs['params_comparables']
 
-    extra_variables = kwargs['extra_variables']
+    #extra_variables = kwargs['extra_variables']
+    extra_variables = ['GrossProfit', 'NetIncomeLoss', 'EarningsPerShareBasic']
 
     # it must be a subset of the following variables
     # industry, size, profitability, growth_rate, capital_structure, location

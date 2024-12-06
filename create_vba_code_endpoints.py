@@ -3,8 +3,17 @@ import openai
 import os
 import time
 from tqdm import tqdm
+# Specify the environment variable name
+api_key_var_name = "OPENAI_API_KEY"
+
+# Check if the environment variable is set
+assert api_key_var_name in os.environ, f"Environment variable {api_key_var_name} not found."
+
 # all files in vba/responses 
 files = list(os.listdir('vba/responses'))
+# keep only the first one but in a list 
+files = [files[0]]
+#%%
 def wrap(i):
     with open(f'vba/responses/{files[i]}', 'r') as f:
         example = f.read()
@@ -133,3 +142,4 @@ def wrap(i):
 for i, file in tqdm(enumerate(files)):
     time.sleep(5)
     wrap(i)
+# %%

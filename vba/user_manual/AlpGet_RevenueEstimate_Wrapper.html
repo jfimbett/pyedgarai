@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Manual for AlpGet_RevenueEstimate</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+        }
+        .code-box {
+            background-color: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            font-family: Consolas, 'Courier New', Courier, monospace;
+        }
+        h2 {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>User Manual for <code>AlpGet_RevenueEstimate</code> Function</h1>
+    <p>The <code>AlpGet_RevenueEstimate</code> function in VBA is designed to obtain revenue estimates for a given stock ticker. It does so by sending an HTTP request to an API and processes the JSON response to populate data into an Excel sheet starting from the active cell.</p>
+
+    <h2>Function Purpose</h2>
+    <p>The main purpose of the <code>AlpGet_RevenueEstimate</code> function is to retrieve revenue estimates for a specific ticker symbol using an API token for authentication. The results are directly inputted into an Excel worksheet.</p>
+
+    <h2>Parameters</h2>
+    <ul>
+        <li><strong>ticker</strong> (String): The stock ticker symbol for which the revenue estimate is desired.</li>
+        <li><strong>api_token</strong> (String): A valid API token to authenticate the request.</li>
+    </ul>
+
+    <h2>Return Value</h2>
+    <p>The function returns a string in the format <code>ticker-api_token</code>, indicating that the request has been processed.</p>
+
+    <h2>Usage Example</h2>
+    <div class="code-box">
+        <pre><code class="vba">
+Dim revenueEstimate As String
+revenueEstimate = AlpGet_RevenueEstimate("AAPL", "your_api_token_here")
+        </code></pre>
+    </div>
+    <p>In this example, the function retrieves the revenue estimates for Apple Inc. ("AAPL") using the provided API token and populates the results into the worksheet starting from the current active cell.</p>
+
+    <h2>Error Handling</h2>
+    <p>If an error occurs during the process, a message box will display the error description along with the line number where the error occurred.</p>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script>
+    <script>
+        new ClipboardJS('.btn');
+    </script>
+</body>
+</html>

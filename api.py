@@ -79,10 +79,10 @@ def comparables(query: ComparablesRequest):
         params_comparables['location'] = query.location
 
     kwargs['params_comparables'] = params_comparables
-    kwargs['variables_to_compare'] = query.variables_to_compare
+    #kwargs['variables_to_compare'] = query.variables_to_compare
     kwargs['method'] = query.method
 
-    kwargs['extra_variables'] = query.extra_variables
+    #kwargs['extra_variables'] = query.extra_variables
 
 
 

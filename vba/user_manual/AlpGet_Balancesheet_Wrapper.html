@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>AlpGet_Balancesheet Function User Manual</title>
+    <style>
+        pre {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">AlpGet_Balancesheet Function User Manual</h1>
+        
+        <h2>Introduction</h2>
+        <p>The <code>AlpGet_Balancesheet</code> function is designed to retrieve and display the balance sheet data for a specified company ticker from an API endpoint. The main role of this function is to automate the process of fetching financial data and organizing it neatly into your Excel Worksheet.</p>
+        
+        <h2>Function Signature</h2>
+        <p><code>Function AlpGet_Balancesheet(ticker As String, api_token As String) As String</code></p>
+        
+        <h2>Parameters</h2>
+        <ul>
+            <li><strong>ticker</strong>: A <code>String</code> representing the stock ticker of the company you want to retrieve balance sheet data for.</li>
+            <li><strong>api_token</strong>: A <code>String</code> representing the API token required to authenticate requests to the endpoint.</li>
+        </ul>
+        
+        <h2>Return Value</h2>
+        <p>Returns a <code>String</code> that concatenates the <code>ticker</code> and <code>api_token</code>, mainly for testing and identification purposes.</p>
+        
+        <h2>Function Workflow</h2>
+        <p>The function follows these steps:</p>
+        <ol>
+            <li>Constructs a URL using the provided ticker and API token.</li>
+            <li>Sends a GET request to the specified endpoint.</li>
+            <li>Parses the JSON response and retrieves the balance sheet data.</li>
+            <li>Writes the data, starting from the currently active cell in Excel, organized by date and other financial entries in columns.</li>
+        </ol>
+        
+        <h2>Usage Example</h2>
+        <p>Here is an example on how to use the <code>AlpGet_Balancesheet</code> function in VBA:</p>
+        <pre><code>' Example usage of the AlpGet_Balancesheet function
+Sub FetchCompanyBalanceSheet()
+    Dim result As String
+    Dim ticker As String
+    Dim apiToken As String
+    
+    ' Set ticker and API Token
+    ticker = "AAPL"
+    apiToken = "your_api_token_here"
+    
+    ' Call the function with the ticker and API Token
+    result = AlpGet_Balancesheet(ticker, apiToken)
+    
+    ' Output the result for confirmation
+    MsgBox "Balance sheet data has been fetched for: " & result
+End Sub
+</code></pre>
+
+        <h2>Error Handling</h2>
+        <p>If an error occurs during the execution of the function, such as an issue with the API request or parsing the JSON response, a message box will display an error message with a description.</p>
+        
+        <footer class="mt-5">
+            <p>Ensure that the provided API endpoint is reachable and the API token is valid to avoid errors during the operation.</p>
+        </footer>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

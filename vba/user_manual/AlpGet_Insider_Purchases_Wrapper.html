@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Manual for AlpGet_Insider_Purchases</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .vba-code {
+            font-family: "Courier New", monospace;
+            background-color: #f8f9fa;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">User Manual for <code>AlpGet_Insider_Purchases</code> Function</h1>
+        <section>
+            <h2>Overview</h2>
+            <p>The <code>AlpGet_Insider_Purchases</code> function retrieves insider purchase data for a specified stock ticker from a local server and populates it into an Excel spreadsheet starting from the active cell. It makes use of a helper function <code>AlpGet_Insider_Purchases_Wrapper</code> to perform the details of the data retrieval and Excel population.</p>
+        </section>
+
+        <section>
+            <h2>Functionality</h2>
+            <p>This function accesses a local API endpoint, sends a request formatted with a stock ticker and API token, and retrieves insider purchase data for the last 6 months. The retrieved data includes:</p>
+            <ul>
+                <li>Shares</li>
+                <li>Sales</li>
+                <li>Net Shares Purchased (Sold)</li>
+                <li>Total Insider Shares Held</li>
+                <li>% Net Shares Purchased (Sold)</li>
+                <li>% Buy Shares</li>
+                <li>% Sell Shares</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Usage Examples</h2>
+            <p>Here is an example of how you can use the <code>AlpGet_Insider_Purchases</code> function in VBA:</p>
+            <div class="vba-code">
+                <pre>
+    Sub GetInsiderPurchasesData()
+        Dim ticker As String
+        Dim api_token As String
+        Dim result As String
+        
+        ticker = "AAPL"
+        api_token = "your_api_token_here"
+        
+        result = AlpGet_Insider_Purchases(ticker, api_token)
+        MsgBox result
+    End Sub
+                </pre>
+            </div>
+            <p>This example sets the <code>ticker</code> to "AAPL" and sends a request to retrieve and display the insider purchase data for Apple Inc. You must replace <code>your_api_token_here</code> with a valid API token.</p>
+        </section>
+
+        <section>
+            <h2>Error Handling</h2>
+            <p>If an error occurs during the function execution, a message box will display the error details including the description and line number.</p>
+        </section>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

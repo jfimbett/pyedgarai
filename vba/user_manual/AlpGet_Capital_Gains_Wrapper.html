@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Manual for AlpGet_Capital_Gains</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .code-block {
+            background-color: #f8f9fa;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, "Courier New", Courier, monospace;
+        }
+        .example {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">User Manual for AlpGet_Capital_Gains</h1>
+        
+        <h2>Function Overview</h2>
+        <p>The <code>AlpGet_Capital_Gains</code> VBA function is used to retrieve capital gains data for a specified stock ticker using an API. This function acts as a wrapper around <code>AlpGet_Capital_Gains_Wrapper</code> to provide the desired functionality. The function sends an HTTP request to a local service for retrieving the data and formats the response into the active Excel worksheet.</p>
+        
+        <h2>Function Signature</h2>
+        <p><code>Function AlpGet_Capital_Gains(ticker As String, api_token As String) As String</code></p>
+        
+        <h2>Parameters</h2>
+        <ul>
+            <li><strong>ticker:</strong> A <code>String</code> representing the stock ticker symbol for which you want to retrieve capital gains data.</li>
+            <li><strong>api_token:</strong> A <code>String</code> representing the API token required for authentication to access the capital gains data.</li>
+        </ul>
+        
+        <h2>Return Value</h2>
+        <p>The function returns a <code>String</code> by concatenating the ticker and the API token, primarily for confirmation purposes.</p>
+        
+        <h2>Example Usage</h2>
+        <div class="example">
+            <h3>Example 1: Retrieving Capital Gains Data</h3>
+            <p>The example below demonstrates the typical usage of the function within an Excel VBA module:</p>
+            <div class="code-block">
+                <pre>
+Sub GetCapitalGainsExample()
+    Dim ticker As String
+    Dim api_token As String
+    Dim result As String
+    
+    ticker = "AAPL"
+    api_token = "your_api_token_here"
+    
+    result = AlpGet_Capital_Gains(ticker, api_token)
+    MsgBox "Data Retrieved: " & result
+End Sub
+                </pre>
+            </div>
+        </div>
+
+        <h2>Error Handling</h2>
+        <p>If an error occurs during execution, a message box will display the error description to the user.</p>
+        
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

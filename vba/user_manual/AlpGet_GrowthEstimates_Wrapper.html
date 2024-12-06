@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlpGet_GrowthEstimates Function Manual</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        code {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 2px 4px;
+            font-family: Consolas, monospace;
+        }
+
+        pre {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 15px;
+        }
+
+        .example-code {
+            background-color: #ececec;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+
+    <div class="container mt-5">
+        <h1 class="display-4">AlpGet_GrowthEstimates Function Manual</h1>
+        <p class="lead">This manual describes how to use the <code>AlpGet_GrowthEstimates</code> function to retrieve growth estimates for a specified company ticker using an API token.</p>
+
+        <h2>Function Overview</h2>
+        <p>The <code>AlpGet_GrowthEstimates</code> function is a wrapper that calls another function to send a request to a specified API endpoint, retrieve growth estimates for a given ticker, and populate an Excel sheet with the returned data.</p>
+
+        <h2>Function Signature</h2>
+        <pre><code>Function AlpGet_GrowthEstimates(ticker As String, api_token As String) As String</code></pre>
+
+        <h2>Parameters</h2>
+        <ul>
+            <li><strong>ticker</strong>: A <code>String</code> representing the stock ticker symbol for which growth estimates are to be retrieved.</li>
+            <li><strong>api_token</strong>: A <code>String</code> containing the API token for authorization.</li>
+        </ul>
+
+        <h2>Return Value</h2>
+        <p>Returns a <code>String</code> indicating the ticker and API token used in the request. It writes the results directly to the current Excel worksheet starting from the active cell.</p>
+
+        <h2>Usage Example</h2>
+        <div class="example-code">
+            <pre><code>' Example usage in the Excel VBA environment:
+Dim result As String
+result = AlpGet_GrowthEstimates("AAPL", "your_api_token_here")
+MsgBox "Growth estimates for: " & result</code></pre>
+        </div>
+
+        <h2>Dependencies</h2>
+        <p>This function requires a local server running at <code>http://localhost:5000</code> which can respond to <code>GET</code> requests for <code>/growth_estimates</code> endpoint.</p>
+
+        <h2>Error Handling</h2>
+        <p>If an error occurs during the execution of the function (such as network issues or invalid ticker/API token), a message box will display an error message detailing the problem encountered.</p>
+
+    </div>
+
+</body>
+
+</html>

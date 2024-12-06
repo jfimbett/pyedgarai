@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .vba-code {
+            font-family: Consolas, "Courier New", monospace;
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .container {
+            padding: 20px;
+        }
+    </style>
+    <title>API Function User Manual</title>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="text-center mb-5">API Function User Manual</h1>
+        
+        <h2>Function Overview</h2>
+        <p>The <code>AlpGet_YourEndpointName</code> function allows you to interact with a specified API endpoint by sending a HTTP GET request with parameters and retrieves the JSON response to output the data into the active Excel sheet.</p>
+
+        <h3>Parameters</h3>
+        <ul>
+            <li><strong>param1:</strong> A string parameter to be appended to the API URL.</li>
+            <li><strong>param2:</strong> A string parameter to be appended to the API URL.</li>
+            <li><strong>param3:</strong> A string parameter to be appended to the API URL.</li>
+            <li><strong>api_token:</strong> The API token string required for authentication.</li>
+        </ul>
+
+        <h3>Return Value</h3>
+        <p>Returns a concatenated string of parameters <code>param1</code>, <code>param2</code>, and <code>param3</code> separated by hyphens.</p>
+
+        <h2>Usage Example</h2>
+        <p>Below is an example of how to use the <code>AlpGet_YourEndpointName</code> function in VBA:</p>
+
+        <div class="vba-code">
+            <pre>
+Sub TestAPI()
+    Dim result As String
+    result = AlpGet_YourEndpointName("value1", "value2", "value3", "your_api_token")
+    MsgBox result
+End Sub
+            </pre>
+        </div>
+
+        <h2>Response Handling</h2>
+        <p>If the API request is successful and the JSON response contains a <code>data</code> array, the function will write each element's <code>key1</code>, <code>key2</code>, and <code>key3</code> values into the active Excel sheet starting from the cell below the current active cell.</p>
+
+        <h2>Error Handling</h2>
+        <p>If an error occurs within the function, a message box will display the description of the error for debugging purposes.</p>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlpGet_Dividends Function User Manual</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        code {
+            background-color: #f8f9fa;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+        }
+    </style>
+</head>
+<body class="container mt-5">
+    <h1 class="mb-4">AlpGet_Dividends Function User Manual</h1>
+
+    <section>
+        <h2>Function Overview</h2>
+        <p>The <code>AlpGet_Dividends</code> function retrieves dividend information for a specified stock ticker using an API. The function fetches the data and populates it into an Excel worksheet starting from the active cell.</p>
+    </section>
+
+    <section>
+        <h2>Function Signature</h2>
+        <p><code>Function AlpGet_Dividends(ticker As String, api_token As String) As String</code></p>
+    </section>
+
+    <section>
+        <h2>Parameters</h2>
+        <ul>
+            <li><strong>ticker</strong>: A <code>String</code> representing the stock ticker symbol.</li>
+            <li><strong>api_token</strong>: A <code>String</code> representing the API token for authentication.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Return Value</h2>
+        <p>Returns a <code>String</code> concatenation of <code>ticker</code> and <code>api_token</code> as <code>"ticker-api_token"</code>.</p>
+    </section>
+
+    <section>
+        <h2>Usage</h2>
+        <p>To use the <code>AlpGet_Dividends</code> function, call it in your VBA code as shown below:</p>
+        <pre><code>Sub ExampleUsage()
+    Dim result As String
+    result = AlpGet_Dividends("AAPL", "your_api_token")
+    MsgBox "Data Retrieved for: " & result
+End Sub
+</code></pre>
+        <p>Ensure that the current active cell in the Excel worksheet is set where you want the data to begin populating. The function will output two headers: <code>Date</code> and <code>Dividends</code>, followed by the corresponding data.</p>
+    </section>
+
+    <section>
+        <h2>Error Handling</h2>
+        <p>If an error occurs during the API request or JSON parsing, a message box will display the error description and the line number where the error occurred.</p>
+    </section>
+</body>
+</html>

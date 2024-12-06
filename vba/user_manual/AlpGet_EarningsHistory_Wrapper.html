@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Manual for AlpGet_EarningsHistory</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+        }
+        pre {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="text-center">User Manual for AlpGet_EarningsHistory Function</h1>
+        <hr>
+        <section>
+            <h2>Introduction</h2>
+            <p>The <code>AlpGet_EarningsHistory</code> function in Visual Basic for Applications (VBA) is designed to retrieve 
+               the earnings history for a given stock ticker from a local web service. The function uses a separate wrapper, 
+               <code>AlpGet_EarningsHistory_Wrapper</code>, to send an HTTP request, parse the JSON response, and populate the Excel sheet with the data.</p>
+        </section>
+
+        <section>
+            <h2>Function Signature</h2>
+            <pre><code>Function AlpGet_EarningsHistory(ticker As String, api_token As String) As String</code></pre>
+        </section>
+
+        <section>
+            <h2>Parameters</h2>
+            <ul>
+                <li><strong>ticker:</strong> The stock ticker symbol for which the earnings history will be retrieved.</li>
+                <li><strong>api_token:</strong> The API token for authenticating the request to the local web service.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Return Value</h2>
+            <p>The function returns a string in the format <code>"[ticker]-[api_token]"</code> if successful; otherwise, no value is returned.</p>
+        </section>
+
+        <section>
+            <h2>Usage Example</h2>
+            <pre><code class="vba">
+Sub FetchEarningsHistory()
+    Dim earningsInfo As String
+    Dim ticker As String
+    Dim apiToken As String
+
+    ticker = "AAPL"  ' Example stock ticker for Apple Inc.
+    apiToken = "your_api_token_here"  ' Replace with your actual API token
+
+    ' Call the function and store the result
+    earningsInfo = AlpGet_EarningsHistory(ticker, apiToken)
+
+    ' Output the result
+    MsgBox "Earnings history retrieved for: " & earningsInfo
+End Sub
+            </code></pre>
+        </section>
+
+        <section>
+            <h2>Notes</h2>
+            <ul>
+                <li>Ensure that the local web server is running and accessible.</li>
+                <li>Make sure you have a valid API token to authorize your requests.</li>
+                <li>The earnings data is directly written to the Excel sheet starting from the active cell position.</li>
+            </ul>
+        </section>
+    </div>
+
+</body>
+</html>

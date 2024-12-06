@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Manual for AlpGet_Cashflow</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .vba-code {
+            background-color: #f7f7f9;
+            border: 1px solid #e1e1e8;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: "Courier New", Courier, monospace;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">User Manual for AlpGet_Cashflow</h1>
+        <p>This document provides a guide on how to use the <code>AlpGet_Cashflow</code> function in VBA, which retrieves and displays cash flow data for a given stock ticker from a specified API endpoint.</p>
+        
+        <h2>Function: <code>AlpGet_Cashflow</code></h2>
+        <p><strong>Description:</strong> This function acts as a wrapper for <code>AlpGet_Cashflow_Wrapper</code>. It fetches JSON-formatted cash flow data for a provided stock ticker by sending a GET request to a local API server, and writes the data into an active Excel worksheet starting from the active cell's row and column position.</p>
+
+        <h3>Parameters</h3>
+        <ul>
+            <li><strong>ticker (String):</strong> The stock ticker symbol for which cash flow data is requested.</li>
+            <li><strong>api_token (String):</strong> A valid API token required for authentication with the API server.</li>
+        </ul>
+
+        <h3>Return Value</h3>
+        <p>The function returns the input ticker symbol if successful, otherwise it may terminate if an error is encountered.</p>
+
+        <h3>Example Usage</h3>
+        <div class="vba-code">
+            Dim ticker As String<br>
+            Dim api_token As String<br>
+            Dim result As String<br><br>
+            ticker = "AAPL"<br>
+            api_token = "your_api_token_here"<br><br>
+            result = AlpGet_Cashflow(ticker, api_token)<br>
+            MsgBox "Data fetched for ticker: " & result
+        </div>
+
+        <h3>Error Handling</h3>
+        <p>The function includes basic error handling, which captures and displays an error message box if an operation within the function fails.</p>
+
+        <h3>Dependencies</h3>
+        <ul>
+            <li>The function requires a reference to the <strong>Microsoft Scripting Runtime</strong> for JSON parsing capabilities.</li>
+            <li>Ensure that the JSON parsing library or module (e.g., <code>JsonConverter</code>) is included in your VBA project.</li>
+        </ul>
+
+        <h3>Notes</h3>
+        <p>Make sure that the local API service is running and accessible at <code>http://localhost:5000</code>. Adjust the endpoint URL if different.</p>
+
+    </div>
+</body>
+</html>

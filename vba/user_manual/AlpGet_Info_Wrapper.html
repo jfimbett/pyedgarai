@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .code-block {
+            background-color: #f8f9fa;
+            border: 1px solid #ced4da;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: Consolas, "Courier New", monospace;
+        }
+    </style>
+    <title>AlpGet_Info Function User Manual</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">AlpGet_Info Function User Manual</h1>
+        <hr>
+        <h2>Introduction</h2>
+        <p>The <code>AlpGet_Info</code> function is a wrapper function designed to retrieve information about a specific stock ticker using an API. The function utilizes an internal function, <code>AlpGet_Info_Wrapper</code>, to perform an HTTP GET request to an external API and then writes the response data into an Excel sheet.</p>
+        
+        <h3>Function Signature</h3>
+        <div class="code-block">
+            AlpGet_Info(ticker As String, api_token As String) As String
+        </div>
+
+        <h3>Parameters</h3>
+        <ul>
+            <li><strong>ticker</strong>: A string representing the stock ticker symbol for which information is to be retrieved.</li>
+            <li><strong>api_token</strong>: A string representing the API token required for authentication with the API endpoint.</li>
+        </ul>
+
+        <h3>Usage</h3>
+        <p>The function is to be used within an Excel environment where a cell is actively selected. It will query an API for the given stock ticker information and populate the active sheet starting from the currently active cell with the key-value pairs received as a JSON response.</p>
+
+        <h3>Example</h3>
+        <p>Suppose you want to retrieve information about the stock with the ticker symbol <code>MSFT</code> using the API token <code>your_api_token_here</code>. Place your cursor in the cell where you want the data to be populated and run the following VBA code:</p>
+        <div class="code-block">
+            <pre>
+Dim ticker As String
+Dim apiToken As String
+Dim result As String
+
+ticker = "MSFT"
+apiToken = "your_api_token_here"
+result = AlpGet_Info(ticker, apiToken)
+
+If result <> "" Then
+    MsgBox "Data retrieved for ticker: " & result
+Else
+    MsgBox "Failed to retrieve data."
+End If
+            </pre>
+        </div>
+
+        <h3>Output</h3>
+        <p>The selected cell will be populated with the header "Key" and "Value", and subsequent rows will list each key-value pair from the API response.</p>
+        
+        <h3>Error Handling</h3>
+        <p>In the event of any error (e.g., network issue, invalid response), a message box will display the error description. Adjust your API token and endpoint settings as necessary.</p>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

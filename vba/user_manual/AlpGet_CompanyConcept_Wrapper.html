@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlpGet_CompanyConcept User Manual</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .vba-code {
+            font-family: Consolas, "Courier New", monospace;
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+
+        .example-title {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="mt-5">
+            <h1 class="display-4">AlpGet_CompanyConcept Function</h1>
+            <p class="lead">This guide provides information on how to use the <code>AlpGet_CompanyConcept</code> function to retrieve company concept data.</p>
+        </div>
+
+        <section class="mt-5">
+            <h2>Function Overview</h2>
+            <p>The <code>AlpGet_CompanyConcept</code> function is designed to fetch financial data for a specific company and concept from a local API. The function requires four input parameters:</p>
+            <ul>
+                <li><strong>cik</strong>: The Central Index Key identifying the company.</li>
+                <li><strong>tag</strong>: The financial concept tag you are interested in.</li>
+                <li><strong>taxonomy</strong>: The taxonomy identifier.</li>
+                <li><strong>api_token</strong>: A security token for API authentication.</li>
+            </ul>
+            <p>The function returns a string composed of the <code>cik</code>, <code>tag</code> and <code>taxonomy</code> concatenated with hyphens.</p>
+        </section>
+
+        <section class="mt-5">
+            <h2>Example Usage</h2>
+            <p class="example-title">VBA Example:</p>
+            <div class="vba-code">
+                <pre>
+Sub RunCompanyConceptExample()
+    Dim result As String
+    Dim cik As String
+    Dim tag As String
+    Dim taxonomy As String
+    Dim api_token As String
+    
+    ' Sample input values
+    cik = "0000320193"
+    tag = "Revenues"
+    taxonomy = "us-gaap"
+    api_token = "your_api_token_here"
+    
+    ' Call the AlpGet_CompanyConcept function
+    result = AlpGet_CompanyConcept(cik, tag, taxonomy, api_token)
+    
+    ' Output the result to the immediate window
+    Debug.Print "Returned result: " & result
+End Sub
+                </pre>
+            </div>
+            <p>This example demonstrates calling the <code>AlpGet_CompanyConcept</code> function to retrieve revenue data for a company with CIK <code>0000320193</code>.</p>
+        </section>
+
+        <section class="mt-5">
+            <h2>Response Output</h2>
+            <p>The function will populate the immediate worksheet with the following columns if the data is retrieved successfully:</p>
+            <ul>
+                <li><strong>accn</strong>: Accession number of the filing.</li>
+                <li><strong>end</strong>: End date of the period.</li>
+                <li><strong>filed</strong>: Filing date of the document.</li>
+                <li><strong>form</strong>: The form type of the SEC filing.</li>
+                <li><strong>fp</strong>: Fiscal period.</li>
+                <li><strong>fy</strong>: Fiscal year.</li>
+                <li><strong>val</strong>: Value for the financial concept.</li>
+            </ul>
+        </section>
+
+        <footer class="mt-5 mb-3 text-center">
+            <p>&copy; 2023 Alp Company Data Retrieval</p>
+        </footer>
+    </div>
+</body>
+
+</html>

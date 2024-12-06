@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlpGet_Fast_Info VBA User Manual</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        pre code {
+            background-color: #f8f9fa;
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+            padding: 1rem;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1 class="mb-4">AlpGet_Fast_Info VBA Function User Manual</h1>
+    
+    <h2>Introduction</h2>
+    <p>The <code>AlpGet_Fast_Info</code> function is used to fetch financial information for a specified stock ticker from an API, using a provided API key. The data is then displayed in Excel, starting from the current active cell.</p>
+    
+    <h2>Function Definition</h2>
+    <pre><code>Function AlpGet_Fast_Info(ticker As String, api_token As String) As String</code></pre>
+    
+    <h2>Parameters</h2>
+    <ul>
+        <li><strong>ticker</strong> (String): The stock ticker for which information is to be fetched.</li>
+        <li><strong>api_token</strong> (String): The API token required to authenticate the request.</li>
+    </ul>
+    
+    <h2>Return Value</h2>
+    <p>The function returns a string in the format of <code>ticker-api_token</code>, indicating successful completion.</p>
+    
+    <h2>Usage Example</h2>
+    <p>To use the function, simply call it within your VBA code like this:</p>
+    <pre><code vba>
+Sub ExampleUsage()
+    Dim result As String
+    result = AlpGet_Fast_Info("AAPL", "your_api_token_here")
+    MsgBox "Data fetched for: " & result
+End Sub
+    </code></pre>
+    
+    <h2>Notes</h2>
+    <ul>
+        <li>Ensure the API server is running at <code>http://localhost:5000/</code> with an endpoint <code>/fast_info</code>.</li>
+        <li>The function writes the headers and data to the Excel sheet starting from the active cell.</li>
+        <li>If an error occurs, an error message box will appear displaying the error description and the line number.</li>
+    </ul>
+    
+    <h2>Error Handling</h2>
+    <p>The function includes error handling to catch any runtime errors and will display a message box with the error description.</p>
+    
+    <h2>Conclusion</h2>
+    <p>This function facilitates easy retrieval of stock data within an Excel environment, providing a structured way to obtain and insert information directly into your workbook.</p>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

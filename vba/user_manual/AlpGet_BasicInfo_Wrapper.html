@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Manual</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        pre {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1 class="mb-4">User Manual for AlpGet_BasicInfo Function</h1>
+
+    <section>
+        <h2>Introduction</h2>
+        <p>The <strong>AlpGet_BasicInfo</strong> function is designed to retrieve basic information for a specified stock ticker using an API. The function wraps around another function and facilitates an easy way to get and display stock information within an Excel spreadsheet.</p>
+    </section>
+    
+    <section>
+        <h2>Function Signature</h2>
+        <p><code>Function AlpGet_BasicInfo(ticker As String, api_token As String) As String</code></p>
+    </section>
+
+    <section>
+        <h2>Parameters</h2>
+        <ul>
+            <li><strong>ticker</strong>: <code>String</code> - The stock ticker symbol for the desired company.</li>
+            <li><strong>api_token</strong>: <code>String</code> - The API access token required for authenticated requests.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Usage</h2>
+        <p>This function is executed within an Excel VBA environment. It sends a request to an API to retrieve and display stock data. Headings and corresponding data for the ticker will be written into the active worksheet, starting from the active cell.</p>
+
+        <h3>Example</h3>
+        <pre><code class="vba">Sub RetrieveStockInfo()
+    Dim ticker As String
+    Dim apiToken As String
+    Dim result As String
+
+    ticker = "AAPL"
+    apiToken = "your_api_token"
+    
+    result = AlpGet_BasicInfo(ticker, apiToken)
+    
+    MsgBox "Retrieved Information for: " & result
+End Sub
+</code></pre>
+    </section>
+
+    <section>
+        <h2>Error Handling</h2>
+        <p>The function includes error handling to display a message box if an error occurs during the data retrieval process. It shows the error description and line number.</p>
+    </section>
+    
+    <section>
+        <h2>Notes</h2>
+        <p>- Ensure that the API server is running and accessible at <code>http://localhost:5000</code>.</p>
+        <p>- Proper credentials must be passed as <code>api_token</code> to authenticate the API requests.</p>
+        <p>- If the data key does not exist in the response, the function will exit without writing any data.</p>
+    </section>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

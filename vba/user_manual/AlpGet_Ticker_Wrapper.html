@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlpGet_Ticker Function User Manual</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="mt-5">AlpGet_Ticker Function User Manual</h1>
+        <p class="lead">This document provides a user manual for the AlpGet_Ticker function, explaining its purpose, usage, and examples.</p>
+        
+        <h2>Function Overview</h2>
+        <p>The <code>AlpGet_Ticker</code> function is designed to retrieve stock ticker information from a local API endpoint. This function utilizes a wrapper to handle HTTP requests and JSON parsing, ultimately displaying the data in the current active Excel cell.</p>
+
+        <h2>Function Signature</h2>
+        <pre><code>Function AlpGet_Ticker(ticker As String, api_token As String) As String</code></pre>
+
+        <h2>Parameters</h2>
+        <ul>
+            <li><code>ticker</code>: A string representing the stock ticker symbol to fetch information for.</li>
+            <li><code>api_token</code>: A string representing the API token required for authentication with the API endpoint.</li>
+        </ul>
+
+        <h2>Return Value</h2>
+        <p>The function returns a string that is the original <code>ticker</code> parameter passed. If data retrieval is successful, the corresponding data is displayed in the active Excel cell.</p>
+
+        <h2>Example Usage</h2>
+        <p>To use the <code>AlpGet_Ticker</code> function, ensure that your VBA environment is configured to access the necessary external APIs, and the JSON converter library is available. Below is an example of how to use this function in a VBA environment:</p>
+        
+        <pre><code>' Example usage of AlpGet_Ticker
+Sub ExampleUsage()
+    ' Declare ticker and API token variables
+    Dim sampleTicker As String
+    Dim sampleApiToken As String
+
+    ' Assign values to the variables
+    sampleTicker = "AAPL"
+    sampleApiToken = "your_api_token_here"
+
+    ' Invoke the AlpGet_Ticker function
+    Dim result As String
+    result = AlpGet_Ticker(sampleTicker, sampleApiToken)
+
+    ' Output result
+    MsgBox "Ticker Symbol: " & result
+End Sub
+        </code></pre>
+
+        <h2>Handling Errors</h2>
+        <p>The function <code>AlpGet_Ticker_Wrapper</code> includes error handling to display a message box in case an error occurs during execution, indicating the error description.</p>
+
+        <h2>Dependencies</h2>
+        <p>This function requires access to a local API running on <code>http://localhost:5000/</code> and assumes the existence of a JSON converter to parse API responses in VBA.</p>
+        
+    </div>
+
+</body>
+</html>

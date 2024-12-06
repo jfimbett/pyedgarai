@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Manual for AlpGet_Cik_Names Function</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        pre {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container mt-5">
+        <h1 class="mb-4">User Manual for <code>AlpGet_Cik_Names</code> Function</h1>
+        
+        <h2>Description</h2>
+        <p>The <code>AlpGet_Cik_Names</code> function is a wrapper for the <code>AlpGet_Cik_Names_Wrapper</code> function. It retrieves a list of CIK (Central Index Key) identifiers along with corresponding names from a local API, and populates this data into an Excel sheet starting from the currently active cell.</p>
+        
+        <h2>Usage</h2>
+        <p>To use this function, you will need to invoke it from an Excel VBA environment. Ensure that the API server is running on <code>localhost:5000</code> and is capable of providing CIK data in JSON format.</p>
+        
+        <h2>Parameters</h2>
+        <ul>
+            <li><code>api_token</code> (String): A token used for API authentication.</li>
+        </ul>
+        
+        <h2>Return Value</h2>
+        <p>Returns the <code>api_token</code> that was passed to the function.</p>
+        
+        <h2>Examples</h2>
+        <pre><code class="language-vba">
+Sub RetrieveCIKNames()
+    Dim token As String
+    token = "your_api_token_here"
+    Call AlpGet_Cik_Names(token)
+End Sub
+        </code></pre>
+
+        <h2>Error Handling</h2>
+        <p>If the function encounters an error (e.g., network issues or JSON parsing errors), a message box will display with the error description and line number.</p>
+
+        <h2>Dependencies</h2>
+        <ul>
+            <li><code>MSXML2.XMLHTTP</code> for HTTP requests.</li>
+            <li>JSON parser, such as <code>JsonConverter</code>, to handle JSON response parsing.</li>
+            <li>Excel environment for execution.</li>
+        </ul>
+
+        <h2>Note</h2>
+        <p>Please ensure your Excel has the necessary permissions and is set up to allow macros and external data connections.</p>
+    </div>
+
+</body>
+</html>

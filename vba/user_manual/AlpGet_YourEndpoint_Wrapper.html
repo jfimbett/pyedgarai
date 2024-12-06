@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlpGet_YourEndpoint Function User Manual</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .code-block {
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            padding: 10px;
+            font-family: Consolas, "Courier New", monospace;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1 class="text-center">AlpGet_YourEndpoint Function User Manual</h1>
+    
+    <section class="mt-4">
+        <h2>Introduction</h2>
+        <p>The <code>AlpGet_YourEndpoint</code> function is a VBA function designed to make an HTTP GET request to a specified endpoint with given parameters. The response is expected to be in JSON format and contain data that will be written to the active Excel sheet.</p>
+    </section>
+
+    <section class="mt-4">
+        <h2>Function Definition</h2>
+        <div class="code-block">
+            Function AlpGet_YourEndpoint(param1 As String, param2 As String, param3 As String, api_token As String) As String
+        </div>
+    </section>
+
+    <section class="mt-4">
+        <h2>Parameters</h2>
+        <ul>
+            <li><code>param1</code> (String): The first parameter to be sent in the request URL.</li>
+            <li><code>param2</code> (String): The second parameter to be sent in the request URL.</li>
+            <li><code>param3</code> (String): The third parameter to be sent in the request URL.</li>
+            <li><code>api_token</code> (String): The API token for authentication purposes.</li>
+        </ul>
+    </section>
+
+    <section class="mt-4">
+        <h2>Return Value</h2>
+        <p>This function returns a concatenated string of the parameters in the format <code>param1-param2-param3</code>.</p>
+    </section>
+
+    <section class="mt-4">
+        <h2>Behavior</h2>
+        <p>The function performs the following operations:</p>
+        <ol>
+            <li>Constructs and sends an HTTP GET request using the provided parameters and API token to a predefined endpoint.</li>
+            <li>Parses the JSON response.</li>
+            <li>Writes specific keys from the JSON response data to the Excel sheet, starting from the cell below the current active cell.</li>
+            <li>Returns a concatenated string of the input parameters.</li>
+        </ol>
+    </section>
+
+    <section class="mt-4">
+        <h2>Usage Example</h2>
+        <div class="code-block">
+            <strong>Sub ExampleUsage()</strong>
+            <br>
+            Dim result As String<br>
+            result = AlpGet_YourEndpoint("value1", "value2", "value3", "your_api_token")<br>
+            MsgBox "Result: " &amp; result<br>
+            <strong>End Sub</strong>
+        </div>
+    </section>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

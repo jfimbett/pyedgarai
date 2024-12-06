@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlpGet_Account Function User Manual</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin-top: 20px;
+        }
+        pre.vba {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: "Courier New", Courier, monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">AlpGet_Account Function User Manual</h1>
+        <hr>
+        <h2>Introduction</h2>
+        <p>The <code>AlpGet_Account</code> function is a VBA function designed to fetch account information from a local server and populate it into an Excel sheet. This guide provides details about the function and examples of its usage.</p>
+
+        <h3>Function Signature</h3>
+        <p><code>Function AlpGet_Account(units As String, account As String, frame As String, taxonomy As String, api_token As String) As String</code></p>
+
+        <h2>Parameters</h2>
+        <ul>
+            <li><strong>units:</strong> <em>String</em> - Represents the unit of the account information requested.</li>
+            <li><strong>account:</strong> <em>String</em> - Denotes the specific account to fetch data for.</li>
+            <li><strong>frame:</strong> <em>String</em> - The frame of reference (or time frame) for the account information.</li>
+            <li><strong>taxonomy:</strong> <em>String</em> - Categorizes the type of account information required.</li>
+            <li><strong>api_token:</strong> <em>String</em> - A token for API authorization.</li>
+        </ul>
+
+        <h2>Return Value</h2>
+        <p>The function returns a string in the format <code>units-account-frame-taxonomy</code> that represents the combined parameters.</p>
+
+        <h2>Side Effects</h2>
+        <p>The function populates the Excel sheet, starting from the active cell, with account information fetched from a local API, laid out in columns: <em>accn, cik, end, entityName, loc, start, val</em>.</p>
+
+        <h2>Error Handling</h2>
+        <p>If an error occurs, a message box will display an error description and line number.</p>
+
+        <h2>Example Usage</h2>
+        <pre class="vba">
+Dim result As String
+result = AlpGet_Account("USD", "Cash", "2023-Q1", "IFRS", "your_api_token")
+        </pre>
+        <p>The above example calls the <code>AlpGet_Account</code> function with parameters for fetching quarterly cash account information in USD format, using an IFRS taxonomy.</p>
+        
+        <h2>Dependencies</h2>
+        <p>The function requires the MSXML2 library for HTTP requests and a JSON converter to parse responses. It communicates with a local server that's expected to be running at <code>http://127.0.0.1:5000</code>.</p>
+    </div>
+</body>
+</html>

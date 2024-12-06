@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlpGet_Session Function Manual</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .code-block {
+            background-color: #f8f9fa;
+            border: 1px solid #ced4da;
+            padding: 15px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+        .example-code {
+            background-color: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="container mt-4">
+
+    <h1 class="mb-4">AlpGet_Session Function User Manual</h1>
+
+    <h2>Description</h2>
+    <p>
+        The <code>AlpGet_Session</code> function retrieves session data for a specified ticker symbol using a provided API token.
+        It obtains the data by making an HTTP GET request to a local server, parses the JSON response,
+        and writes the data to the Excel sheet starting from the cell immediately below the active cell.
+    </p>
+
+    <h2>Parameters</h2>
+    <ul>
+        <li><strong>ticker</strong>: A string representing the financial instrument's ticker symbol.</li>
+        <li><strong>api_token</strong>: A string representing the API authentication token.</li>
+    </ul>
+
+    <h2>Return Value</h2>
+    <p>
+        Returns a string "Session Retrieved" if successful. If an error occurs, an error message is displayed.
+    </p>
+
+    <h2>Examples</h2>
+    <div class="example-code">
+        <div class="code-block">
+            <span>' Example Usage of AlpGet_Session in VBA/Excel</span><br>
+            <span>Sub ExampleUsage()</span><br>
+            <span>    Dim ticker As String</span><br>
+            <span>    Dim apiToken As String</span><br>
+            <br>
+            <span>    ticker = "AAPL"</span><br>
+            <span>    apiToken = "your_api_token_here"</span><br>
+            <br>
+            <span>    MsgBox AlpGet_Session(ticker, apiToken)</span><br>
+            <span>End Sub</span>
+        </div>
+    </div>
+
+</body>
+</html>

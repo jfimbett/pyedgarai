@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VBA Financial News Function Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        p {
+            margin: 10px 0;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .note {
+            background: #eafaf1;
+            border-left: 5px solid #2ecc71;
+            padding: 10px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>VBA Financial News Function Documentation</h1>
+    <h2>Description</h2>
+    <p>
+        This VBA module provides two functions, <code>AlpGet_News_Wrapper</code> and <code>AlpGet_News</code>, designed to fetch and display financial news for a specified stock ticker using an external API.
+    </p>
+    
+    <h2>Function Overview</h2>
+    <h3><code>AlpGet_News_Wrapper</code></h3>
+    <p>
+        This function sends a GET request to a local server (default: <code>http://localhost:5000/news</code>) to retrieve news data for the provided stock ticker.
+    </p>
+    <ul>
+        <li><strong>Inputs:</strong>
+            <ul>
+                <li><code>ticker</code>: The stock ticker symbol (e.g., <code>AAPL</code>).</li>
+                <li><code>api_token</code>: An API token for authentication.</li>
+            </ul>
+        </li>
+        <li><strong>Outputs:</strong>
+            The following data is written to the active Excel sheet:
+            <ul>
+                <li><code>link</code>: URL to the news article.</li>
+                <li><code>providerPublishTime</code>: Timestamp of publication.</li>
+                <li><code>publisher</code>: Source of the news.</li>
+                <li><code>title</code>: Title of the news article.</li>
+                <li><code>type</code>: Type of news (e.g., report, opinion).</li>
+                <li><code>uuid</code>: Unique identifier for the news item.</li>
+            </ul>
+        </li>
+    </ul>
+    <p>If an error occurs (e.g., invalid response or network issues), a message box displays the error details.</p>
+
+    <h3><code>AlpGet_News</code></h3>
+    <p>
+        This function acts as a wrapper for <code>AlpGet_News_Wrapper</code>, allowing it to be called directly from an Excel formula.
+    </p>
+
+    <h2>How to Use</h2>
+    <h3>Setup Requirements</h3>
+    <ul>
+        <li>Install a VBA-compatible JSON parser, such as <a href="https://github.com/VBA-tools/VBA-JSON" target="_blank">VBA JSON Converter</a>.</li>
+        <li>Ensure a local server is running at <code>http://localhost:5000</code> with an endpoint <code>/news</code> that accepts the parameters <code>ticker</code> and <code>api_token</code>.</li>
+    </ul>
+
+    <h3>Calling the Function</h3>
+    <h4>From VBA</h4>
+    <pre>
+Dim result As String
+result = AlpGet_News_Wrapper("AAPL", "your_api_token")
+MsgBox result
+    </pre>
+
+    <h4>From Excel</h4>
+    <p>Use the function as a formula in a worksheet cell:</p>
+    <pre>
+=AlpGet_News("AAPL", "your_api_token")
+    </pre>
+
+    <h3>Expected Output</h3>
+    <p>
+        The function will populate the active Excel sheet starting from the currently selected cell with the following columns:
+    </p>
+    <ul>
+        <li><code>link</code></li>
+        <li><code>providerPublishTime</code></li>
+        <li><code>publisher</code></li>
+        <li><code>title</code></li>
+        <li><code>type</code></li>
+        <li><code>uuid</code></li>
+    </ul>
+
+    <h2>Notes</h2>
+    <div class="note">
+        <p>
+            The function assumes the server responds with properly formatted JSON data containing a <code>data</code> key. Modify the <code>url</code> variable in the code if the server address or endpoint changes.
+        </p>
+        <p>
+            Add error handling for scenarios such as network unavailability, invalid API tokens, or insufficient permissions to write to the sheet.
+        </p>
+    </div>
+</body>
+</html>

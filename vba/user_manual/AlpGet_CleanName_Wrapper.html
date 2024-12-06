@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Manual for AlpGet_CleanName Functions</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+        }
+        .vba-code {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: Consolas, "Courier New", Courier, monospace;
+            font-size: 14px;
+        }
+        .code-block {
+            background-color: #eeeeee;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: Consolas, "Courier New", Courier, monospace;
+            font-size: 14px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>User Manual for AlpGet_CleanName Functions</h1>
+        <p>The <code>AlpGet_CleanName</code> function is used to clean a given name through an API call. The function returns a formatted string combining the original name and the API token.</p>
+
+        <h2>Function Description</h2>
+        <div class="vba-code">
+            <code>Function AlpGet_CleanName(name As String, api_token As String) As String</code>
+        </div>
+        <p>Parameters:</p>
+        <ul>
+            <li><strong>name</strong> (String): The name that needs to be cleaned.</li>
+            <li><strong>api_token</strong> (String): The API token used for authentication in the API request.</li>
+        </ul>
+        <p>Returns:</p>
+        <ul>
+            <li>(String): A string formatted as <em>name-api_token</em>.</li>
+        </ul>
+
+        <h2>Example Usage</h2>
+        <h3>VBA Code Example</h3>
+        <div class="code-block">
+<pre>
+Sub ExampleUsage()
+    Dim rawName As String
+    Dim token As String
+    Dim cleanedName As String
+    
+    rawName = "John Doe"
+    token = "12345xyz"
+    cleanedName = AlpGet_CleanName(rawName, token)
+    
+    MsgBox "Formatted Result: " & cleanedName
+End Sub
+</pre>
+        </div>
+        <p>This example illustrates how to use the <code>AlpGet_CleanName</code> function within a VBA macro to clean the name "John Doe", using the API token "12345xyz" and display the formatted result using a message box.</p>
+
+        <h3>Excel Worksheet Example</h3>
+        <p>Suppose you want to use the function in an Excel worksheet. You can create a button that triggers the <code>ExampleUsage</code> macro to utilize the <code>AlpGet_CleanName</code> function.</p>
+
+        <h2>Error Handling</h2>
+        <p>If an error occurs during the execution of the function, a message box will display the error description.</p>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlpGet_SecFilings Function User Manual</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .code-container {
+            background-color: #f8f9fa;
+            border: 1px solid #e3e3e3;
+            border-radius: 5px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1 class="mb-4">AlpGet_SecFilings Function User Manual</h1>
+
+    <section>
+        <h2>Overview</h2>
+        <p>The <strong>AlpGet_SecFilings</strong> function retrieves SEC filings for a specified stock ticker using an API token. It processes and writes the data to an Excel worksheet starting from the active cell.</p>
+    </section>
+
+    <section>
+        <h2>Function Signature</h2>
+        <p><code>Function AlpGet_SecFilings(ticker As String, api_token As String) As String</code></p>
+    </section>
+
+    <section>
+        <h2>Parameters</h2>
+        <ul>
+            <li><strong>ticker</strong> (String): The stock ticker symbol to fetch SEC filings for.</li>
+            <li><strong>api_token</strong> (String): The API token required to authenticate the request.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Return Value</h2>
+        <p>Returns a string composed of the input <code>ticker</code> and <code>api_token</code> separated by a hyphen.</p>
+    </section>
+
+    <section>
+        <h2>Usage Example</h2>
+        <div class="code-container">
+            <pre><code>' Declare variables
+Dim ticker As String
+Dim api_token As String
+Dim result As String
+
+' Initialize variables
+ticker = "AAPL"
+api_token = "your_api_token_here"
+
+' Call the function
+result = AlpGet_SecFilings(ticker, api_token)
+
+' Output the result
+MsgBox result</code></pre>
+        </div>
+    </section>
+
+    <section>
+        <h2>Example Usage in Excel VBA</h2>
+        <p>This is how you would typically use the function in an Excel VBA module:</p>
+        <div class="code-container">
+            <pre><code>Sub FetchFilings()
+    ' Set ticker and API token
+    Dim ticker As String
+    Dim api_token As String
+    ticker = "TSLA"
+    api_token = "your_api_token_here"
+    
+    ' Fetch SEC filings
+    Dim output As String
+    output = AlpGet_SecFilings(ticker, api_token)
+    
+    ' Display the result
+    MsgBox "Filings fetched for: " & output
+End Sub</code></pre>
+        </div>
+    </section>
+
+    <footer class="mt-5">
+        <p>Note: Ensure that your Excel workbook has access to MSXML2.XMLHTTP and a JSON parser to work with JSON responses.</p>
+    </footer>
+</div>
+
+</body>
+</html>

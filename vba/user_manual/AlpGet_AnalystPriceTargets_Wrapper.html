@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Manual - AlpGet_AnalystPriceTargets Function</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+        }
+        code {
+            background-color: #f8f9fa;
+            padding: 10px;
+            display: block;
+            border-radius: 5px;
+        }
+        h1, h2, h3 {
+            color: #007bff;
+        }
+        .function-details {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AlpGet_AnalystPriceTargets Function</h1>
+        <p>
+            The <code>AlpGet_AnalystPriceTargets</code> function retrieves the analyst price targets for a given stock ticker.
+            It uses an underlying wrapper function to send a request to a specified API and writes the received data to an Excel sheet.
+        </p>
+
+        <h2>Usage</h2>
+        <p>
+            To use the <code>AlpGet_AnalystPriceTargets</code> function, provide the stock <strong>ticker</strong> and your API <strong>api_token</strong>. 
+            The function will return the price targets data and populate the Excel sheet starting from the current active cell.
+        </p>
+
+        <h3>Example</h3>
+        <code>
+            Dim result As String
+            result = AlpGet_AnalystPriceTargets("AAPL", "your_api_token_here")
+        </code>
+
+        <h2>Parameters</h2>
+        <ul>
+            <li><strong>ticker</strong>: The stock ticker symbol you want to get the price targets for (e.g., "AAPL" for Apple Inc.).</li>
+            <li><strong>api_token</strong>: Your API token for authentication.</li>
+        </ul>
+
+        <h2>Output</h2>
+        <p>
+            The function will fill the Excel sheet starting from the active cell with the following data:
+        </p>
+        <ul>
+            <li><strong>current</strong>: The current price target.</li>
+            <li><strong>high</strong>: The highest price target.</li>
+            <li><strong>low</strong>: The lowest price target.</li>
+            <li><strong>mean</strong>: The mean price target.</li>
+            <li><strong>median</strong>: The median price target.</li>
+        </ul>
+
+        <h2>Error Handling</h2>
+        <p>
+            If an error occurs during the execution of the function, an error message box will be displayed with the error description.
+        </p>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

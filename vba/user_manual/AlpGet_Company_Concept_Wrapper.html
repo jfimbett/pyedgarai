@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Manual for AlpGet_Company_Concept Function</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 20px;
+        }
+        .vba-code {
+            background-color: #f7f7f9;
+            border: 1px solid #e1e1e8;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: monospace;
+            white-space: pre;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 class="mt-5">User Manual for <code>AlpGet_Company_Concept</code> Function</h1>
+    
+    <section class="mt-4">
+        <h2>Function Overview</h2>
+        <p>The <code>AlpGet_Company_Concept</code> function is designed to retrieve financial data for a specific company and concept using a web API. It takes four parameters: the company's CIK, a tag representing the financial concept, the taxonomy, and an API token required for authentication.</p>
+    </section>
+    
+    <section class="mt-4">
+        <h2>Function Signature</h2>
+        <div class="vba-code">
+            Function AlpGet_Company_Concept(cik As String, tag As String, taxonomy As String, api_token As String) As String
+        </div>
+    </section>
+    
+    <section class="mt-4">
+        <h2>Parameters</h2>
+        <ul>
+            <li><strong>cik</strong>: The Central Index Key (CIK) for the company, used to identify the company in the SEC's EDGAR database.</li>
+            <li><strong>tag</strong>: The specific tag identifying the financial concept you want to retrieve.</li>
+            <li><strong>taxonomy</strong>: The taxonomy under which the tag is categorized.</li>
+            <li><strong>api_token</strong>: A valid API token required for accessing the web service.</li>
+        </ul>
+    </section>
+
+    <section class="mt-4">
+        <h2>Returns</h2>
+        <p>The function returns a string in the format "cik-tag-taxonomy". This string is a composite identifier of the request parameters.</p>
+    </section>
+    
+    <section class="mt-4">
+        <h2>Usage Example</h2>
+        <p>Below is an example of how you can call the <code>AlpGet_Company_Concept</code> function:</p>
+        <div class="vba-code">
+Function CallExample()\n
+    Dim cik As String\n
+    Dim tag As String\n
+    Dim taxonomy As String\n
+    Dim api_token As String\n
+    Dim result As String\n
+    \n
+    cik = "0000320193"\n
+    tag = "Revenue"\n
+    taxonomy = "GAAP"\n
+    api_token = "your_api_token_here"\n
+    \n
+    result = AlpGet_Company_Concept(cik, tag, taxonomy, api_token)\n
+    MsgBox "Result: " & result\n
+End Function
+        </div>
+    </section>
+
+    <section class="mt-4">
+        <h2>Notes</h2>
+        <ul>
+            <li>Ensure the API service is running and accessible at the endpoint specified in the function.</li>
+            <li>Make sure the API token is valid and has the necessary permissions.</li>
+            <li>The function makes use of the <code>AlpGet_Company_Concept_Wrapper</code> for its core operations.</li>
+        </ul>
+    </section>
+</div>
+
+</body>
+</html>

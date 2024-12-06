@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlpGet_Cash_Flow User Manual</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        pre code {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border: 1px solid #e8e8e8;
+            border-radius: 5px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">AlpGet_Cash_Flow Function User Manual</h1>
+
+        <section>
+            <h2>Function Purpose</h2>
+            <p>The <code>AlpGet_Cash_Flow</code> function is a wrapper that retrieves and displays cash flow data for a specified ticker symbol via an API. The data is presented directly in an Excel worksheet starting from the currently active cell.</p>
+        </section>
+
+        <section>
+            <h2>Function Signature</h2>
+            <pre><code>Function AlpGet_Cash_Flow(ticker As String, api_token As String) As String</code></pre>
+            <p><strong>Parameters:</strong></p>
+            <ul>
+                <li><code>ticker</code>: A string representing the ticker symbol of the stock.</li>
+                <li><code>api_token</code>: An authorization token required to access the API.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Usage Instructions</h2>
+            <ol>
+                <li>Ensure your Excel worksheet is open and the desired starting cell is selected.</li>
+                <li>Call the function with appropriate <code>ticker</code> and <code>api_token</code> arguments.</li>
+                <li>The Excel worksheet will be populated with cash flow data starting from the currently active cell.</li>
+            </ol>
+        </section>
+
+        <section>
+            <h2>Examples</h2>
+            <pre><code class="vba">
+Sub ExampleUsage()
+    Dim result As String
+    result = AlpGet_Cash_Flow("AAPL", "your_api_token_here")
+    MsgBox "Cash Flow Data Retrieved for: " & result
+End Sub
+            </code></pre>
+            <p>This example gets the cash flow data for the ticker "AAPL" and displays a message box indicating the retrieval. Make sure you replace <code>your_api_token_here</code> with your actual API token.</p>
+        </section>
+
+        <section>
+            <h2>Error Handling</h2>
+            <p>If an error occurs during the data retrieval process, a message box will display the error description to help debug the issue.</p>
+        </section>
+    </div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Function User Manual</title>
+    <style>
+        body {
+            padding: 20px;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        code {
+            color: #e83e8c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Function User Manual: AlpGet_earnings_dates</h1>
+        <p>This Excel VBA function retrieves earnings dates for a specified stock ticker using an API. The information is then written to the active Excel sheet, starting from the active cell.</p>
+
+        <h2>Function Definition</h2>
+        <h4><code>AlpGet_earnings_dates(ticker As String, api_token As String) As String</code></h4>
+        
+        <h3>Parameters:</h3>
+        <ul>
+            <li><strong>ticker</strong>: (<em>String</em>) The stock ticker symbol for which earnings dates are to be retrieved.</li>
+            <li><strong>api_token</strong>: (<em>String</em>) API token for authentication with the earnings dates API.</li>
+        </ul>
+        
+        <h3>Returns:</h3>
+        <p>The function returns a concatenation of the ticker and api_token as a string (<code>ticker-api_token</code>).</p>
+        
+        <h3>Output:</h3>
+        <p>The function writes the retrieved earnings dates to the active Excel sheet, starting from the active cell. JSON data structure is assumed to have "data" and "index" keys as headers.</p>
+
+        <h2>Usage Example:</h2>
+        <pre><code>Sub ExampleUsage()
+    Dim result As String
+    result = AlpGet_earnings_dates("AAPL", "your_api_token_here")
+    MsgBox result
+End Sub</code></pre>
+
+        <h2>Notes:</h2>
+        <ul>
+            <li>The function makes a GET request to a local server endpoint at <code>http://localhost:5000/earnings_dates</code>.</li>
+            <li>Please ensure the server is running and accessible at the specified endpoint.</li>
+            <li>The Excel VBA environment must have the necessary permissions to make web requests.</li>
+            <li>Customize <code>your_api_token_here</code> with a valid API token.</li>
+            <li>Error handling is supported, displaying a message box in case of any errors during execution.</li>
+        </ul>
+    </div>
+</body>
+</html>

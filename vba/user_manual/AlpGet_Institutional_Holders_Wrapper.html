@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Manual - AlpGet Institutional Holders</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .code-block {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+        }
+
+        .highlight {
+            color: #d63384;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">AlpGet Institutional Holders User Manual</h1>
+        <hr>
+
+        <h2>Overview</h2>
+        <p>The <strong>AlpGet_Institutional_Holders</strong> function retrieves information about the institutional holders for a given stock ticker from a local server and displays it in an Excel worksheet.</p>
+
+        <h2>Function Signature</h2>
+        <p><strong>AlpGet_Institutional_Holders(ticker As String, api_token As String) As String</strong></p>
+
+        <h2>Parameters</h2>
+        <ul>
+            <li><strong>ticker</strong>: The stock ticker symbol for which you want to fetch institutional holders data.</li>
+            <li><strong>api_token</strong>: The API token required for authentication to access the data.</li>
+        </ul>
+
+        <h2>Return Value</h2>
+        <p>Returns a string in the format <code>ticker-api_token</code>.</p>
+
+        <h2>Usage Example</h2>
+        <p>To use the <strong>AlpGet_Institutional_Holders</strong> function, insert the following code into your VBA editor:</p>
+        <div class="code-block">
+            <span class="highlight">' Set the active Excel cell where data output begins</span><br>
+            <span class="highlight">Sub ExampleUsage()</span><br>
+            <span class="highlight">    Dim result As String</span><br>
+            <span class="highlight">    result = AlpGet_Institutional_Holders("AAPL", "your_api_token")</span><br>
+            <span class="highlight">    MsgBox "Function executed with result: " & result</span><br>
+            <span class="highlight">End Sub</span>
+        </div>
+
+        <h2>Output</h2>
+        <p>The function will write the following information starting from the currently active cell:</p>
+        <ul>
+            <li>Date Reported</li>
+            <li>Holder</li>
+            <li>Percentage Held</li>
+            <li>Shares</li>
+            <li>Value</li>
+        </ul>
+
+        <h2>Error Handling</h2>
+        <p>If an error occurs during the execution, a message box will display the error description and line number.</p>
+
+    </div>
+</body>
+</html>

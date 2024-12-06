@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Manual for AlpGet_Actions Functions</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .code {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: "Courier New", Courier, monospace;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">AlpGet_Actions Function User Manual</h1>
+
+        <h2>Overview</h2>
+        <p>The <code>AlpGet_Actions</code> and its helper function <code>AlpGet_Actions_Wrapper</code> are designed
+            to fetch financial actions related to a specific stock ticker using a given API token. The data retrieved includes dividends and stock splits, and the result is populated into the active Excel sheet starting from the current active cell.</p>
+
+        <h2>Function Signature</h2>
+        <p><code>Function AlpGet_Actions(ticker As String, api_token As String) As String</code></p>
+
+        <h2>Parameters</h2>
+        <ul>
+            <li><code>ticker</code>: The stock ticker symbol as a string.</li>
+            <li><code>api_token</code>: The API token as a string used for authentication to access the data.</li>
+        </ul>
+
+        <h2>Return Value</h2>
+        <p>The function returns a string that combines the ticker and API token.</p>
+
+        <h2>Usage Example</h2>
+        <div class="code">
+            <pre><code>Sub ExampleUsage()
+Dim result As String
+' Call the function with your stock ticker and API token
+result = AlpGet_Actions("AAPL", "your_api_token_here")
+' Display the result
+MsgBox result
+End Sub</code></pre>
+        </div>
+
+        <h2>Notes</h2>
+        <ul>
+            <li>Ensure that Excel's active cell is where you want the data to be inserted, as data will be written starting from this position.</li>
+            <li>The function communicates with a local server running at <code>http://localhost:5000</code>. Ensure your environment has this server running with the necessary endpoints.</li>
+            <li>Please handle sensitive information like API tokens securely and ensure you have permission to access the data for the specified ticker.</li>
+        </ul>
+
+        <h2>Error Handling</h2>
+        <p>If any error occurs during function execution, a message box will display the error description and the line number.</p>
+    </div>
+</body>
+
+</html>

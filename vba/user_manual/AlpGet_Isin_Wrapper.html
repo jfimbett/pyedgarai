@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Manual for AlpGet_Isin Function</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        pre {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 16px;
+            font-size: 14px;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1 class="text-center">User Manual for AlpGet_Isin Function</h1>
+    <div class="mt-4">
+        <h3>Description</h3>
+        <p>
+            The <code>AlpGet_Isin</code> function is designed to retrieve the International Securities Identification Number (ISIN) for a given stock ticker. 
+            It operates by making a REST API call to a local server endpoint using the provided ticker and API token. The result is displayed in the active Excel cell.
+        </p>
+    </div>
+
+    <div class="mt-4">
+        <h3>Input Parameters</h3>
+        <ul>
+            <li><strong>ticker (String):</strong> The stock ticker symbol for which the ISIN is requested.</li>
+            <li><strong>api_token (String):</strong> A valid API token to authenticate the request.</li>
+        </ul>
+    </div>
+
+    <div class="mt-4">
+        <h3>Output</h3>
+        <p>
+            The function returns a concatenated string comprising the ticker and API token. In case of an error during the API call, a message box will alert the user.
+        </p>
+    </div>
+
+    <div class="mt-4">
+        <h3>Usage Example</h3>
+        <pre><code class="language-vba">
+Dim isin As String
+isin = AlpGet_Isin("AAPL", "123456")
+        </code></pre>
+        <p>In this example, the <code>AlpGet_Isin</code> function fetches the ISIN associated with the ticker "AAPL", using the API token "123456". The result is displayed in the currently active Excel cell.</p>
+    </div>
+
+    <div class="mt-4">
+        <h3>Error Handling</h3>
+        <p>
+            The function includes error handling to alert the user if an error occurs during execution, such as issues with the API server or an invalid response.
+        </p>
+    </div>
+</div>
+
+</body>
+</html>

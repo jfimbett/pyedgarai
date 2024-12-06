@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Manual for AlpGet_Financials</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        pre {
+            background-color: #f8f9fa;
+            border: 1px solid #ced4da;
+            padding: 1em;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1 class="text-primary">User Manual for AlpGet_Financials</h1>
+    <p>This document provides a guide for using the <code>AlpGet_Financials</code> function. This function is used to retrieve financial data for a given stock ticker from a specified API endpoint.</p>
+
+    <h2 class="mt-4">Function Description</h2>
+    <p>The <code>AlpGet_Financials</code> function is a high-level wrapper that retrieves financial data for a stock ticker and places it into the current Excel worksheet starting from the active cell. This data is obtained by querying a local API endpoint using the provided ticker symbol and API token.</p>
+
+    <h3>Parameters</h3>
+    <ul>
+        <li><strong>ticker</strong>: A string representing the stock ticker symbol (e.g., "AAPL" for Apple Inc.).</li>
+        <li><strong>api_token</strong>: A string representing the API token used for authentication when accessing the financial data.</li>
+    </ul>
+
+    <h3>Returns</h3>
+    <p>The function returns a string "Success" if the operation was successful. In case of an error, a message box will display the error description.</p>
+
+    <h2 class="mt-4">Usage Examples</h2>
+
+    <h3>Example 1: Retrieve Financial Data for Apple Inc.</h3>
+    <pre><code class="vba">
+Sub GetAppleFinancials()
+    Dim result As String
+    result = AlpGet_Financials("AAPL", "your_api_token")
+    If result = "Success" Then
+        MsgBox "Financial data retrieved successfully."
+    Else
+        MsgBox "Failed to retrieve data."
+    End If
+End Sub
+    </code></pre>
+
+    <h3>Example 2: Retrieve Financial Data for Microsoft Corp.</h3>
+    <pre><code class="vba">
+Sub GetMicrosoftFinancials()
+    Dim result As String
+    result = AlpGet_Financials("MSFT", "your_api_token")
+    If result = "Success" Then
+        MsgBox "Financial data retrieved successfully."
+    Else
+        MsgBox "Failed to retrieve data."
+    End If
+End Sub
+    </code></pre>
+
+    <div class="alert alert-warning mt-4" role="alert">
+        <strong>Note:</strong> Ensure that your local server is running and accessible at the URL "http://localhost:5000/financials" for the function to work correctly.
+    </div>
+
+</div>
+
+</body>
+</html>

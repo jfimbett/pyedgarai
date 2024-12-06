@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlpGet_Income_Stmt Function User Manual</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        pre code {
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            display: block;
+        }
+
+        h1, h2, h3 {
+            margin-top: 20px;
+        }
+
+        .container {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="text-center">AlpGet_Income_Stmt Function</h1>
+        <p class="lead text-center">Retrieve and display income statements for a specified company ticker</p>
+
+        <h2>Introduction</h2>
+        <p>The function <code>AlpGet_Income_Stmt</code> is designed to fetch the income statement for a given company ticker using a specified API token. It processes the data and populates it into an active Excel worksheet.</p>
+
+        <h2>Function Definitions</h2>
+        <h3>AlpGet_Income_Stmt_Wrapper</h3>
+        <p>This function handles the HTTP request to fetch the income statement and processes the JSON response.</p>
+
+        <h3>AlpGet_Income_Stmt</h3>
+        <p>This function acts as a wrapper that utilizes <code>Evaluate</code> to call <code>AlpGet_Income_Stmt_Wrapper</code>.</p>
+
+        <h2>Parameters</h2>
+        <ul>
+            <li><strong>ticker</strong> (String): The stock ticker symbol of the company.</li>
+            <li><strong>api_token</strong> (String): An API token for authentication with the data source.</li>
+        </ul>
+
+        <h2>Return Value</h2>
+        <p>The function returns a string combining the ticker and the API token.</p>
+
+        <h2>Error Handling</h2>
+        <p>In case of an error, a message box displays the error description along with the line where the error occurred.</p>
+
+        <h2>Examples</h2>
+        <h3>Example 1: Retrieve Income Statement</h3>
+        <pre class="bg-light"><code>Dim response As String
+response = AlpGet_Income_Stmt("AAPL", "your_api_token_here")
+' After execution, the active sheet will be filled with Apple's income statement data.
+' The variable 'response' will hold "AAPL-your_api_token_here".</code></pre>
+
+        <h3>Example 2: Handling Errors</h3>
+        <pre class="bg-light"><code>Dim response As String
+On Error Resume Next
+response = AlpGet_Income_Stmt("INVALID", "wrong_token")
+If Err.Number <> 0 Then
+    MsgBox "An error occurred while retrieving the data."
+End If
+On Error GoTo 0</code></pre>
+
+        <h2>Notes</h2>
+        <p>Ensure the API endpoint specified in the function is accessible and that the <a href="https://localhost:5000">server</a> is running to handle requests.<br>
+           Activate the cell in the Excel sheet where you want data to be populated before invoking the function.</p>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

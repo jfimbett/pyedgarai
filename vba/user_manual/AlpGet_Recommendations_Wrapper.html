@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlpGet Recommendations User Manual</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .code-box {
+            background-color: #f8f9fa;
+            border: 1px solid #ced4da;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">AlpGet Recommendations User Manual</h1>
+        <h2>Overview</h2>
+        <p>
+            The <code>AlpGet_Recommendations_Wrapper</code> and <code>AlpGet_Recommendations</code> functions allow users to 
+            fetch stock recommendation data from a specified endpoint. This functionality is useful for retrieving investment 
+            recommendations based on the provided ticker symbol.
+        </p>
+        
+        <h2>Function Definition</h2>
+        <h3>AlpGet_Recommendations_Wrapper</h3>
+        <div class="code-box">
+<pre><code>Function AlpGet_Recommendations_Wrapper(ticker As String, api_token As String) As String
+    ' Sends an HTTP GET request to fetch stock recommendations
+    ' Parameters:
+    '   ticker - The stock ticker symbol
+    '   api_token - The API token for authentication
+    ' Returns:
+    '   A string formatted as "ticker-api_token"
+</code></pre>
+        </div>
+        
+        <h3>AlpGet_Recommendations</h3>
+        <div class="code-box">
+<pre><code>Function AlpGet_Recommendations(ticker As String, api_token As String) As String
+    ' Calls AlpGet_Recommendations_Wrapper using Excel's Evaluate function
+</code></pre>
+        </div>
+
+        <h2>Usage Examples</h2>
+        <h3>Example 1: Simple Usage</h3>
+        <p>Below is an example of how to use the <code>AlpGet_Recommendations</code> function in VBA:</p>
+        <div class="code-box">
+<pre><code>Sub FetchRecommendationsExample()
+    Dim result As String
+    result = AlpGet_Recommendations("AAPL", "your_api_token")
+    MsgBox "Result: " & result
+End Sub</code></pre>
+        </div>
+
+        <h3>Example 2: Display Results in Excel</h3>
+        <p>Retrieve recommendations and display them in an Excel worksheet:</p>
+        <div class="code-box">
+<pre><code>Sub DisplayRecommendations()
+    Dim ticker As String, apiToken As String
+    ticker = "MSFT"
+    apiToken = "your_api_token"
+    
+    ' Call the function and display results starting from the active cell
+    AlpGet_Recommendations_Wrapper ticker, apiToken
+End Sub</code></pre>
+        </div>
+
+        <h2>Error Handling</h2>
+        <p>If an error occurs, a message box will display the error description and the line number of the erroneous code.</p>
+
+        <h2>CSS and Styling</h2>
+        <p>The user manual utilizes Bootstrap for styling and additional CSS to enhance the presentation of the code snippets.</p>
+    </div>
+</body>
+</html>

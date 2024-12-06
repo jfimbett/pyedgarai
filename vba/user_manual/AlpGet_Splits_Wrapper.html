@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlpGet_Splits Function Documentation</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        pre, code {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 1rem;
+            overflow-x: auto;
+        }
+        .example-code {
+            font-family: "Courier New", Courier, monospace;
+            color: #d63384;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">User Manual for AlpGet_Splits Function</h1>
+        <h2>Description</h2>
+        <p>The <code>AlpGet_Splits</code> function is used to fetch stock split data for a given ticker symbol using an API token. The data is written directly to the active Excel sheet, starting at the active cell.</p>
+        
+        <h2>Parameters</h2>
+        <ul>
+            <li><strong>ticker</strong>: A string representing the stock ticker symbol.</li>
+            <li><strong>api_token</strong>: A string representing the API authentication token.</li>
+        </ul>
+        
+        <h2>Return Value</h2>
+        <p>The function returns a string concatenating the ticker and api_token used in the request.</p>
+        
+        <h2>Example Usage</h2>
+        <p>Here's how you can use the <code>AlpGet_Splits</code> function in your VBA code:</p>
+        <pre class="example-code">
+Dim result As String
+result = AlpGet_Splits("AAPL", "your_api_token_here")
+</pre>
+        <p>In this example, replace <code>"AAPL"</code> with your desired stock ticker symbol and <code>"your_api_token_here"</code> with your actual API token. The function will populate the active Excel sheet starting at the active cell with the date and stock split data.</p>
+        
+        <h2>Note</h2>
+        <p>Ensure that your Excel environment has JSON parsing capabilities enabled, such as by adding a JSON converter library.</p>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
