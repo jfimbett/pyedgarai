@@ -144,7 +144,7 @@ def stocks_data(query: mm.StockDataRequest):
     return {"data": data}
 
 valuation_metrics  = Tag(name="valuation_metrics", description="Valuation metrics")
-@app.get("/valuation_metrics", summary="Get valuation metrics", tags=[valuation_metrics], responses={200: ValuationMetricsResponse})
+@app.get("/valuation_metrics", summary="Get valuation metrics", tags=[valuation_metrics], responses={200: mm.ValuationMetricsResponse})
 def relevant_valuation_metrics(query: mm.ValuationMetricsRequest):
     
     if not authenticate(query.api_token):
