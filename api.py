@@ -216,7 +216,7 @@ for element in yf_e.IMPLEMENTED_ELEMENTS:
 
     # Create the endpoint function with a unique name using a lambda
     def create_endpoint_func(request_model: Type[BaseRequestModel], element: str):
-        def endpoint_func(query: Type[BaseRequestModel]):
+        def endpoint_func(query:  request_model):
             # Here you can perform authentication with query.api_token
             # Call the get_stock_element function with appropriate parameters
             response = yf_e.get_stock_element(query.ticker, element)
