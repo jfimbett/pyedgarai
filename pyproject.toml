@@ -19,6 +19,7 @@ markdownify = "^0.14.1"
 outlines = "^0.1.11"
 transformers = "^4.47.1"
 datasets = "^3.2.0"
+scikit-learn = "^1.6.0"
 
 [tool.poetry.dev-dependencies]
 

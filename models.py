@@ -161,9 +161,22 @@ class ComparablesRequest(BaseModel):
     capital_structure_interval: Optional[int] = Field(description="Interval for capital structure variable", example=100, default=None)
     location: Optional[str] = Field(description="Location parameters", example='', default=None)
 
+class ComparablesRequestML(BaseModel):
+    api_token : str = Field(description="API token", example="t3stt@ken")
+    name: str = Field(description="Name of the company", example="Apple Inc.")
+    sic: str = Field(description="SIC code of the company", example="3571")
+    assets: float = Field(description="Total assets of the company in USD", example=1000000000)
+    profitability: float = Field(description="Profitability of the company, Net Income/Total Assets", example=0.1)
+    growth_rate: float = Field(description="Growth rate of the Assets in the last 5 years", example=0.05)
+    capital_structure: float = Field(description="Capital structure of the company, Liabilites/Equity", example=0.5)
+
+
 class ComparablesResponse(BaseModel):
     cik: int = Field(description="CIK of the company", example=320193)
     comparables: List[Dict] = Field(description="List of comparable companies with the required data")
+
+class ComparablesResponseML(BaseModel):
+    comparables: dict = Field(description="List of comparable companies with the required data")
 
 class ValuationMetricsRequest(BaseModel):
     tickers: List[str] = Field(description="List of stock tickers", example=['AAPL', 'MSFT', 'GOOGL'])

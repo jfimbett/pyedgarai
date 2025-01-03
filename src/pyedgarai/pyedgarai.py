@@ -13,10 +13,12 @@ import yfinance as yf
 import logging
 import re
 import numpy as np
-
-
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import NearestNeighbors
 
 logging.basicConfig(level=logging.INFO)
+
+FAKE_CIK = 00000
 
 if __name__ == '__main__':
     RELATIVE_PATH = ""
@@ -24,7 +26,6 @@ if __name__ == '__main__':
 else:
     RELATIVE_PATH = 'src/pyedgarai/' # make this the standard relative path for the project, and only if this file is ran from the root directory we change it. 
     DATA_PATH = "data/"
-
 
 # Set up HTTP headers for requests to the SEC API
 HEADERS = {"User-Agent": "PyEdgarAI a library for fetching data from the SEC"}
@@ -696,6 +697,15 @@ def get_companies_with_same_sic(cik: int, digits=1):
 
     return df
 
+
+def get_all_size():
+    data = get_xbrl_frames('us-gaap', 
+                         clean_account_name('Assets'), 
+                         'USD', 
+                         'CY2024Q1I')
+    df_size = pd.DataFrame(data['data'])
+    return df_size
+
 def get_companies_similar_size(cik: int, interval= 100):
     # get the Assets of all companies 
     data = get_xbrl_frames('us-gaap', 
@@ -713,6 +723,34 @@ def get_companies_similar_size(cik: int, interval= 100):
     df_size = df_size[(df_size['val'] >= lower_bound) & (df_size['val'] <= upper_bound)]
 
     return df_size
+
+def get_all_profitability():
+    data = get_xbrl_frames('us-gaap', 
+                         clean_account_name('Assets'), 
+                         'USD', 
+                         'CY2024Q1I')
+    # to dataframe 
+    df_size = pd.DataFrame(data['data'])
+
+    data = get_xbrl_frames('us-gaap', 
+                         clean_account_name('NetIncomeLoss'), 
+                         'USD', 
+                         'CY2024Q1')
+    # to dataframe
+    df_profit = pd.DataFrame(data['data'])
+
+    df_size = df_size.rename(columns={'val': 'assets'})
+    df_profit = df_profit.rename(columns={'val': 'profit'})
+
+    # merge the two dataframes
+    df = pd.merge(df_size, df_profit, on='cik')
+    # calculate the profitability
+    df['profitability'] = df['profit']/df['assets']
+
+    # drop assets and profit
+    df = df.drop(['assets', 'profit'], axis=1)
+
+    return df
 
 # same for profitability, Revenue from Contract with Customer, Including Assessed Tax over total assets 
 def get_companies_similar_profitability(cik: int, interval= 100):
@@ -755,6 +793,37 @@ def get_companies_similar_profitability(cik: int, interval= 100):
 
     return df
 
+def get_all_growth_rate():
+    current_year = time.localtime().tm_year
+    # get the Assets of all companies 
+    data = get_xbrl_frames('us-gaap', 
+                         clean_account_name('Assets'), 
+                         'USD', 
+                         f'CY2024Q1I')
+    # to dataframe 
+    df_size = pd.DataFrame(data['data'])
+    
+    # now get assets 5 years ago
+    data = get_xbrl_frames('us-gaap', 
+                         clean_account_name('Assets'), 
+                         'USD', 
+                         f'CY{current_year-5}Q1I')
+    # to dataframe
+    df_size_5 = pd.DataFrame(data['data'])
+    # keep only cik and val 
+    df_size = df_size[['cik', 'val']]
+    df_size_5 = df_size_5[['cik', 'val']]
+    df_size = df_size.rename(columns={'val': 'assets'})
+    df_size_5 = df_size_5.rename(columns={'val': 'assets_5'})
+
+    df = pd.merge(df_size, df_size_5, on='cik')
+    df['growth_rate'] = (df['assets']-df['assets_5'])/df['assets_5']
+
+    # drop assets and assets_5
+    df = df.drop(['assets', 'assets_5'], axis=1)
+
+    return df
+
 # similar growth rate, compare assets in the last 5 years, compare assets year today with assets 5 years ago
 def get_companies_similar_growth_rate(cik: int, interval= 100):
     current_year = time.localtime().tm_year
@@ -762,7 +831,7 @@ def get_companies_similar_growth_rate(cik: int, interval= 100):
     data = get_xbrl_frames('us-gaap', 
                          clean_account_name('Assets'), 
                          'USD', 
-                         f'CY{current_year}Q1I')
+                         f'CY2024Q1I')
     # to dataframe 
     df_size = pd.DataFrame(data['data'])
 
@@ -796,6 +865,38 @@ def get_companies_similar_growth_rate(cik: int, interval= 100):
 
     return df
 
+
+def get_all_capital_structure():
+    data = get_xbrl_frames('us-gaap', 
+                         clean_account_name("StockholdersEquity"), 
+                         'USD', 
+                         f'CY2024Q1I')
+    # to dataframe 
+    df_equity = pd.DataFrame(data['data'])
+
+    # get the Total Liabilities of all companies 
+    data = get_xbrl_frames('us-gaap', 
+                         clean_account_name("Liabilities"), 
+                         'USD', 
+                         f'CY2024Q1I')
+    # to dataframe 
+    df_liabilities = pd.DataFrame(data['data'])
+    # keep only cik and val
+    df_equity = df_equity[['cik', 'val']]
+    df_liabilities = df_liabilities[['cik', 'val']]
+
+    df_equity = df_equity.rename(columns={'val': 'equity'})
+    df_liabilities = df_liabilities.rename(columns={'val': 'liabilities'})
+
+    df = pd.merge(df_equity, df_liabilities, on='cik')
+    
+    df['debt_to_equity'] = df['liabilities']/df['equity']
+
+    # drop equity and liabilities
+    df = df.drop(['equity', 'liabilities'], axis=1)
+
+    return df
+
 # similar capital structure, compare debt to equity ratio
 # Stockholder's Equity over Total Liabilities
 # use only data from this year 
@@ -805,7 +906,7 @@ def get_companies_similar_capital_structure(cik: int, interval= 100):
     data = get_xbrl_frames('us-gaap', 
                          clean_account_name("StockholdersEquity"), 
                          'USD', 
-                         f'CY{current_year}Q1I')
+                         f'CY2024Q1I')
     # to dataframe 
     df_equity = pd.DataFrame(data['data'])
 
@@ -813,7 +914,7 @@ def get_companies_similar_capital_structure(cik: int, interval= 100):
     data = get_xbrl_frames('us-gaap', 
                          clean_account_name("Liabilities"), 
                          'USD', 
-                         f'CY{current_year}Q1I')
+                         f'CY2024Q1I')
     # to dataframe 
     df_liabilities = pd.DataFrame(data['data'])
 
@@ -1053,6 +1154,113 @@ def identify_comparables(*args, **kwargs):
     
     return to_return
 
+
+
+def identify_comparables_ml(name,sic, assets, profitability, growth_rate, capital_structure):
+    
+    extra_variables = ['GrossProfit', 'NetIncomeLoss', 'EarningsPerShareBasic']
+
+    # big interval since we want first to have them all
+    df_size = get_all_size()
+    df_size['cik'] = df_size['cik'].astype(int)
+    df_profit = get_all_profitability()
+    df_profit['cik'] = df_profit['cik'].astype(int)
+    df_growth = get_all_growth_rate()
+    df_growth['cik'] = df_growth['cik'].astype(int)
+    df_capital = get_all_capital_structure()
+    df_capital['cik'] = df_capital['cik'].astype(int)
+
+    # same 2 digits sic code
+    df_industry = get_companies_with_same_sic(cik, digits=2)
+    df_industry['cik'] = df_industry['cik'].astype(int)
+
+    # merge all dataframes
+    df = df_size
+    df = pd.merge(df, df_profit, on='cik', how = 'inner', suffixes=('', '_drop'))
+    df = pd.merge(df, df_growth, on='cik', how = 'inner', suffixes=('', '_drop'))
+    df = pd.merge(df, df_capital, on='cik', how = 'inner', suffixes=('', '_drop'))
+    df = pd.merge(df, df_industry, on='cik', how = 'inner', suffixes=('', '_drop'))
+
+    # accn,cik,entityName,loc,end,val,accn_x,entityName_x,loc_x,end_x,assets,accn_y,entityName_y,loc_y,start,end_y,profit,profitability,assets_drop,assets_5,growth_rate,equity,liabilities,debt_to_equity
+
+    # cik, entityName, assets, profitability, growth_rate, debt_to_equity
+
+    df = df[['cik', 'sic', 'entityName', 'assets', 'profitability', 'growth_rate', 'debt_to_equity']]
+
+    # Variables of interest
+    variables = ['assets', 'profitability', 'growth_rate', 'debt_to_equity']
+
+    # Extract the baseline observation
+    current = {"cik" : FAKE_CIK,
+                "sic" : sic,
+                "entityName" : name,
+                "assets" : assets,
+                "profitability" : profitability,
+                "growth_rate" : growth_rate,
+                "debt_to_equity" : capital_structure}
+    
+    # in df 
+    current = pd.DataFrame(current, index=[0])
+
+    # append 
+    df = df.append(current)
+
+    # Standardize the variables
+    scaler = StandardScaler()
+    df_scaled = df.copy()
+    df_scaled[variables] = scaler.fit_transform(df[variables])
+    # Drop non-numeric columns for distance calculation
+    df_features = df_scaled[variables]
+
+    # Fit Nearest Neighbors model
+    nn = NearestNeighbors(n_neighbors=5, metric='euclidean')  # Adjust `n_neighbors` as needed
+    nn.fit(df_features)
+
+    # Find the closest observations
+    distances, indices = nn.kneighbors(current[variables])
+
+    # Retrieve the closest observations
+    closest = df.iloc[indices[0]]
+
+    closest = clean_df_bad_endings(closest)
+
+    def get_extra_variables(ciks, var):
+        current_year = time.localtime().tm_year - 1 #!TODO: Change to most recent data
+        # we need to know the instant 
+        instant = instant_dict[clean_account_name(var)][0]
+        units = instant_dict[clean_account_name(var)][1]
+        instant_end = 'I' if instant else ''
+        units_end = units.replace('/', '-per-')
+
+        # in units_end replace three consecutive uppercase letters with USD 
+        units_end = re.sub(r'[A-Z]{3}', 'USD', units_end)
+
+        # get the var of all companies 
+        taxonomy = instant_dict[clean_account_name(var)][2]
+        data = get_xbrl_frames(taxonomy, 
+                         clean_account_name(var), 
+                         units_end, 
+                         f'CY{current_year}Q1{instant_end}', verbose=True)
+        
+        # to dataframe
+        df_var = pd.DataFrame(data['data'])
+        # keep only cik and val
+        df_var = df_var[['cik', 'val']]
+        # rename val to var
+        df_var = df_var.rename(columns={'val': var})
+        # return the value for the ciks
+        return df_var[df_var['cik'].isin(ciks)]
+    
+    
+    # add the extra variables 
+    if extra_variables:
+        for var in extra_variables:
+            ciks_exclude_current = [cik for cik in closest['cik'] if cik != FAKE_CIK]
+            temp = get_extra_variables(ciks_exclude_current, var)
+            closest = pd.merge(closest, temp, on='cik', how = 'left')
+            closest = clean_df_bad_endings(closest)
+
+    return closest.to_json()
 
 
 

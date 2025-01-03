@@ -51,6 +51,13 @@ def comparables(query: mm.ComparablesRequest):
     #kwargs['extra_variables'] = query.extra_variables
     return pea.identify_comparables(query.cik, **kwargs)
 
+comparables_data = Tag(name="comparables_data_ml", description="Comparables data using ML")
+@app.get("/comparables", summary="Get comparables using ML", tags=[comparables_data], responses={200: mm.ComparablesResponse})
+def comparables(query: mm.ComparablesRequest):
+    pass
+#identify_comparables_ml
+
+
 # Endpoints
 account_tag = Tag(name="account", description="Accounting account data for all companies")
 @app.get("/account", summary="Get account data", tags=[account_tag], responses={200: mm.AccountResponse})
@@ -220,7 +227,7 @@ for element in yf_e.IMPLEMENTED_ELEMENTS:
             # Here you can perform authentication with query.api_token
             # Call the get_stock_element function with appropriate parameters
             response = yf_e.get_stock_element(query.ticker, element)
-            # amke sure you return the response as a dictionary
+            # make sure you return the response as a dictionary
             # if response is a string, convert it to a dictionary
             if isinstance(response, str):
                 response = json.loads(response)
