@@ -1,5 +1,31 @@
 # CHANGELOG
 
+## v0.8.0 (2025-01-03)
+
+### Feature
+
+* feat: vba implementation ([`d6b7de5`](https://github.com/jfimbett/pyedgarai/commit/d6b7de533c9b7b4647a9e2183f3c427a34605d3f))
+
+* feat: vba integration ([`6de9477`](https://github.com/jfimbett/pyedgarai/commit/6de9477a358b3e33c9474c8bc8be11e3ca98bcc7))
+
+### Fix
+
+* fix: reordered code in api.py ([`4ee709c`](https://github.com/jfimbett/pyedgarai/commit/4ee709c371164647bf98e003a0a8c804e478ce73))
+
+* fix: analysis of 13-K ([`c1069da`](https://github.com/jfimbett/pyedgarai/commit/c1069da08507572bd329a8beab2501ac3c32fcd1))
+
+* fix: cleaning ([`3dc555f`](https://github.com/jfimbett/pyedgarai/commit/3dc555f96d877acb82382c05f8b51d3c1cdea1a1))
+
+* fix: some changes in the vba code ([`937fc4a`](https://github.com/jfimbett/pyedgarai/commit/937fc4a0d4b9d7b3203e3120df8d07b7af6195ef))
+
+* fix: vba work ([`9f5067a`](https://github.com/jfimbett/pyedgarai/commit/9f5067a92777a40e5d4e788b04fb431362af4fc1))
+
+### Unknown
+
+* update ([`4f1ca25`](https://github.com/jfimbett/pyedgarai/commit/4f1ca2536991ea368d4f15a93e8a4f785c66989f))
+
+* update ([`c60a334`](https://github.com/jfimbett/pyedgarai/commit/c60a33468cc9458b63d760b7b936d6db8b6c53ab))
+
 ## v0.7.0 (2024-10-07)
 
 ### Feature
