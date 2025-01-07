@@ -663,6 +663,36 @@ def return_cik_sic(relative_path = RELATIVE_PATH):
         dict_ = json.load(f)
     return dict_
 
+def get_companies_in_sic(sic: int, digits=2):
+    # adjust the sic code to the number of digits
+    def adjust_sic(sic_):
+        try:
+            return int(str(sic_)[:digits])
+        except:
+            return None
+
+    # get all the ciks that have the same sic code
+    ciks = [k for k, v in return_cik_sic().items() if adjust_sic(v) == adjust_sic(sic)]
+    # return also the company names and tickers
+    company_names = return_company_names()
+    cik_tickers = get_cik_tickers()
+    # convert key to int and then to str again in cik_tickers
+    cik_tickers = {str(int(k)): v for k, v in cik_tickers.items()}
+
+    companies = {}
+    for i, cik in enumerate(ciks):
+        name = company_names[cik] if cik in company_names else None
+        tickers = cik_tickers[cik] if cik in cik_tickers else None
+        companies[cik] = {'name': name, 'tickers': tickers, 'sic': adjust_sic(return_cik_sic()[cik])}
+
+    # return a dataframe with columns cik, name, tickers and industry
+    df = pd.DataFrame(companies).T
+    # reset index and name it cik 
+    df = df.reset_index()
+    df = df.rename(columns={'index': 'cik'})
+
+    return df
+
 # Function that given a cik gets all the companies that have the same sic code
 def get_companies_with_same_sic(cik: int, digits=1):
     # get the sic code for the cik
@@ -704,6 +734,9 @@ def get_all_size():
                          'USD', 
                          'CY2024Q1I')
     df_size = pd.DataFrame(data['data'])
+
+    df_size = df_size.rename(columns={'val': 'assets'})
+
     return df_size
 
 def get_companies_similar_size(cik: int, interval= 100):
@@ -1171,7 +1204,7 @@ def identify_comparables_ml(name,sic, assets, profitability, growth_rate, capita
     df_capital['cik'] = df_capital['cik'].astype(int)
 
     # same 2 digits sic code
-    df_industry = get_companies_with_same_sic(cik, digits=2)
+    df_industry = get_companies_in_sic(sic, digits=2)
     df_industry['cik'] = df_industry['cik'].astype(int)
 
     # merge all dataframes
@@ -1179,7 +1212,10 @@ def identify_comparables_ml(name,sic, assets, profitability, growth_rate, capita
     df = pd.merge(df, df_profit, on='cik', how = 'inner', suffixes=('', '_drop'))
     df = pd.merge(df, df_growth, on='cik', how = 'inner', suffixes=('', '_drop'))
     df = pd.merge(df, df_capital, on='cik', how = 'inner', suffixes=('', '_drop'))
-    df = pd.merge(df, df_industry, on='cik', how = 'inner', suffixes=('', '_drop'))
+
+
+    if len(df_industry) > 0: # Because sometimes the AI wont get the industry
+        df = pd.merge(df, df_industry, on='cik', how = 'inner', suffixes=('', '_drop'))
 
     # accn,cik,entityName,loc,end,val,accn_x,entityName_x,loc_x,end_x,assets,accn_y,entityName_y,loc_y,start,end_y,profit,profitability,assets_drop,assets_5,growth_rate,equity,liabilities,debt_to_equity
 
@@ -1203,7 +1239,7 @@ def identify_comparables_ml(name,sic, assets, profitability, growth_rate, capita
     current = pd.DataFrame(current, index=[0])
 
     # append 
-    df = df.append(current)
+    df = pd.concat([df, current])
 
     # Standardize the variables
     scaler = StandardScaler()

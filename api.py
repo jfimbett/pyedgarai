@@ -51,11 +51,21 @@ def comparables(query: mm.ComparablesRequest):
     #kwargs['extra_variables'] = query.extra_variables
     return pea.identify_comparables(query.cik, **kwargs)
 
-comparables_data = Tag(name="comparables_data_ml", description="Comparables data using ML")
-@app.get("/comparables", summary="Get comparables using ML", tags=[comparables_data], responses={200: mm.ComparablesResponse})
-def comparables(query: mm.ComparablesRequest):
-    pass
-#identify_comparables_ml
+comparables_data_ml = Tag(name="comparables_data_ml", description="Comparables data using ML")
+@app.get("/comparables_kmeans", summary="Get comparables using ML", tags=[comparables_data_ml], responses={200: mm.ComparablesResponseML})
+def comparables_kmeans(query: mm.ComparablesRequestML):
+    if not authenticate(query.api_token):
+        return {"error": "Invalid API token."}
+
+    # use pea.identify_comparables_ml
+    response = pea.identify_comparables_ml(query.name,
+                                           query.sic, 
+                                           query.assets, 
+                                           query.profitability, 
+                                           query.growth_rate, 
+                                           query.capital_structure)
+    
+    return response
 
 
 # Endpoints
