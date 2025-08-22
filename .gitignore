@@ -129,17 +129,34 @@ dmypy.json
 .pyre/
 **__pycache__
 
-# PyCharm
+# IDEs
 .idea/
+.vscode/
 
-# RStudio project files
+# RStudio
 **.Rproj.user/
 **.Rproj.user*
 **.Rproj
 **.Rhistory
 
-# MacOS
+# macOS
 .DS_Store
 
-# My own stuff
-data/
+# Project data & caches
+/data/
+.cache/
+**/.cache/
+**/pages_*.json
+src/pyedgarai/*.json
+src/pyedgarai/accounts.xlsx
+
+# Binaries and installers
+*.exe
+*.msi
+*.dmg
+*.zip
+/geckodriver.exe
+/tesseract-ocr-*.exe
+
+# Ignore VBA artifacts (moved to separate repo)
+vba/
