@@ -1,7 +1,0 @@
-Curl
-curl -X 'GET' \
-  'http://localhost:5000/recommendations?ticker=AAPL&api_token=t3stt%40ken' \
-  -H 'accept: application/json'
- 
- 
-{"data": {"period": ["0m", "-1m", "-2m", "-3m"], "strongBuy": [11, 12, 12, 10], "buy": [21, 24, 23, 24], "hold": [6, 11, 10, 7], "sell": [0, 1, 1, 1], "strongSell": [0, 0, 0, 0]}}

@@ -1,7 +1,0 @@
-Curl
-curl -X 'GET' \
-  'http://localhost:5000/splits?ticker=AAPL&api_token=t3stt%40ken' \
-  -H 'accept: application/json'
- 
- 
-{"data": {"Date": ["1987-06-16 00:00:00-04:00", "2000-06-21 00:00:00-04:00", "2005-02-28 00:00:00-05:00", "2014-06-09 00:00:00-04:00", "2020-08-31 00:00:00-04:00"], "Stock Splits": [2.0, 2.0, 2.0, 7.0, 4.0]}}

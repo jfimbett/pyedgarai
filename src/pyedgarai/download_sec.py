@@ -9,27 +9,16 @@ from bs4 import BeautifulSoup as bs
 from datetime import timedelta
 import time
 
-# Complete the headers, make them look like a browser
+# SEC policy: include a descriptive UA with contact
 HEADERS = {
-    "Host": "www.sec.gov",
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:130.0) Gecko/20100101 Firefox/130.0",
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/png,image/svg+xml,*/*;q=0.8",
-    "Accept-Language": "en-GB,en;q=0.5",
-    "Accept-Encoding": "gzip, deflate, br, zstd",
+    "User-Agent": "pyedgarai (github.com/jfimbett/pyedgarai)",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     "Connection": "keep-alive",
-    "Cookie": "_ga_300V1CHKH1=GS1.1.1715288471.5.0.1715288471.0.0.0; _ga=GA1.2.1974077178.1714908837; nmstat=ad12f924-2e0f-4785-2f34-985cf2bb5937; _ga_CSLL4ZEK4L=GS1.1.1715288471.6.0.1715288471.0.0.0; _4c_=%7B%22_4c_s_%22%3A%22fZFbT4QwEIX%2FyqbPwLbcWngzazQ%2BqNF4edwALUuzuCVQ6eqG%2F%2B60EKNrIi%2B035xzMp05IdOIA8oJJXFGaJZhzBIP7cXHgPIT6iW3vxHlCJOwiCgufc7L0I9Fyv2sKguf1KwkouYQUCAPHW1WGKYsZlGaRHjyUNUtGSdUKS4gi2QBYQH26wEc%2BtOSEMOx6xV%2Fr%2FRWf3RWZkS5GvgeClyMshJbI7lunN%2FJF9oIuWu0xZg53PX2AicjD1yZc9tCv21ZTIGWvTKDsM4r2YtaHVckTIArGAR6dRbbLZRE3ztdo3U35Ou1MSbYKbVrRVCptzWIBqlt%2F4OooDAuAGY6M39mL9JSvnraPAK%2F%2B0EeNve3C%2BrG5SmtqorWhsK2PHR9sX2%2BuXRPojGmlFAWuBVixiKKpmUPALIkjFjCQpizblHO0hjbb5qj3VrIb3WaJPiveh6Pb9sXh3%2Bs5Nw6TV8%3D%22%7D; ak_bmsc=325E1629AF21BEA2E3AA25FBB970B718~000000000000000000000000000000~YAAQJlfIF+omVsGRAQAAnz+K1RkdzQa9q4NoWHG0QtaviUnfe96C7X/6G1mc2ty2fBvx35CiUMbaXkperV6lkl1AF3/qIpVOXaVj2WSjl6PnqQniqI72fm9MIivLiEYfz1t1zW1vkN5SAYyPnfcyqcsYyjJVwrmJGhwl48jDSGwQiOd2Ep+Lg+d3sRfnZeI6nrvamgAGqCLBJGV5jIX8ExlfKQUEpckphf41NpBZWMctvvD4Hcr7Dw6qeSQbTa7vN6IID2ng5xIlgFc3KQgvvJKaC03FmiGp67m/+W6i7GW8zyyoo9GsvWz6F5JREyv84ObsdkWTEVLRg/ErK056JbrVp9msV8L1yYyfRZ/jRXrXQmYoZ+iuG4WexfsXt5kL2aZz1RM=; bm_mi=B03D935426CED58CDA9B0A1FD1F159B9~YAAQJlfIF/QmVsGRAQAABEGK1Rko8PI8ZuxcEAcoGltXNbYt83gBboG/JhU+cZ8rGFT7JBolLsxNItHfV0GTUwWbxw2opG0Dr9H10DwaDaosWh0vjmJ1ROacr/XL39dqA5pB2t7cJGpQClDRUl9WHF5ZPuusP1ZKWtoAX0HYh4V3cbJmop36MSAQZW2qYW/Qp89hkh2q7FDq2Y5UooIHrlz1yzwBgdT5aDStq2Z45t23I4WquFiiUmFK/wWra2KRSfA+K5DYXILvBFBPH3iXBVeLgNmv6zCCTQcBQF1HLcSe8RqqYys3x6ZN81w95KpmQhk0WpKnl4iSttDygJl77Jwino2WwVoKWlVmh6AhyJuW~1; bm_sv=63A69D4EF6B354AD948C393931DE6D6F~YAAQJlfIF/UmVsGRAQAABEGK1Rlw3JnKUceMDDhXiXZzwoNaQj3tWSW/kw116A2Fvd/WVj796ZZq3vS0Ug5am5yuIWc8K9a+m3ICYGe2/Voa4n7g0+tIUhhLWR+nlBlSUbryAUAzAKvv3weFcMUR/7SPaURAOyz5oIxz/vfRU8KxiYSO9lXQ+iHNjeu5HAJJHtWyBzfII+KlhMTKgC/+VjaYOcdGf/fUJrgeczmcLXWR/KqwYfMQ+KoYoyLG~1",
-    "Upgrade-Insecure-Requests": "1",
-    "Sec-Fetch-Dest": "document",
-    "Sec-Fetch-Mode": "navigate",
-    "Sec-Fetch-Site": "cross-site",
-    "Priority": "u=0, i",
-    "TE": "trailers"
 }
-
 
 @dataclass
 class Config:
-    PATH_TO_DATA = "..\\..\\data" if __name__ == "__main__" else "data"
+    PATH_TO_DATA = os.getenv("PYEDGARAI_DATA_DIR", ("..\\..\\data" if __name__ == "__main__" else "data"))
 
 
 def download_zip_sec(url, save_path, chunk_size):

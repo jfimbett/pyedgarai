@@ -1,7 +1,0 @@
-Curl
-curl -X 'GET' \
-  'http://localhost:5000/growth_estimates?ticker=AAPL&api_token=t3stt%40ken' \
-  -H 'accept: application/json'
- 
- 
-{"data": {"index": ["stock", "industry", "sector", "index"], "0q": [0.176, NaN, NaN, 0.042], "+1q": [0.092, NaN, NaN, 0.092], "0y": [0.169, NaN, NaN, 0.02], "+1y": [0.113000005, NaN, NaN, 0.127], "+5y": [0.106000006, NaN, NaN, 0.116785005], "-5y": [0.19284001, NaN, NaN, NaN]}}

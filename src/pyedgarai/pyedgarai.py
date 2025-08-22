@@ -4,7 +4,10 @@ from tqdm import tqdm
 from bs4 import BeautifulSoup as bs
 import json
 from dataclasses import dataclass
-from openai import OpenAI
+try:
+    from openai import OpenAI  # optional
+except Exception:  # ImportError or runtime env issues
+    OpenAI = None
 import pandas as pd
 import time
 from sec_cik_mapper import StockMapper
@@ -15,20 +18,30 @@ import re
 import numpy as np
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import NearestNeighbors
+import os
+from pathlib import Path
 
 logging.basicConfig(level=logging.INFO)
 
 FAKE_CIK = 00000
 
-if __name__ == '__main__':
-    RELATIVE_PATH = ""
-    DATA_PATH = "../../data/"
-else:
-    RELATIVE_PATH = 'src/pyedgarai/' # make this the standard relative path for the project, and only if this file is ran from the root directory we change it. 
-    DATA_PATH = "data/"
+# Determine cache directory for generated artifacts (json, xlsx)
+def _get_cache_dir() -> str:
+    # Allow override via env var
+    env = os.getenv("PYEDGARAI_CACHE_DIR")
+    if env:
+        Path(env).mkdir(parents=True, exist_ok=True)
+        return env if env.endswith('/') else env + '/'
+    # Default: ~/.cache/pyedgarai on Unix/macOS
+    default = os.path.join(Path.home(), ".cache", "pyedgarai")
+    Path(default).mkdir(parents=True, exist_ok=True)
+    return default + "/" if not default.endswith('/') else default
+
+RELATIVE_PATH = _get_cache_dir()  # used throughout to read/write cache files
+DATA_PATH = "data/"
 
 # Set up HTTP headers for requests to the SEC API
-HEADERS = {"User-Agent": "PyEdgarAI a library for fetching data from the SEC"}
+HEADERS = {"User-Agent": "pyedgarai (github.com/jfimbett/pyedgarai)"}
 # Get a list of CIKs from the StockMapper, remove leading zeros, and convert to integers
 CIKS = list(StockMapper().cik_to_tickers.keys())
 CIKS = [int(str(cik).lstrip('0')) for cik in CIKS]
@@ -135,6 +148,8 @@ class OpenAIWrapper():
 
     def create_client(self):
         """Creates and returns an OpenAI client using the provided API key."""
+        if OpenAI is None:
+            raise ImportError("openai is not installed. Install with `pip install pyedgarai[llm]`." )
         return OpenAI(api_key=self.api_key)
     
     def standardize_filing_description(self, description, client, model):
@@ -584,7 +599,13 @@ def clean_account_name(account: str) -> str:
     account = account.replace(' ', '')
     return account
 
-df = pd.read_excel(f'{RELATIVE_PATH}accounts.xlsx')
+# Try to read accounts.xlsx from cache; fallback to packaged data
+try:
+    df = pd.read_excel(f'{RELATIVE_PATH}accounts.xlsx')
+except Exception:
+    # Fallback to provided subset if full accounts cache is missing
+    fallback_path = os.path.join(DATA_PATH, 'subset_accounts.xlsx')
+    df = pd.read_excel(fallback_path)
 
 # dictionary between clean name and instant
 instant_dict = {clean_account_name(k): (v, u, t) for k, v, u, t in zip(df['account'], df['instant'], df['units'], df['taxonomy'])}
@@ -1298,6 +1319,3 @@ def identify_comparables_ml(name,sic, assets, profitability, growth_rate, capita
 
     return closest.to_json()
 
-
-
-# %%

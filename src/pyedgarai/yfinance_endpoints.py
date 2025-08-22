@@ -3,6 +3,7 @@ import yfinance as yf
 import time
 import json
 import pandas as pd
+import os
 
 if __name__ == '__main__':
     RELATIVE_PATH = ""
@@ -76,7 +77,7 @@ def get_stock_elements():
                 implement_functions.append(element)
             else:
                 implement_elements.append(element)
-        except:
+        except Exception:
             continue
 
     # store in json 
@@ -91,9 +92,17 @@ def get_stock_elements():
 # we are going to create the classes for the elements inside of a loop
 
 # %%
-# load json 
-with open(f'{RELATIVE_PATH}stock_elements.json', 'r') as f:
-    elements = json.load(f)
+# Load implemented elements with a safe fallback
+_elements_path = f"{RELATIVE_PATH}stock_elements.json"
+if os.path.exists(_elements_path):
+    with open(_elements_path, 'r') as f:
+        elements = json.load(f)
+else:
+    # Minimal default set used by API endpoints if discovery hasn’t been run
+    elements = {
+        'implemented_elements': ['info', 'balancesheet', 'financials', 'income_stmt'],
+        'implemented_functions': []
+    }
 
 IMPLEMENTED_ELEMENTS = elements['implemented_elements']
 IMPLEMENTED_FUNCTIONS = elements['implemented_functions']

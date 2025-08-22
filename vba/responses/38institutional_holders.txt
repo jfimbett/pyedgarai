@@ -1,7 +1,0 @@
-Curl
-curl -X 'GET' \
-  'http://localhost:5000/institutional_holders?ticker=AAPL&api_token=t3stt%40ken' \
-  -H 'accept: application/json'
- 
- 
-{"data": {"Date Reported": ["2023-06-30", "2023-06-30", "2023-06-30", "2023-06-30", "2023-06-30", "2023-06-30", "2023-06-30", "2023-06-30", "2022-12-31", "2023-06-30"], "Holder": ["Vanguard Group Inc", "Blackrock Inc.", "Berkshire Hathaway, Inc", "State Street Corporation", "FMR, LLC", "Geode Capital Management, LLC", "Price (T.Rowe) Associates Inc", "Morgan Stanley", "Norges Bank Investment Management", "Northern Trust Corporation"], "pctHeld": [0.0834, 0.0665, 0.0586, 0.037, 0.0196, 0.0186, 0.0145000005, 0.013099999, 0.0107, 0.0105], "Shares": [1303688506, 1039640859, 915560382, 578897858, 307066638, 291538165, 226650943, 204714950, 167374278, 164536073], "Value": [252876459508, 201659137420, 177591247296, 112288817516, 59561715772, 56549657865, 43963483413, 39708558851, 21746939940, 31915062079]}}

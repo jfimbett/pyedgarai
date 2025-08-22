@@ -1,9 +1,0 @@
-Curl
-curl -X 'GET' \
-  'http://localhost:5000/proxy?ticker=AAPL&api_token=t3stt%40ken' \
-  -H 'accept: application/json'
- 
- 
-{
-  "data": "None"
-}
