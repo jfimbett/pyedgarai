@@ -4,13 +4,13 @@
 
 ### Fix
 
-* fix: add version.py file to access th version around ([`87ca6b2`](https://github.com/jfimbett/pyedgarai/commit/87ca6b2310ae1e4dad3667c37f0f12a52431bdb2))
+* fix: add archive/version.py file to access th version around ([`87ca6b2`](https://github.com/jfimbett/pyedgarai/commit/87ca6b2310ae1e4dad3667c37f0f12a52431bdb2))
 
 ## v0.2.0 (2024-09-09)
 
 ### Feature
 
-* feat: add download_sec.py file and do some maintenance in the api.py code ([`bcb52c6`](https://github.com/jfimbett/pyedgarai/commit/bcb52c609609f4e03dffe8326df8c7dbaeb634dc))
+* feat: add download_sec.py file and do some maintenance in the src/pyedgarai/api.py code ([`bcb52c6`](https://github.com/jfimbett/pyedgarai/commit/bcb52c609609f4e03dffe8326df8c7dbaeb634dc))
 
 ### Fix
 
@@ -66,7 +66,7 @@
 
 ### Fix
 
-* fix: Modified position of api.py file ([`ced7edc`](https://github.com/jfimbett/pyedgarai/commit/ced7edc287506c3e813312b30c35ee147041e556))
+* fix: Modified position of src/pyedgarai/api.py file ([`ced7edc`](https://github.com/jfimbett/pyedgarai/commit/ced7edc287506c3e813312b30c35ee147041e556))
 
 ## v0.0.3 (2024-08-19)
 

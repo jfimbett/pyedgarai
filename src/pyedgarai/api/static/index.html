@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PyEdgarAI - Financial Data Analysis API</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .main-content {
+            background: white;
+            border-radius: 15px;
+            padding: 3rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .feature-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .feature-card li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .feature-card li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .api-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .api-link {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-decoration: none;
+            text-align: center;
+            transition: transform 0.3s ease;
+            display: block;
+        }
+
+        .api-link:hover {
+            transform: translateY(-3px);
+            text-decoration: none;
+            color: white;
+        }
+
+        .api-link h4 {
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .api-link p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .endpoints-section {
+            margin-top: 3rem;
+        }
+
+        .endpoints-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .endpoint-group {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-top: 3px solid #667eea;
+        }
+
+        .endpoint-group h4 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .endpoint-list {
+            list-style: none;
+        }
+
+        .endpoint-list li {
+            margin-bottom: 0.5rem;
+            padding: 0.3rem 0.8rem;
+            background: white;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border-left: 3px solid #28a745;
+        }
+
+        .auth-info {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .auth-info h3 {
+            color: #856404;
+            margin-bottom: 1rem;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 2rem;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .main-content {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 PyEdgarAI</h1>
+            <p class="subtitle">Financial Data Analysis API using SEC EDGAR database and market data</p>
+            <div class="status-badge">✅ API Active</div>
+        </div>
+
+        <div class="main-content">
+            <h2>Welcome to PyEdgarAI API</h2>
+            <p>Your comprehensive solution for financial data analysis, SEC EDGAR filings, and market research. This API provides powerful tools for accessing company data, performing comparables analysis, and conducting financial research.</p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>🏢 SEC EDGAR Data</h3>
+                    <ul>
+                        <li>Company facts and filings</li>
+                        <li>Historical financial data</li>
+                        <li>XBRL frames and concepts</li>
+                        <li>Submission histories</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h3>📊 Comparables Analysis</h3>
+                    <ul>
+                        <li>Traditional financial metrics</li>
+                        <li>ML-powered comparisons</li>
+                        <li>Industry-based analysis</li>
+                        <li>Custom parameter matching</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h3>📈 Market Data</h3>
+                    <ul>
+                        <li>Real-time stock prices</li>
+                        <li>Historical price data</li>
+                        <li>Valuation multiples</li>
+                        <li>Financial ratios</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🤖 AI & ML Features</h3>
+                    <ul>
+                        <li>K-means clustering</li>
+                        <li>Automated analysis</li>
+                        <li>Pattern recognition</li>
+                        <li>Smart recommendations</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="api-links">
+                <a href="/openapi/swagger" class="api-link">
+                    <h4>📚 Swagger UI</h4>
+                    <p>Interactive API documentation with live testing capabilities</p>
+                </a>
+
+                <a href="/openapi/redoc" class="api-link">
+                    <h4>📖 ReDoc</h4>
+                    <p>Clean, readable API documentation with examples</p>
+                </a>
+
+                <a href="/openapi/rapidoc" class="api-link">
+                    <h4>⚡ RapiDoc</h4>
+                    <p>Fast and feature-rich API documentation</p>
+                </a>
+
+                <a href="/openapi/rapipdf" class="api-link">
+                    <h4>📄 RapiPDF</h4>
+                    <p>Generate PDF documentation from your API spec</p>
+                </a>
+
+                <a href="/openapi/scalar" class="api-link">
+                    <h4>🔬 Scalar</h4>
+                    <p>Modern API documentation with beautiful design</p>
+                </a>
+
+                <a href="/openapi/elements" class="api-link">
+                    <h4>🧩 Elements</h4>
+                    <p>Stoplight Elements documentation UI</p>
+                </a>
+
+                <a href="/openapi/openapi.json" class="api-link">
+                    <h4>🔧 OpenAPI Spec</h4>
+                    <p>Download the complete API specification in JSON format</p>
+                </a>
+
+                <a href="https://github.com/jfimbett/pyedgarai" class="api-link">
+                    <h4>💻 GitHub Repository</h4>
+                    <p>Source code, examples, and contribution guidelines</p>
+                </a>
+            </div>
+
+            <div class="auth-info">
+                <h3>🔐 Authentication</h3>
+                <p><strong>Status:</strong> <span id="auth-status">Authentication disabled (development mode)</span></p>
+                <p>To enable authentication, set the <code>PYEDGARAI_API_TOKEN</code> environment variable. When enabled, include your API token in requests using the <code>api_token</code> parameter.</p>
+            </div>
+
+            <div class="endpoints-section">
+                <h2>🎯 Available Endpoints</h2>
+                <div class="endpoints-grid">
+                    <div class="endpoint-group">
+                        <h4>Company Data</h4>
+                        <ul class="endpoint-list">
+                            <li>/company_facts</li>
+                            <li>/company_concept</li>
+                            <li>/submission_history</li>
+                            <li>/cik_tickers</li>
+                            <li>/cik_names</li>
+                        </ul>
+                    </div>
+
+                    <div class="endpoint-group">
+                        <h4>Market Analysis</h4>
+                        <ul class="endpoint-list">
+                            <li>/stocks_data</li>
+                            <li>/valuation_metrics</li>
+                            <li>/all_accounts</li>
+                        </ul>
+                    </div>
+
+                    <div class="endpoint-group">
+                        <h4>Comparables Analysis</h4>
+                        <ul class="endpoint-list">
+                            <li>/comparables</li>
+                            <li>/comparables_kmeans</li>
+                            <li>/comparables_sic</li>
+                            <li>/comparable_private</li>
+                        </ul>
+                    </div>
+
+                    <div class="endpoint-group">
+                        <h4>Utilities</h4>
+                        <ul class="endpoint-list">
+                            <li>/account</li>
+                            <li>/clean_name</li>
+                            <li>/cik_sic</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2025 PyEdgarAI - Financial Data Analysis API | Built with Flask-OpenAPI3</p>
+            <p>Version: <span id="api-version">0.8.0</span></p>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication status
+        fetch('/openapi/openapi.json')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('api-version').textContent = data.info.version;
+            })
+            .catch(error => {
+                console.log('Could not fetch API version');
+            });
+
+        // You can add more dynamic content here
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if running in development mode
+            const authStatus = document.getElementById('auth-status');
+            // This could be enhanced to actually check auth status via API call
+        });
+    </script>
+</body>
+</html>

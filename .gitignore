@@ -156,7 +156,12 @@ src/pyedgarai/accounts.xlsx
 *.dmg
 *.zip
 /geckodriver.exe
+/geckodriver-v*/
 /tesseract-ocr-*.exe
+
+# Archive folder (excluded from builds)
+# Note: We keep /archive in git for historical reference, but exclude from packaging
+!/archive/
 
 # Ignore VBA artifacts (moved to separate repo)
 vba/

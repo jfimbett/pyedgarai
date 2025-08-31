@@ -297,7 +297,7 @@ def get_companies_similar_location(cik: int, relative_path: str | None = None) -
         get_state_of_companies(relative_path)
     with open(path, 'r') as f:
         states = json.load(f)
-    ciks = [k for k, v in states.items() if v == current_state]
+    ciks = [int(k) for k, v in states.items() if v == current_state]  # Convert back to int
     df = pd.DataFrame(ciks, columns=['cik'])
     df['state'] = current_state
     return df

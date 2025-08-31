@@ -55,3 +55,6 @@
 - Don’t remove files permanently unless explicitly instructed.
 - Don’t change public APIs without calling it out in PLAN.md.
 - Don’t modify license text or author attributions.
+
+## Running code
+- If you decide to run python code make sure the conda environment `pyedgarai` is activated.

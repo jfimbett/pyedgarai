@@ -317,9 +317,325 @@ def identify_comparables_ml(name, sic, assets, profitability, growth_rate, capit
     return closest.to_json()
 
 
+def identify_comparables_private(name: str, sic_code: str, profitability: float, 
+                               growth_rate: float, capital_structure: float) -> Dict[str, Any]:
+    """
+    Find comparable public companies for a private company based on financial metrics.
+    
+    Args:
+        name: Name of the private company
+        sic_code: Two-digit SIC code for sector filtering
+        profitability: ROA (net income / assets)
+        growth_rate: Asset growth rate over last 5 years
+        capital_structure: Debt-to-equity ratio
+        
+    Returns:
+        Dictionary containing target company info and list of 5 closest comparables
+        with market data and financial ratios
+    """
+    logger.info("Finding private company comparables for %s in SIC sector %s", name, sic_code)
+    
+    # Validate input data
+    if not all(isinstance(x, (int, float)) for x in [profitability, growth_rate, capital_structure]):
+        return {
+            "target_company": {"name": name, "sic_code": sic_code},
+            "comparables": [],
+            "total_found": 0,
+            "method": "private_comparables",
+            "sic_sector": sic_code,
+            "error": "Invalid input data: all financial metrics must be numeric"
+        }
+    
+    # Check for reasonable ranges
+    if not (0 <= profitability <= 1):  # ROA should be between 0 and 100%
+        logger.warning("Profitability %f seems outside normal range [0, 1]", profitability)
+    
+    if not (-1 <= growth_rate <= 5):  # Growth rate should be reasonable
+        logger.warning("Growth rate %f seems outside normal range [-1, 5]", growth_rate)
+    
+    if capital_structure < 0:  # Debt/equity should be non-negative
+        logger.warning("Capital structure %f is negative", capital_structure)
+    
+    # Get all data for public companies
+    df_size = get_all_size()
+    df_profit = get_all_profitability() 
+    df_growth = get_all_growth_rate()
+    df_capital = get_all_capital_structure()
+    
+    # Ensure CIK columns are integers
+    for df in [df_size, df_profit, df_growth, df_capital]:
+        df['cik'] = df['cik'].astype(int)
+    
+    # Filter by SIC sector (2-digit)
+    sic_int = int(sic_code)
+    df_industry = get_companies_in_sic(sic_int, digits=2)
+    df_industry['cik'] = df_industry['cik'].astype(int)
+    
+    if len(df_industry) == 0:
+        logger.warning("No companies found in SIC sector %s", sic_code)
+        return {
+            "target_company": {
+                "name": name,
+                "sic_code": sic_code,
+                "profitability": profitability,
+                "growth_rate": growth_rate,
+                "capital_structure": capital_structure
+            },
+            "comparables": [],
+            "total_found": 0,
+            "method": "private_comparables",
+            "sic_sector": sic_code,
+            "error": f"No companies found in SIC sector {sic_code}"
+        }
+    
+    # Merge all financial data
+    df = df_size
+    df = pd.merge(df, df_profit, on='cik', how='inner', suffixes=('', '_drop'))
+    df = pd.merge(df, df_growth, on='cik', how='inner', suffixes=('', '_drop'))
+    df = pd.merge(df, df_capital, on='cik', how='inner', suffixes=('', '_drop'))
+    df = pd.merge(df, df_industry, on='cik', how='inner', suffixes=('', '_drop'))
+    
+    # Clean up duplicate columns
+    df = df[['cik', 'sic', 'entityName', 'assets', 'profitability', 'growth_rate', 'debt_to_equity']]
+    
+    # Remove any rows with missing data
+    df = df.dropna(subset=['profitability', 'growth_rate', 'debt_to_equity'])
+    
+    # Clean financial data - remove infinite values and extreme outliers
+    def clean_financial_data(df, variables):
+        """Clean financial data by removing inf/nan values and extreme outliers"""
+        df_clean = df.copy()
+        
+        for var in variables:
+            if var in df_clean.columns:
+                # Replace infinite values with NaN
+                df_clean[var] = df_clean[var].replace([float('inf'), float('-inf')], float('nan'))
+                
+                # Remove extreme outliers (beyond 99.5th percentile or below 0.5th percentile)
+                if not df_clean[var].isna().all():
+                    q005 = df_clean[var].quantile(0.005)
+                    q995 = df_clean[var].quantile(0.995)
+                    df_clean = df_clean[
+                        (df_clean[var] >= q005) & 
+                        (df_clean[var] <= q995) & 
+                        (df_clean[var].notna())
+                    ]
+        
+        return df_clean
+    
+    variables = ['profitability', 'growth_rate', 'debt_to_equity']
+    df = clean_financial_data(df, variables)
+    
+    # Final check for remaining data
+    df = df.dropna(subset=variables)
+    
+    # Debug: Log data statistics
+    logger.info("Data after cleaning: %d companies in SIC %s", len(df), sic_code)
+    if len(df) > 0:
+        for var in variables:
+            if var in df.columns:
+                logger.info("Variable %s: min=%.4f, max=%.4f, mean=%.4f", 
+                           var, df[var].min(), df[var].max(), df[var].mean())
+    
+    if len(df) == 0:
+        logger.warning("No companies with clean financial data in SIC sector %s", sic_code)
+        return {
+            "target_company": {
+                "name": name,
+                "sic_code": sic_code,
+                "profitability": profitability,
+                "growth_rate": growth_rate,
+                "capital_structure": capital_structure
+            },
+            "comparables": [],
+            "total_found": 0,
+            "method": "private_comparables", 
+            "sic_sector": sic_code,
+            "error": f"No companies with clean financial data in SIC sector {sic_code}"
+        }
+    
+    # Define variables for distance calculation
+    variables = ['profitability', 'growth_rate', 'debt_to_equity']
+    
+    # Standardize the variables
+    scaler = StandardScaler()
+    df_scaled = df.copy()
+    df_scaled[variables] = scaler.fit_transform(df[variables])
+    
+    # Create target company data point
+    target_data = pd.DataFrame({
+        'profitability': [profitability],
+        'growth_rate': [growth_rate], 
+        'debt_to_equity': [capital_structure]
+    })
+    target_scaled = scaler.transform(target_data)
+    
+    # Calculate distances using KNN
+    nn = NearestNeighbors(n_neighbors=min(5, len(df)), metric='euclidean')
+    nn.fit(df_scaled[variables])
+    distances, indices = nn.kneighbors(target_scaled)
+    
+    # Get the closest companies
+    closest_companies = df.iloc[indices[0]].copy()
+    closest_companies['distance'] = distances[0]
+    
+    # Get CIK to ticker mapping
+    cik_tickers = get_cik_tickers()
+    
+    # Build results with market data (only for the top 5 selected companies)
+    comparables = []
+    
+    # Simple cache to avoid duplicate calls for same ticker
+    market_data_cache = {}
+    
+    for _, company in closest_companies.iterrows():
+        cik = int(company['cik'])
+        
+        # Format CIK with leading zeros to match StockMapper format (10 digits)
+        cik_padded = f"{cik:010d}"
+        
+        # Get ticker for market data using the padded CIK format
+        tickers = cik_tickers.get(cik_padded, [])
+        # Convert set to list if needed
+        if isinstance(tickers, set):
+            tickers = list(tickers)
+        primary_ticker = tickers[0] if tickers else None
+        
+        comparable = {
+            "cik": cik,
+            "name": company['entityName'],
+            "ticker": primary_ticker,
+            "sic": str(company['sic']),
+            "profitability": float(company['profitability']),
+            "growth_rate": float(company['growth_rate']),
+            "capital_structure": float(company['debt_to_equity']),
+            "distance": float(company['distance'])
+        }
+        
+        # Add market data if ticker is available (using cache to avoid duplicate calls)
+        if primary_ticker:
+            # Check cache first
+            if primary_ticker in market_data_cache:
+                market_data = market_data_cache[primary_ticker]
+                comparable.update(market_data)
+            else:
+                try:
+                    import yfinance as yf
+                    import json
+                    import time
+                    from . import yfinance_endpoints as yf_e
+                    
+                    # Initialize market data structure with all available yfinance fields
+                    market_data = {
+                        # Keep the original fields for backward compatibility
+                        "market_cap": None,
+                        "enterprise_value": None,
+                        "price_to_book": None,
+                        "enterprise_to_ebitda": None,
+                        "current_price": None,
+                        "price_to_earnings": None,
+                        # Add all yfinance info fields
+                        "yfinance_data": {}
+                    }
+                    
+                    # Add longer delay to avoid Yahoo Finance rate limiting (only for non-cached calls)
+                    time.sleep(2.0)  # Increased to 2 seconds delay between calls
+                    
+                    # Get market data directly from yfinance (simpler approach)
+                    import yfinance as yf
+                    ticker_obj = yf.Ticker(primary_ticker)
+                    info = ticker_obj.info
+                    
+                    if info and isinstance(info, dict):
+                        # Store all yfinance data
+                        market_data["yfinance_data"] = info
+                        
+                        # Keep backward compatibility with original fields
+                        market_data.update({
+                            "market_cap": info.get('marketCap'),
+                            "enterprise_value": info.get('enterpriseValue'),
+                            "price_to_book": info.get('priceToBook'),
+                            "enterprise_to_ebitda": info.get('enterpriseToEbitda'),
+                            "current_price": info.get('currentPrice'),
+                            "price_to_earnings": info.get('trailingPE')  # Use trailingPE directly
+                        })
+                        
+                        logger.info("Successfully retrieved %d yfinance fields for %s", len(info), primary_ticker)
+                    else:
+                        logger.warning("No info data returned for %s", primary_ticker)
+                    
+                    # Cache the result (whether successful or not)
+                    market_data_cache[primary_ticker] = market_data
+                    comparable.update(market_data)
+                    
+                except Exception as e:
+                    error_msg = str(e)
+                    if "429" in error_msg or "Too Many Requests" in error_msg:
+                        logger.warning("Rate limited by Yahoo Finance for %s. Implementing backoff delay...", primary_ticker)
+                        # Exponential backoff: wait longer and try once more
+                        time.sleep(5.0)  # Wait 5 seconds for rate limit to reset
+                        try:
+                            # Single retry attempt with direct yfinance
+                            ticker_obj = yf.Ticker(primary_ticker)
+                            info = ticker_obj.info
+                            if info and isinstance(info, dict):
+                                market_data["yfinance_data"] = info
+                                market_data.update({
+                                    "market_cap": info.get('marketCap'),
+                                    "enterprise_value": info.get('enterpriseValue'),
+                                    "price_to_book": info.get('priceToBook'),
+                                    "enterprise_to_ebitda": info.get('enterpriseToEbitda'),
+                                    "current_price": info.get('currentPrice'),
+                                    "price_to_earnings": info.get('trailingPE')
+                                })
+                                logger.info("Successfully retrieved market data for %s on retry", primary_ticker)
+                        except Exception as retry_error:
+                            logger.warning("Retry also failed for %s: %s", primary_ticker, str(retry_error))
+                    else:
+                        logger.warning("Could not get market data for %s: %s", primary_ticker, error_msg)
+                    
+                    # Cache the result (whether successful or not) to avoid repeated failures
+                    market_data_cache[primary_ticker] = market_data
+                    comparable.update(market_data)
+        else:
+            # No ticker available, add None values for market data
+            comparable.update({
+                "market_cap": None,
+                "enterprise_value": None,
+                "price_to_book": None,
+                "enterprise_to_ebitda": None,
+                "current_price": None,
+                "price_to_earnings": None,
+                "yfinance_data": {}
+            })
+        
+        comparables.append(comparable)
+    
+    # Sort by distance (should already be sorted, but ensure it)
+    comparables.sort(key=lambda x: x['distance'])
+    
+    result = {
+        "target_company": {
+            "name": name,
+            "sic_code": sic_code,
+            "profitability": profitability,
+            "growth_rate": growth_rate,
+            "capital_structure": capital_structure
+        },
+        "comparables": comparables,
+        "total_found": len(comparables),
+        "method": "private_comparables",
+        "sic_sector": sic_code
+    }
+    
+    logger.info("Found %d comparable companies for %s", len(comparables), name)
+    return result
+
+
 __all__ = [
     "identify_comparables",
     "identify_comparables_ml",
+    "identify_comparables_private",
     "get_companies_with_same_sic",
     "get_companies_in_sic",
     "get_companies_similar_size",

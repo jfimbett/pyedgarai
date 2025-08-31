@@ -5,6 +5,7 @@ description = "A package for retrieving SEC filings and parse them using LLMs"
 authors = ["Juan F. Imbet"]
 license = "MIT"
 readme = "README.md"
+packages = [{include = "pyedgarai", from = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -40,4 +41,9 @@ version_toml = [
     "pyproject.toml:tool.poetry.version"
 ]
 build_command = "echo version = '%NEW_VERSION%' > version.py"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "--ignore=archive/"
 
